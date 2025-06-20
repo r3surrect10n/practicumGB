@@ -18,11 +18,10 @@ public class PlayerViewManager : MonoBehaviour
     }
 
     public void OnLookSwitch(InputAction.CallbackContext callbackContext)
-    {
-        Debug.Log("Here");
+    {        
         if (callbackContext.phase != InputActionPhase.Started)
             return;
-        Debug.Log(FirstPerson);
+        
         if (FirstPerson)
         {
             FirstPerson = !FirstPerson;
@@ -39,6 +38,16 @@ public class PlayerViewManager : MonoBehaviour
         }
 
 
+    }
+
+    public void SetNextStaticCamera(CinemachineCamera nextStaticCamera)
+    {
+        if (_currentStaticCamera != nextStaticCamera)
+        {
+            nextStaticCamera.Priority = _currentCameraPriority;
+            _currentStaticCamera.Priority = _otherCameraPriority;
+            _currentStaticCamera = nextStaticCamera;
+        }
     }
 
     private void SetView()
