@@ -11,6 +11,7 @@ public class PlayerViewManager : MonoBehaviour
     private int _otherCameraPriority = 11;
 
     public bool FirstPerson { get; private set; }
+    public CinemachineCamera CurrentStaticCamera => _currentStaticCamera;
 
     private void Start()
     {
