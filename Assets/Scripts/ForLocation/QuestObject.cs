@@ -16,7 +16,7 @@ public class QuestObject : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        effect.Pause();
+        if (effect != null) effect.Pause();
         if (objectAfter != null) objectAfter.SetActive(false);
     }
 
@@ -25,16 +25,17 @@ public class QuestObject : MonoBehaviour
         status = newStatus;
         if (status == QuestStatus.isAccessible)
         {
-            effect.Play();
-            print($"ChangeStatus effect.Play() status={status}");
+            if (effect != null) effect.Play();
+            print($"ChangeStatus effect.Play() status={status} for QO=>{gameObject.name}");
         }
         else
         {
-            effect.Pause();
+            if (effect != null) effect.Pause();
             if (status == QuestStatus.isSuccess && objectAfter != null)
             {
                 objectAfter.SetActive(true);
                 QuestObject qo = objectAfter.GetComponent<QuestObject>();
+                print($"QuestObject => {qo}");
                 if (qo != null) qo.ChangeStatus(QuestStatus.isAccessible);
                 gameObject.SetActive(false);
             }

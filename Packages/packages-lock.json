@@ -194,9 +194,9 @@
       "depth": 1,
       "source": "registry",
       "dependencies": {
-        "com.unity.settings-manager": "1.0.3",
         "com.unity.mathematics": "1.2.1",
-        "com.unity.modules.imgui": "1.0.0"
+        "com.unity.modules.imgui": "1.0.0",
+        "com.unity.settings-manager": "1.0.3"
       },
       "url": "https://packages.unity.com"
     },
@@ -212,11 +212,7 @@
     },
     "com.unity.test-framework.performance": {
       "version": "3.1.0",
-<<<<<<< Updated upstream
       "depth": 2,
-=======
-      "depth": 3,
->>>>>>> Stashed changes
       "source": "registry",
       "dependencies": {
         "com.unity.test-framework": "1.1.33",
