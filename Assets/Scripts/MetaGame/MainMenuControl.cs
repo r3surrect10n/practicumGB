@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuControl : MonoBehaviour
 {
@@ -12,5 +13,15 @@ public class MainMenuControl : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void PlayGame()
+    {
+        string scene = "HousePlayersScene";
+        if (GameManager.Instance.currentPlayer.currentLocation != "")
+        {
+            scene = GameManager.Instance.currentPlayer.currentLocation;
+        }
+        SceneManager.LoadScene(scene);
     }
 }
