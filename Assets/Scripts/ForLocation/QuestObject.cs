@@ -7,7 +7,7 @@ public class QuestObject : MonoBehaviour
     [SerializeField] private string hintBefore;
     [SerializeField] private string hintAfter;
     [SerializeField] private string toNotebook;
-    [SerializeField] private GameObject objectAfter;
+    [SerializeField] private GameObject[] objectsAfter;
     [SerializeField] private GameObject hintPanel;    
 
     private QuestStatus status = QuestStatus.isClosed;
@@ -17,7 +17,10 @@ public class QuestObject : MonoBehaviour
     void Start()
     {
         if (effect != null) effect.Pause();
-        if (objectAfter != null) objectAfter.SetActive(false);
+        if (objectsAfter != null)
+        {
+            foreach(GameObject go in objectsAfter) go.SetActive(false);
+        }
     }
 
     public void ChangeStatus(QuestStatus newStatus)
@@ -31,12 +34,15 @@ public class QuestObject : MonoBehaviour
         else
         {
             if (effect != null) effect.Pause();
-            if (status == QuestStatus.isSuccess && objectAfter != null)
+            if (status == QuestStatus.isSuccess && objectsAfter != null)
             {
-                objectAfter.SetActive(true);
-                QuestObject qo = objectAfter.GetComponent<QuestObject>();
-                print($"QuestObject => {qo}");
-                if (qo != null) qo.ChangeStatus(QuestStatus.isAccessible);
+                foreach (GameObject go in objectsAfter)
+                {
+                    go.SetActive(true);
+                    QuestObject quest = go.GetComponent<QuestObject>();
+                    print($"QuestObject => {quest}");
+                    if (quest != null) quest.ChangeStatus(QuestStatus.isAccessible);
+                }
                 gameObject.SetActive(false);
             }
         }
