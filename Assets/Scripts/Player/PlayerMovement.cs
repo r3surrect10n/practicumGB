@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(CharacterController))]
@@ -61,7 +60,10 @@ public class PlayerMovement : MonoBehaviour
             _playerController.transform.rotation = Quaternion.Slerp(_playerController.transform.rotation, targetRotation, _rotationSmoothness * Time.deltaTime);
         }
 
-        Vector3 movement = moveDirection + Gravity * transform.up;
+        //Vector3 movement = moveDirection + Gravity * transform.up;
+        Vector3 movement = _moveInput.x * _playerViewManager.CurrentStaticCamera.transform.right + _moveInput.y * _playerViewManager.CurrentStaticCamera.transform.forward 
+            + Gravity * transform.up;   // ”правление от трансформа камеры
+
         return movement;       
     }
 }

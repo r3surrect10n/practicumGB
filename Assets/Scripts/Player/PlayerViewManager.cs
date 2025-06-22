@@ -12,35 +12,39 @@ public class PlayerViewManager : MonoBehaviour
 
     public bool FirstPerson { get; private set; }
 
+    public CinemachineCamera CurrentStaticCamera => _currentStaticCamera;
+
     private void Start()
     {
         SetView();
     }
 
-    public void OnLookSwitch(InputAction.CallbackContext callbackContext)
+    public void OnLookSwitch(InputAction.CallbackContext callbackContext)   //Пока выключил, нужен ли нам вид от первого лица?
     {        
         if (callbackContext.phase != InputActionPhase.Started)
             return;
         
-        if (FirstPerson)
-        {
-            FirstPerson = !FirstPerson;
+        return;
 
-            _currentStaticCamera.Priority = _firstLookCamera.Priority;
-            _firstLookCamera.Priority = _otherCameraPriority;
-        }
-        else
-        {
-            FirstPerson = !FirstPerson;
+        //if (FirstPerson)
+        //{
+        //    FirstPerson = !FirstPerson;
 
-            _firstLookCamera.Priority = _currentStaticCamera.Priority;
-            _currentStaticCamera.Priority = _otherCameraPriority;
-        }
+        //    _currentStaticCamera.Priority = _firstLookCamera.Priority;
+        //    _firstLookCamera.Priority = _otherCameraPriority;
+        //}
+        //else
+        //{
+        //    FirstPerson = !FirstPerson;
+
+        //    _firstLookCamera.Priority = _currentStaticCamera.Priority;
+        //    _currentStaticCamera.Priority = _otherCameraPriority;
+        //}
 
 
     }
 
-    public void SetNextStaticCamera(CinemachineCamera nextStaticCamera)
+    public void SetNextStaticCamera(CinemachineCamera nextStaticCamera)     // Переключение камер в помещениях
     {
         if (_currentStaticCamera != nextStaticCamera)
         {
@@ -56,7 +60,7 @@ public class PlayerViewManager : MonoBehaviour
             FirstPerson = false;
         else
             FirstPerson = true;
-        Debug.Log("View set");
+        
         _currentStaticCamera.Priority = _currentCameraPriority;
         _firstLookCamera.Priority = _otherCameraPriority;        
     }

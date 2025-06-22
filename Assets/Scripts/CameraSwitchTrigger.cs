@@ -12,7 +12,14 @@ public class CameraSwitchTrigger : MonoBehaviour
     {
         if (other.GetComponent<PlayerMovement>())
         {
-            _playerViewManager.SetNextStaticCamera(_nextCamera);
+            _playerViewManager.SetNextStaticCamera(_nextCamera);            
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<PlayerMovement>())
+        {            
             _previousRoomEnter.SetActive(true);
             gameObject.SetActive(false);
         }
