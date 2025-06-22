@@ -27,76 +27,32 @@ public class ChipControl : MonoBehaviour
         {
             Vector3 mp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3 figPos = transform.position;
-            //figPos.x = mp.x + delta.x; figPos.z = mp.z + delta.z;
-            //figPos.x += mp.x - delta.x; figPos.z += 1.35f * (mp.z - delta.z);
             float dx = mp.x - delta.x, dz = mp.z - delta.z;
             int x = oldNum % 5, z = oldNum / 5;
-            /*if (Mathf.Abs(dx) > Mathf.Abs(dz))
-            {   //  двигаем влево - вправо
-                if (dx > 0)
-                {   //  вправо
-                    if (transform.position.x < (x * 0.288f - 0.576f)) ;
-                    else if ((x < 4) && (chipsTabl[oldNum + 1] != 0)) return;
-                    else if (x == 4) return;
-                }
-                else
-                {   //  влево
-                    if (transform.position.x > (x * 0.288f - 0.576f)) ;
-                    else if ((x > 0) && (chipsTabl[oldNum - 1] != 0)) return;
-                    else if (x == 0) return;
-                }
+            if (dx > 0)
+            {   //  вправо
+                if (transform.position.x < (x * 0.288f - 0.576f)) ;
+                else if ((x < 4) && (chipsTabl[oldNum + 1] != 0)) dx = 0;
+                else if (x == 4) dx = 0;
             }
             else
-            {   //  двигаем вверх - вниз
-                if (dz > 0)
-                {   //  вверх
-                    if (transform.position.z < (z * 0.288f - 0.576f)) ;
-                    else if ((z < 4) && (chipsTabl[oldNum + 5] != 0)) return;
-                    else if (z == 4) return;
-                }
-                else
-                {   //  вниз
-                    if (transform.position.z > (z * 0.288f - 0.576f)) ;
-                    else if ((z > 0) && (chipsTabl[oldNum - 5] != 0)) return;
-                    else if (z == 0) return;
-                }
-            }*/
-            //if (Mathf.Abs(dx) > Mathf.Abs(dz))
-            //{   //  двигаем влево - вправо
-                if (dx > 0)
-                {   //  вправо
-                    if (transform.position.x < (x * 0.288f - 0.576f)) ;
-                    else if ((x < 4) && (chipsTabl[oldNum + 1] != 0)) dx = 0;
-                    else if (x == 4) dx = 0;
-                }
-                else
-                {   //  влево
-                    if (transform.position.x > (x * 0.288f - 0.576f)) ;
-                    else if ((x > 0) && (chipsTabl[oldNum - 1] != 0)) dx = 0;
-                    else if (x == 0) dx = 0;
-                }
-            //}
-            //else
-            //{   //  двигаем вверх - вниз
-                if (dz > 0)
-                {   //  вверх
-                    if (transform.position.z < (z * 0.288f - 0.576f)) ;
-                    else if ((z < 4) && (chipsTabl[oldNum + 5] != 0)) dz = 0;
-                    else if (z == 4) dz = 0;
-                }
-                else
-                {   //  вниз
-                    if (transform.position.z > (z * 0.288f - 0.576f)) ;
-                    else if ((z > 0) && (chipsTabl[oldNum - 5] != 0)) dz = 0;
-                    else if (z == 0) dz = 0;
-                }
-            //}
-            //figPos.x += mp.x - delta.x; figPos.z += mp.z - delta.z;
-            //if (Mathf.Abs(dx) > Mathf.Abs(dz)) dz = 0; else dx = 0;
-            /*if (Mathf.Abs(dx) < 0.00001f) figPos.x = x * 0.288f - 0.576f;
-            else figPos.x += dx; 
-            if (Mathf.Abs(dz) < 0.00001f) figPos.z = z * 0.288f - 0.576f;
-            else figPos.z += dz;*/
+            {   //  влево
+                if (transform.position.x > (x * 0.288f - 0.576f)) ;
+                else if ((x > 0) && (chipsTabl[oldNum - 1] != 0)) dx = 0;
+                else if (x == 0) dx = 0;
+            }
+            if (dz > 0)
+            {   //  вверх
+                if (transform.position.z < (z * 0.288f - 0.576f)) ;
+                else if ((z < 4) && (chipsTabl[oldNum + 5] != 0)) dz = 0;
+                else if (z == 4) dz = 0;
+            }
+            else
+            {   //  вниз
+                if (transform.position.z > (z * 0.288f - 0.576f)) ;
+                else if ((z > 0) && (chipsTabl[oldNum - 5] != 0)) dz = 0;
+                else if (z == 0) dz = 0;
+            }
             if (Mathf.Abs(dx) > Mathf.Abs(dz))
             {
                 figPos.x += dx;
@@ -139,7 +95,7 @@ public class ChipControl : MonoBehaviour
         {
             if (oldNum != startNum)
             {
-                print($"old={oldNum} start={startNum}");
+                //print($"old={oldNum} start={startNum}");
                 endNum = oldNum;
                 Vector3 pos = new Vector3((endNum % 5) * 0.288f - 0.576f, transform.position.y, (endNum / 5) * 0.288f - 0.576f);
                 transform.position = pos;

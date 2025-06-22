@@ -24,7 +24,7 @@ public class FourAnglesControl : MonoBehaviour
     private void GenerateChips()
     {
         int i, numPos, px, py;
-        float x, z, y = 0.018f;
+        float y = 0.018f;
         chipTabl = new int[25];
         chips = new GameObject[16];
         List<int> numbers = new List<int>();
