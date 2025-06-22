@@ -2469,7 +2469,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _movementSpeed: 4
-  _rotationSmoothness: 10
+  _rotationSmoothness: 180
 --- !u!114 &1316169299
 MonoBehaviour:
   m_ObjectHideFlags: 0
