@@ -40,7 +40,7 @@ public class QuestObject : MonoBehaviour
                 {
                     go.SetActive(true);
                     QuestObject quest = go.GetComponent<QuestObject>();
-                    print($"QuestObject => {quest}");
+                    print($"QuestObject => {quest}  name => {gameObject.name}");
                     if (quest != null) quest.ChangeStatus(QuestStatus.isAccessible);
                 }
                 gameObject.SetActive(false);
