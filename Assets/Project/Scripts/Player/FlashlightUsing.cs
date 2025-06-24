@@ -26,7 +26,7 @@ public class FlashlightUsing : MonoBehaviour
     {
         if (callbackContext.phase != InputActionPhase.Started)
             return;
-
+     
         _isFlashing = !_isFlashing;
         _light.SetActive(_isFlashing);
     }
