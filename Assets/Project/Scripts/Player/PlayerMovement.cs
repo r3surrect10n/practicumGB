@@ -7,7 +7,8 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement and rotation speeds")]
     [SerializeField, Range(0, 10)] private float _movementSpeed;    //Скорость передвижения персонажа
-    [SerializeField, Range(0, 180)] private float _rotationSmoothness = 10f;    // Коэффициент плавности поворота
+    //[SerializeField, Range(0, 180)] private float _rotationSmoothness = 10f;    // Коэффициент плавности поворота
+    [SerializeField, Range(0, 20)] private float _rotationSmoothness = 10f;    // Коэффициент плавности поворота
 
     private const float Gravity = -2f;  //Поставил все-такие двоечку, чтобы не ракетило
     
@@ -62,9 +63,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Vector3 movement = moveDirection + Gravity * transform.up;
-        //Vector3 movement = /*_moveInput.x * _playerViewManager.CurrentStaticCamera.transform.right*/ +_moveInput.y * _playerViewManager.CurrentStaticCamera.transform.forward
-        Vector3 movement = /*_moveInput.x * _playerViewManager.CurrentStaticCamera.transform.right*/ +_moveInput.y * transform.forward
-            + Gravity * transform.up;   // Управление от трансформа камеры
+        Vector3 movement = _moveInput.x * _playerViewManager.CurrentStaticCamera.transform.right +_moveInput.y * _playerViewManager.CurrentStaticCamera.transform.forward + Gravity * transform.up;
+        //Vector3 movement = /*_moveInput.x * _playerViewManager.CurrentStaticCamera.transform.right*/ +_moveInput.y * transform.forward
+        //    + Gravity * transform.up;   // Управление от трансформа камеры
 
         return movement;       
     }

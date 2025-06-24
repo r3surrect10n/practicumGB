@@ -23,25 +23,23 @@ public class PlayerViewManager : MonoBehaviour
     {        
         if (callbackContext.phase != InputActionPhase.Started)
             return;
-        
-        return;
 
-        //if (FirstPerson)
-        //{
-        //    FirstPerson = !FirstPerson;
+        //return;
 
-        //    _currentStaticCamera.Priority = _firstLookCamera.Priority;
-        //    _firstLookCamera.Priority = _otherCameraPriority;
-        //}
-        //else
-        //{
-        //    FirstPerson = !FirstPerson;
+        if (FirstPerson)
+        {
+            FirstPerson = !FirstPerson;
 
-        //    _firstLookCamera.Priority = _currentStaticCamera.Priority;
-        //    _currentStaticCamera.Priority = _otherCameraPriority;
-        //}
+            _currentStaticCamera.Priority = _firstLookCamera.Priority;
+            _firstLookCamera.Priority = _otherCameraPriority;
+        }
+        else
+        {
+            FirstPerson = !FirstPerson;
 
-
+            _firstLookCamera.Priority = _currentStaticCamera.Priority;
+            _currentStaticCamera.Priority = _otherCameraPriority;
+        }
     }
 
     public void SetNextStaticCamera(CinemachineCamera nextStaticCamera)     // Переключение камер в помещениях
