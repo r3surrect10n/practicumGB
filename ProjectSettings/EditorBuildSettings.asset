@@ -6,19 +6,19 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Artem.unity
+    path: Assets/Project/Scenes/Artem.unity
     guid: 84e953848651e224e8d390488f1cfcc7
   - enabled: 1
-    path: Assets/Scenes/Alexander.unity
+    path: Assets/Project/Scenes/Alexander.unity
     guid: 8f6c577a0cac2bb4893345f6c48f4cc9
   - enabled: 1
-    path: Assets/Scenes/FourAnglesScene.unity
+    path: Assets/Project/Scenes/FourAnglesScene.unity
     guid: 4314af72cbde277428deb1efcd6b5463
   - enabled: 1
-    path: Assets/Scenes/MainMenuScene.unity
+    path: Assets/Project/Scenes/MainMenuScene.unity
     guid: 5a4105e9ad340ea45bd55ed8f795ea0c
   - enabled: 1
-    path: Assets/Scenes/HousePlayersScene.unity
+    path: Assets/Project/Scenes/HousePlayersScene.unity
     guid: 60536472e42b2c246b0e15105db95d57
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
