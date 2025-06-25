@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Toggle : MonoBehaviour
 {
-    [SerializeField] private TogglePuzzle _togglePuzzle;
+    //[SerializeField] private TogglePuzzle _togglePuzzle;
     [SerializeField] private int _toggleNumber;
     [SerializeField] private bool _toggleStatus;
 
@@ -18,7 +18,7 @@ public class Toggle : MonoBehaviour
 
     public void TurnToggle()
     {
-        _togglePuzzle.ToggleSwitchPuzzle(_toggleNumber);
+        //_togglePuzzle.ToggleSwitchPuzzle(_toggleNumber);
     }
 
     public void SwitchToggleStatus()
