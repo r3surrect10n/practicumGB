@@ -10,7 +10,7 @@ public class TogglePuzzle : MonoBehaviour
 
         if (toggleNum == 0)
             _toggles[toggleNum + 1].SwitchToggleStatus();
-        else if (toggleNum == _toggles.Length)
+        else if (toggleNum == _toggles.Length - 1)
             _toggles[toggleNum - 1].SwitchToggleStatus();
         else
         {
