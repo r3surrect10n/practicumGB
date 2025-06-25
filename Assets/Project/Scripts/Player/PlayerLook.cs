@@ -1,10 +1,11 @@
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerLook : MonoBehaviour
 {
     [Header("Components properties")]
-    [SerializeField] private Transform _playerCamera;
+    [SerializeField] private Transform _playerCameraPoint;
 
     [Header("Mouse properties")]
     [SerializeField] private float _mouseSensivityX;
@@ -24,7 +25,7 @@ public class PlayerLook : MonoBehaviour
     }
 
     private void Update()
-    {
+    {  
         if (_playerViewManager.FirstPerson)
         {
             float yaw = _mouseSensivityX * _mouseInput.x;
@@ -33,7 +34,7 @@ public class PlayerLook : MonoBehaviour
             float pitch = _mouseSensivityY * _mouseInput.y;
             _cameraPitch -= pitch;
             _cameraPitch = Mathf.Clamp(_cameraPitch, -_maxCameraPitch, _maxCameraPitch);
-            _playerCamera.localEulerAngles = new Vector3(_cameraPitch, 0f, 0f);
+            _playerCameraPoint.localEulerAngles = new Vector3(_cameraPitch, 0f, 0f);            
         }
     }
 
