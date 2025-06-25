@@ -3498,7 +3498,7 @@ GameObject:
   m_Layer: 0
   m_Name: LaboratoryCinemachineCamera
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -6105,9 +6105,9 @@ GameObject:
   - component: {fileID: 664515681}
   - component: {fileID: 664515680}
   m_Layer: 0
-  m_Name: CinemachineCamera
+  m_Name: CorridorCinemachineCamera
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -10463,7 +10463,7 @@ GameObject:
   m_Layer: 0
   m_Name: KitchenCinemachineCamera
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -11624,7 +11624,7 @@ GameObject:
   m_Layer: 0
   m_Name: StaffCinemachineCamera
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -12153,8 +12153,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1316864750}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.108687945, y: -0.885834, z: 0.26239592, w: 0.36692443}
-  m_LocalPosition: {x: 25.162, y: 3.5, z: 25}
+  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
+  m_LocalPosition: {x: 0, y: 3.7, z: -2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -12567,7 +12567,7 @@ GameObject:
   m_Layer: 0
   m_Name: 'TortureCinemachineCamera '
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -16039,7 +16039,7 @@ GameObject:
   m_Layer: 0
   m_Name: LibraryCinemachineCamera
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -16057,7 +16057,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Priority:
     Enabled: 1
-    m_Value: 120
+    m_Value: 12
   OutputChannel: 1
   StandbyUpdate: 2
   m_StreamingVersion: 20241001
@@ -17963,7 +17963,7 @@ GameObject:
   m_Layer: 0
   m_Name: StorageCinemachineCamera
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -18104,7 +18104,7 @@ GameObject:
   m_Layer: 0
   m_Name: 'OperatorCinemachineCamera '
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -20500,8 +20500,8 @@ SceneRoots:
   - {fileID: 433724499}
   - {fileID: 831755564}
   - {fileID: 1722396581}
-  - {fileID: 664515681}
   - {fileID: 8944322931999460833}
+  - {fileID: 664515681}
   - {fileID: 1359489554}
   - {fileID: 353350972}
   - {fileID: 1982914752}
