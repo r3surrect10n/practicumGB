@@ -579,6 +579,7 @@ GameObject:
   - component: {fileID: 198305880}
   - component: {fileID: 198305879}
   - component: {fileID: 198305878}
+  - component: {fileID: 198305883}
   m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Untagged
@@ -599,6 +600,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerInteraction: {fileID: 1654806246}
+  _interactionCamera: {fileID: 0}
+  _currentCamera: {fileID: 0}
   _currentInteraction: TogglePuzzle
 --- !u!65 &198305879
 BoxCollider:
@@ -689,6 +692,21 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &198305883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 198305877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af7847cca7cbdcf43806b720a7cb6293, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerViewManager: {fileID: 2081145266}
+  _nextCamera: {fileID: 1348256251}
+  _previousRoomEnter: {fileID: 418576125}
 --- !u!1 &293325796
 GameObject:
   m_ObjectHideFlags: 0
@@ -4960,6 +4978,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1543865651}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2081145266 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 648021020534596663, guid: f2b7b5e2979e6904ca4555b845bf9c4d, type: 3}
+  m_PrefabInstance: {fileID: 1772183166}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c39cdcc71a8337740a7c932bc3fcc82c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2118704153
 GameObject:
   m_ObjectHideFlags: 0

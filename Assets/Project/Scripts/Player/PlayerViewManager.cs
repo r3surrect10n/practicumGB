@@ -20,7 +20,7 @@ public class PlayerViewManager : MonoBehaviour
     }
 
     public void OnLookSwitch(InputAction.CallbackContext callbackContext)   //Пока выключил, нужен ли нам вид от первого лица?
-    {        
+    {
         if (callbackContext.phase != InputActionPhase.Started)
             return;
 
@@ -42,7 +42,7 @@ public class PlayerViewManager : MonoBehaviour
         }
     }
 
-    public void SetNextStaticCamera(CinemachineCamera nextStaticCamera)     // Переключение камер в помещениях
+    public void SetNextCamera(CinemachineCamera nextStaticCamera)     // Переключение камер в помещениях
     {
         if (_currentStaticCamera != nextStaticCamera)
         {
@@ -52,7 +52,7 @@ public class PlayerViewManager : MonoBehaviour
         }
     }
 
-    private void SetView()
+    public void SetView()
     {
         if (_currentStaticCamera.Priority > _firstLookCamera.Priority)
             FirstPerson = false;
@@ -61,5 +61,27 @@ public class PlayerViewManager : MonoBehaviour
         
         _currentStaticCamera.Priority = _currentCameraPriority;
         _firstLookCamera.Priority = _otherCameraPriority;        
+    }
+
+    public void Set(CinemachineCamera nextCamera)
+    {
+        if (FirstPerson)
+        {
+            CamerasPriority(nextCamera, _currentCameraPriority, _otherCameraPriority);
+        }
+        else
+        {
+            CamerasPriority(_firstLookCamera, _otherCameraPriority, _currentCameraPriority);
+        }
+
+    }
+
+    private void CamerasPriority(CinemachineCamera nextCamera, int staticCamera, int firstPersonCamera)
+    {
+        FirstPerson = !FirstPerson;
+        nextCamera.Priority = staticCamera;
+        _firstLookCamera.Priority = firstPersonCamera;        
+        
+        _currentStaticCamera = nextCamera;
     }
 }

@@ -12,7 +12,7 @@ public class CameraSwitchTrigger : MonoBehaviour
     {
         if (other.GetComponent<PlayerMovement>())
         {
-            _playerViewManager.SetNextStaticCamera(_nextCamera);            
+            _playerViewManager.Set(_nextCamera);            
         }
     }
 
