@@ -649,7 +649,6 @@ GameObject:
   - component: {fileID: 4621888268163347137}
   - component: {fileID: 7507669989288401652}
   - component: {fileID: 1429762325743311875}
-  - component: {fileID: 9162129753095547805}
   - component: {fileID: 648021020534596663}
   - component: {fileID: 286819061796187979}
   - component: {fileID: 4356765357381275239}
@@ -992,20 +991,6 @@ MonoBehaviour:
   _mouseSensivityX: 0.2
   _mouseSensivityY: 0.2
   _maxCameraPitch: 60
---- !u!114 &9162129753095547805
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6695155670939839418}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6b77e5d677f79d4faea2367e4a9c863, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _movementSpeed: 4
-  _rotationSmoothness: 20
 --- !u!114 &648021020534596663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1020,6 +1005,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _currentStaticCamera: {fileID: 0}
   _firstLookCamera: {fileID: 5247537224687144224}
+  _noiseImage: {fileID: 0}
+  _noiseTime: 0
 --- !u!114 &286819061796187979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1062,6 +1049,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerCamera: {fileID: 0}
+  _togglePuzzle: {fileID: 0}
 --- !u!1 &7485028282413515604
 GameObject:
   m_ObjectHideFlags: 0
