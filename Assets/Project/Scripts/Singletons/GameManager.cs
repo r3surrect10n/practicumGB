@@ -59,6 +59,8 @@ public class GameManager : MonoBehaviour
         GameManager.Instance.currentDay = data.day;
         GameManager.Instance.currentPlayer.currentLocation = data.location;
         GameManager.Instance.currentPlayer.CsvToPosition(data.csvPosition);
+        GameManager.Instance.currentPlayer.CsvToRotation(data.csvRotation);
+        GameManager.Instance.currentPlayer.currentCameraName = data.camera;
 
         //GameManager.Instance.currentPlayer.inventory = new Inventory(data.csvInventory);
 
@@ -80,6 +82,8 @@ public class GameManager : MonoBehaviour
 
         data.score = GameManager.Instance.currentPlayer.totalScore;
         data.csvPosition = GameManager.Instance.currentPlayer.PositionToCsv();
+        data.csvRotation = GameManager.Instance.currentPlayer.RotationToCsv();
+        data.camera = GameManager.Instance.currentPlayer.currentCameraName;
         data.csvInventory = "";
         data.day = GameManager.Instance.currentDay;
         data.location = GameManager.Instance.currentPlayer.currentLocation;
@@ -118,6 +122,8 @@ public class PlayerInfo
     public string currentLocation = "";
     public string currentDay = "";
     public Vector3 currentPosition = Vector3.zero;
+    public Vector3 currentRotation = Vector3.zero;
+    public string currentCameraName = "";
 
     //public Inventory inventory;
     //public Inventory currentInventory;
@@ -178,6 +184,24 @@ public class PlayerInfo
         }
         else currentPosition = Vector3.zero;
     }
+    public string RotationToCsv(char sep = ';')
+    {
+        return $"{currentRotation.x:0.000}{sep}{currentRotation.y:0.000}{sep}{currentRotation.z:0.000}{sep}";
+    }
+
+    public void CsvToRotation(string csv, char sep = ';')
+    {
+        string[] ar = csv.Split(sep);
+        if (ar.Length == 3)
+        {
+            if (float.TryParse(ar[0], out float fx) && float.TryParse(ar[1], out float fy) && float.TryParse(ar[2], out float fz))
+            {
+                currentRotation = new Vector3(fx, fy, fz);
+            }
+            else currentRotation = Vector3.zero;
+        }
+        else currentRotation = Vector3.zero;
+    }
 }
 
 [Serializable]
@@ -186,7 +210,9 @@ public class SaveData
     public int score;
     public string csvInventory = "";
     public string csvPosition = "";
+    public string csvRotation = "";
     public string location;
+    public string camera;
     public string day;
 
     public bool isFone;
