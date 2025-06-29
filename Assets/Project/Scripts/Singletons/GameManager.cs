@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("There is no save data!");
             GameManager.Instance.currentPlayer = PlayerInfo.FirstGame();
+            CreateInventory();
         }
 #endif
     }
@@ -62,15 +63,26 @@ public class GameManager : MonoBehaviour
         GameManager.Instance.currentPlayer.CsvToRotation(data.csvRotation);
         GameManager.Instance.currentPlayer.currentCameraName = data.camera;
 
-        //GameManager.Instance.currentPlayer.inventory = new Inventory(data.csvInventory);
+        GameManager.Instance.currentPlayer.inventory = new Inventory(data.csvInventory);
+        CreateInventory();
 
         GameManager.Instance.currentPlayer.isHintView = data.isHints;
         GameManager.Instance.currentPlayer.isSoundFone = data.isFone;
         GameManager.Instance.currentPlayer.isSoundEffects = data.isEffects;
         GameManager.Instance.currentPlayer.volumeFone = data.volFone;
         GameManager.Instance.currentPlayer.volumeEffects = data.volEffects;
+    }
 
-
+    private void CreateInventory()
+    {
+        if (GameManager.Instance.currentPlayer.inventory.CountItem == 0) GameManager.Instance.currentPlayer.inventory.AddItem(new InventoryItem(0, "Жетон", null));
+        for (int i = 0; i < GameManager.Instance.currentPlayer.inventory.CountItem; i++)
+        {
+            InventoryItem item = GameManager.Instance.currentPlayer.inventory.GetItem(i);
+            Sprite spr = SpriteSet.Instance.GetSprite(item.ItemName);
+            if (spr != null) item.SetSprite(spr);
+            else Debug.Log($"Not found sprite for {item.ItemName}");
+        }
     }
 
     public void SaveGame()
@@ -88,7 +100,7 @@ public class GameManager : MonoBehaviour
         data.day = GameManager.Instance.currentDay;
         data.location = GameManager.Instance.currentPlayer.currentLocation;
 
-        //data.csvInventory = GameManager.Instance.currentPlayer.inventory.ToCsvString();
+        data.csvInventory = GameManager.Instance.currentPlayer.inventory.ToCsvString();
 
         data.isHints = GameManager.Instance.currentPlayer.isHintView;
         data.isFone = GameManager.Instance.currentPlayer.isSoundFone;
@@ -125,7 +137,7 @@ public class PlayerInfo
     public Vector3 currentRotation = Vector3.zero;
     public string currentCameraName = "";
 
-    //public Inventory inventory;
+    public Inventory inventory;
     //public Inventory currentInventory;
 
     public bool isHintView = true;
@@ -142,7 +154,7 @@ public class PlayerInfo
     {
         //maxLevel = 0;
         //currentLevel = 0;
-        //inventory = new Inventory();
+        inventory = new Inventory();
     }
 
     public static PlayerInfo FirstGame()

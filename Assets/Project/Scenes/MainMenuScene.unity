@@ -450,6 +450,8 @@ MonoBehaviour:
     currentLocation: 
     currentDay: 
     currentPosition: {x: 0, y: 0, z: 0}
+    currentRotation: {x: 0, y: 0, z: 0}
+    currentCameraName: 
     isHintView: 1
     isSoundFone: 1
     isSoundEffects: 1
@@ -457,6 +459,62 @@ MonoBehaviour:
     volumeEffects: 100
     playerName: -------
     photo: {fileID: 0}
+--- !u!1 &244365119
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 244365121}
+  - component: {fileID: 244365120}
+  m_Layer: 0
+  m_Name: SpritePack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &244365120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244365119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4665cbc5fbbe36e49b3098d58a8c79b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mySprites:
+  - name: "\u0416\u0435\u0442\u043E\u043D"
+    sprite: {fileID: 21300000, guid: c23d8baea25454d4db0deac20262ab3e, type: 3}
+  - name: "\u041F\u0440\u0435\u0434\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u0435\u043B\u044C
+      10\u0410"
+    sprite: {fileID: 21300000, guid: 7be1efb81d7cf184ba2d9a2671b87c35, type: 3}
+  - name: "\u041F\u0440\u0435\u0434\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u0435\u043B\u044C
+      16\u0410"
+    sprite: {fileID: 21300000, guid: cdeb4b3868e9ded459fc745a01eb3566, type: 3}
+  - name: "\u041F\u0440\u0435\u0434\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u0435\u043B\u044C
+      25\u0410"
+    sprite: {fileID: 21300000, guid: 74bf2e3910f5b904591839332778e526, type: 3}
+--- !u!4 &244365121
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244365119}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &308580107
 GameObject:
   m_ObjectHideFlags: 0
@@ -939,7 +997,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u0427\u0435\u0442\u044B\u0440\u0435 \u043A\u0440\u044B\u043B\u0430"
+  m_Text: "\u0427\u0435\u0442\u0432\u0451\u0440\u0442\u043E\u0435 \u043A\u0440\u044B\u043B\u043E"
 --- !u!222 &619479284
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2524,3 +2582,4 @@ SceneRoots:
   - {fileID: 1787173904}
   - {fileID: 831781195}
   - {fileID: 236325983}
+  - {fileID: 244365121}
