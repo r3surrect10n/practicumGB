@@ -107,4 +107,9 @@ public class InventoryItem
     {
         return $"{itemID}{sep}{itemName}{sep}";
     }
+
+    public override string ToString()
+    {
+        return $"id={ItemID} name={ItemName}";
+    }
 }

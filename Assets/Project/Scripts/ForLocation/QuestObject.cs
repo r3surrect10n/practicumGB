@@ -4,11 +4,15 @@ using UnityEngine.UI;
 public class QuestObject : MonoBehaviour
 {
     [SerializeField] private ParticleSystem effect;
+    [SerializeField] private string miniGameScene;
     [SerializeField] private string hintBefore;
     [SerializeField] private string hintAfter;
+    [SerializeField] private string hintFailed;
     [SerializeField] private string toNotebook;
+    [SerializeField] private string nameForInventory;
+    [SerializeField] private string btnOkText;
     [SerializeField] private GameObject[] objectsAfter;
-    [SerializeField] private GameObject hintPanel;    
+    [SerializeField] private GameObject hintPanel;
 
     private QuestStatus status = QuestStatus.isClosed;
 
@@ -52,6 +56,13 @@ public class QuestObject : MonoBehaviour
     {
         Button btnOk = hintPanel.transform.GetChild(1).gameObject.GetComponent<Button>();
         if (btnOk != null) btnOk.onClick.RemoveListener(OnClickOk);
+        if (nameForInventory != "")
+        {
+            Inventory inventory = GameManager.Instance.currentPlayer.inventory;
+            InventoryItem item = new InventoryItem(inventory.CountItem, nameForInventory, SpriteSet.Instance.GetSprite(nameForInventory));
+            print(item.ToString());
+            inventory.AddItem(item);
+        }
         ChangeStatus(QuestStatus.isSuccess);
         hintPanel.gameObject.SetActive(false);
     }
@@ -61,6 +72,7 @@ public class QuestObject : MonoBehaviour
         print($"GetHint status={status} questName={gameObject.name}");
         if (status == QuestStatus.isAccessible) return hintBefore;
         if (status == QuestStatus.isSuccess) return hintAfter;
+        if (status == QuestStatus.isFailed) return hintFailed;
         return "";
     }
 
@@ -83,6 +95,7 @@ public class QuestObject : MonoBehaviour
                     Button btnOk = hintPanel.transform.GetChild(1).gameObject.GetComponent<Button>();
                     if (btnOk != null)
                     {
+                        btnOk.transform.GetChild(0).gameObject.GetComponent<Text>().text = btnOkText;
                         btnOk.onClick.AddListener(OnClickOk);
                         print($"onClick => {btnOk.onClick}");
                     }
