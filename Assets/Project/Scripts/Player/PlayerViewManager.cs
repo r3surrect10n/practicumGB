@@ -11,6 +11,7 @@ public class PlayerViewManager : MonoBehaviour
     [SerializeField] private GameObject _noiseImage;
     [SerializeField, Range(0, 5)] private float _noiseTime;
 
+    private PlayerMovement _playerMovement;
     private PlayerInput _playerInput;
 
     private Coroutine setCoroutine;
@@ -23,46 +24,33 @@ public class PlayerViewManager : MonoBehaviour
     public CinemachineCamera CurrentStaticCamera => _currentStaticCamera;
 
     private void Awake()
-    {
+    {        
+        _playerMovement = GetComponent<PlayerMovement>();
         _playerInput = GetComponent<PlayerInput>();
     }
 
     private void Start()
     {
-        SetView();
+        //SetView();
+        SetView2();
     }
 
-    //public void OnLookSwitch(InputAction.CallbackContext callbackContext)   //Пока выключил, нужен ли нам вид от первого лица?
+    //public void SetNextCamera(CinemachineCamera nextStaticCamera)     // Переключение камер в помещениях
     //{
-    //    if (callbackContext.phase != InputActionPhase.Started)
-    //        return;
-
-    //    //return;
-
-    //    if (FirstPerson)
+    //    if (_currentStaticCamera != nextStaticCamera)
     //    {
-    //        FirstPerson = !FirstPerson;
-
-    //        _currentStaticCamera.Priority = _firstLookCamera.Priority;
-    //        _firstLookCamera.Priority = _otherCameraPriority;
-    //    }
-    //    else
-    //    {
-    //        FirstPerson = !FirstPerson;
-
-    //        _firstLookCamera.Priority = _currentStaticCamera.Priority;
+    //        nextStaticCamera.Priority = _currentCameraPriority;
     //        _currentStaticCamera.Priority = _otherCameraPriority;
+    //        _currentStaticCamera = nextStaticCamera;
     //    }
     //}
 
-    public void SetNextCamera(CinemachineCamera nextStaticCamera)     // Переключение камер в помещениях
+    public void SetInteractionCamera(CinemachineCamera interactionCamera)
     {
-        if (_currentStaticCamera != nextStaticCamera)
-        {
-            nextStaticCamera.Priority = _currentCameraPriority;
-            _currentStaticCamera.Priority = _otherCameraPriority;
-            _currentStaticCamera = nextStaticCamera;
-        }
+        if (FirstPerson)
+            CamerasPriority(interactionCamera, _currentCameraPriority, _otherCameraPriority);
+        else
+            CamerasPriority(_firstLookCamera, _otherCameraPriority, _currentCameraPriority);
     }
 
     public void SetView()
@@ -76,36 +64,52 @@ public class PlayerViewManager : MonoBehaviour
         _firstLookCamera.Priority = _otherCameraPriority;        
     }
 
-    public void Set(CinemachineCamera nextCamera)
+    public void SetView2()
     {
+        FirstPerson = true;
 
-        if (FirstPerson)
-        {
-            setCoroutine = StartCoroutine(CamerasPriority(nextCamera, _currentCameraPriority, _otherCameraPriority));
-        }
-        else
-        {
-            setCoroutine = StartCoroutine(CamerasPriority(_firstLookCamera, _otherCameraPriority, _currentCameraPriority));
-        }
-
+        
+        _firstLookCamera.Priority = _currentCameraPriority;
     }
 
-    private IEnumerator CamerasPriority(CinemachineCamera nextCamera, int staticCamera, int firstPersonCamera)
-    {
-        _noiseImage.SetActive(true);
-        _playerInput.enabled = false;
+    //public void Set(CinemachineCamera nextCamera)
+    //{
 
+    //    if (FirstPerson)
+    //    {
+    //        setCoroutine = StartCoroutine(CamerasPriority(nextCamera, _currentCameraPriority, _otherCameraPriority));
+    //    }
+    //    else
+    //    {
+    //        setCoroutine = StartCoroutine(CamerasPriority(_firstLookCamera, _otherCameraPriority, _currentCameraPriority));
+    //    }
+
+    //}
+
+    private void CamerasPriority(CinemachineCamera nextCamera, int interactionCameraPriority, int fpCameraPriority)
+    {
         FirstPerson = !FirstPerson;
-        nextCamera.Priority = staticCamera;
-        _firstLookCamera.Priority = firstPersonCamera;
-
-        _currentStaticCamera = nextCamera;
-
-        yield return new WaitForSeconds(_noiseTime);
-
-        _noiseImage.SetActive(false);
-        _playerInput.enabled = true;
-
-        StopCoroutine(setCoroutine);
+        _playerMovement.enabled = FirstPerson;
+        nextCamera.Priority = interactionCameraPriority;
+        _firstLookCamera.Priority= fpCameraPriority;
     }
+
+    //private IEnumerator CamerasPriority(CinemachineCamera nextCamera, int staticCamera, int firstPersonCamera)
+    //{
+    //    _noiseImage.SetActive(true);
+    //    _playerInput.enabled = false;
+
+    //    FirstPerson = !FirstPerson;
+    //    nextCamera.Priority = staticCamera;
+    //    _firstLookCamera.Priority = firstPersonCamera;
+
+    //    _currentStaticCamera = nextCamera;
+
+    //    yield return new WaitForSeconds(_noiseTime);
+
+    //    _noiseImage.SetActive(false);
+    //    _playerInput.enabled = true;
+
+    //    StopCoroutine(setCoroutine);
+    //}
 }

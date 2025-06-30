@@ -8,18 +8,18 @@ public class CameraSwitchTrigger : MonoBehaviour
     [SerializeField] private CinemachineCamera _nextCamera;
     [SerializeField] private GameObject _previousRoomEnter;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.GetComponent<PlayerMovementChanged>())
-        {
-            Debug.Log("IN");
-            _playerViewManager.Set(_nextCamera);            
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.GetComponent<PlayerMovement>())
+    //    {
+    //        Debug.Log("IN");
+    //        _playerViewManager.Set(_nextCamera);            
+    //    }
+    //}
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<PlayerMovementChanged>())
+        if (other.GetComponent<PlayerMovement>())
         {            
             _previousRoomEnter.SetActive(true);
             gameObject.SetActive(false);

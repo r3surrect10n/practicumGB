@@ -6,11 +6,10 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement and rotation speeds")]
-    [SerializeField, Range(0, 10)] private float _movementSpeed;    //Скорость передвижения персонажа
-    //[SerializeField, Range(0, 180)] private float _rotationSmoothness = 10f;    // Коэффициент плавности поворота
-    [SerializeField, Range(0, 20)] private float _rotationSmoothness = 10f;    // Коэффициент плавности поворота
+    [SerializeField, Range(0, 10)] private float _movementSpeed;    //Скорость передвижения персонажа   
+    [SerializeField, Range(0, 20)] private float _rotationSmoothness;    // Коэффициент плавности поворота
 
-    private const float Gravity = -2f;  //Поставил все-такие двоечку, чтобы не ракетило
+    private const float Gravity = -2f;  
     
     private CharacterController _playerController;
     private PlayerViewManager _playerViewManager;
@@ -24,48 +23,49 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Update()
-    {       
-        if (_playerViewManager.FirstPerson)
-            MoveCharacter(FirstPersonMovement());
-        else
-            MoveCharacter(SideViewMovement());
+    {
+        Vector3 motion = CalculateMovement() * _movementSpeed;
+        motion += Gravity * Vector3.up;
+
+        _playerController.Move(motion * Time.deltaTime);
     }
         
-    public void OnMove(InputAction.CallbackContext callbackContext) //Прием инпута
+    public void OnMove(InputAction.CallbackContext callbackContext)
     {
-        _moveInput = callbackContext.ReadValue<Vector2>();
+        _moveInput = callbackContext.ReadValue<Vector2>();        
     }
 
-    private void MoveCharacter(Vector3 movement)    //KISS
+    private Vector3 CalculateMovement()
     {
-        _playerController.Move(movement * _movementSpeed * Time.deltaTime);
-    }
+        if (_playerViewManager.FirstPerson)
+           return FirstPersonMovement();
+        else
+            return SideViewMovement();
+    }    
 
     private Vector3 FirstPersonMovement()   //Движение от первого лица
     {
-        Vector3 movement = _moveInput.x * transform.right + _moveInput.y * transform.forward + Gravity * transform.up;
+        Vector3 movement = _moveInput.x * transform.right + _moveInput.y * transform.forward;
         return movement;
         
     }
 
     private Vector3 SideViewMovement()      //Движение с видом сбоку/сверху/везде короче
     {
-        // Нормализованное направление движения
-        Vector3 moveDirection = new Vector3(_moveInput.x, 0, _moveInput.y);
-        //moveDirection.Normalize();
+        Transform currentCameraTransform = _playerViewManager.CurrentStaticCamera.transform;
+
+        Vector3 cameraForward = Vector3.ProjectOnPlane(currentCameraTransform.forward, Vector3.up).normalized;
+        Vector3 cameraRight = Vector3.ProjectOnPlane(currentCameraTransform.right, Vector3.up).normalized;
+        
+        Vector3 movement = _moveInput.x * cameraRight + _moveInput.y * cameraForward;
+        movement.Normalize();
 
         // Плавный поворот в сторону движения
-        if (moveDirection != Vector3.zero && !_playerViewManager.FirstPerson)
-        {
-            transform.Rotate(Vector3.up, _moveInput.x * _rotationSmoothness * Time.deltaTime);
-            //Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-            //_playerController.transform.rotation = Quaternion.Slerp(_playerController.transform.rotation, targetRotation, _rotationSmoothness * Time.deltaTime);
+        if (movement != Vector3.zero)
+        {            
+            Quaternion targetRotation = Quaternion.LookRotation(movement);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, _rotationSmoothness * Time.deltaTime);
         }
-
-        //Vector3 movement = moveDirection + Gravity * transform.up;
-        Vector3 movement = _moveInput.x * _playerViewManager.CurrentStaticCamera.transform.right +_moveInput.y * _playerViewManager.CurrentStaticCamera.transform.forward + Gravity * transform.up;
-        //Vector3 movement = /*_moveInput.x * _playerViewManager.CurrentStaticCamera.transform.right*/ +_moveInput.y * transform.forward
-        //    + Gravity * transform.up;   // Управление от трансформа камеры
 
         return movement;       
     }

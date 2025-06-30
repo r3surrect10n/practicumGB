@@ -10,10 +10,25 @@ public class PlayerInteraction : MonoBehaviour
     private PlayerViewManager _playerViewManager;
     private string _currentInteraction;
 
+    private Ray _playerLook;
+    private RaycastHit _lookHit;
+    private int _interactDistance = 5;
+
+    private Cursor _cursor;
+
     private void Awake()
     {
         _playerViewManager = GetComponent<PlayerViewManager>();
-    }    
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+    }
+
+    private void Update()
+    {
+        _playerLook = _playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        Debug.DrawRay(_playerLook.origin, _playerLook.direction * _interactDistance, Color.red);
+    }
 
     public void OnInteract(InputAction.CallbackContext callbackContext)
     {
