@@ -23,7 +23,12 @@ public class Inventory
     }
     public void AddItem(InventoryItem item)
     {
-        items.Add(new InventoryItem(item.ItemID, item.ItemName, item.Sprite));
+        InventoryItem testItem = GetItem(item.ItemName);
+        if (testItem == null)
+        {
+            items.Add(new InventoryItem(item.ItemID, item.ItemName, item.Sprite));
+            Debug.Log($"inventory.AddItem item={item.ToString()}  count={items.Count}");
+        }
     }
 
     public InventoryItem GetItem(int index)
@@ -31,6 +36,15 @@ public class Inventory
         if (index >= 0 && index < items.Count)
         {
             return items[index];
+        }
+        return null;
+    }
+
+    public InventoryItem GetItem(string name)
+    {
+        foreach(InventoryItem item in items)
+        {
+            if (item.ItemName == name) return item;
         }
         return null;
     }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class QuestObject : MonoBehaviour
@@ -15,6 +16,9 @@ public class QuestObject : MonoBehaviour
     [SerializeField] private GameObject hintPanel;
 
     private QuestStatus status = QuestStatus.isClosed;
+    private LevelControl levelControl = null;
+    public QuestStatus Status { get => status; }
+    public string MiniGameScene { get => miniGameScene; }
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -27,9 +31,15 @@ public class QuestObject : MonoBehaviour
         }
     }
 
-    public void ChangeStatus(QuestStatus newStatus)
+    public void SetLevelControl(LevelControl lc)
+    {
+        levelControl = lc;
+    }
+
+    public void ChangeStatus(QuestStatus newStatus, bool isSave = true)
     {
         status = newStatus;
+        if (isSave) levelControl.SaveQuestProgress();
         if (status == QuestStatus.isAccessible)
         {
             if (effect != null) effect.Play();
@@ -45,7 +55,11 @@ public class QuestObject : MonoBehaviour
                     go.SetActive(true);
                     QuestObject quest = go.GetComponent<QuestObject>();
                     print($"QuestObject => {quest}");
-                    if (quest != null) quest.ChangeStatus(QuestStatus.isAccessible);
+                    if (quest != null)
+                    {
+                        quest.SetLevelControl(levelControl);
+                        quest.ChangeStatus(QuestStatus.isAccessible, isSave);
+                    }
                 }
                 gameObject.SetActive(false);
             }
@@ -59,11 +73,23 @@ public class QuestObject : MonoBehaviour
         if (nameForInventory != "")
         {
             Inventory inventory = GameManager.Instance.currentPlayer.inventory;
-            InventoryItem item = new InventoryItem(inventory.CountItem, nameForInventory, SpriteSet.Instance.GetSprite(nameForInventory));
-            print(item.ToString());
+            Sprite spr = SpriteSet.Instance.GetSprite(nameForInventory);
+            InventoryItem item = new InventoryItem(inventory.CountItem, nameForInventory, spr);
+            //print($"{item.ToString()}  sprite=<{spr}>");
             inventory.AddItem(item);
         }
-        ChangeStatus(QuestStatus.isSuccess);
+        if (miniGameScene != "")
+        {
+            if (levelControl != null)
+            {
+                levelControl.SavePositionAndRotation();
+                levelControl.SaveQuestProgress();
+            }
+            SceneManager.LoadScene(miniGameScene);
+            print($"status=<{GameManager.Instance.currentPlayer.listMiniGames.GetMiniGamesStatus(miniGameScene)}>");
+            ChangeStatus(GameManager.Instance.currentPlayer.listMiniGames.GetMiniGamesStatus(miniGameScene));
+        }
+        else ChangeStatus(QuestStatus.isSuccess);
         hintPanel.gameObject.SetActive(false);
     }
 

@@ -1,5 +1,6 @@
 using Unity.Cinemachine;
 using UnityEngine;
+using System.Text;
 
 public class LevelControl : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class LevelControl : MonoBehaviour
     [SerializeField] private UI_Control ui_control;
     [SerializeField] private CinemachineCamera[] camers;
     [SerializeField] private CameraSwitchTrigger[] triggers;
+    [SerializeField] private QuestSequence[] questSequences;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -47,12 +49,43 @@ public class LevelControl : MonoBehaviour
                 }
             }
         }
+        if (questSequences.Length != 0)
+        {
+            string questProgress = GameManager.Instance.currentPlayer.questProgress;
+            print($"questProgress=>{questProgress}");
+            int i;
+            if (questProgress != "")
+            {
+                string[] ar = questProgress.Split('=');
+                for (i = 0; i < questSequences.Length; i++)
+                {
+                    questSequences[i].SetQuestsStatus(ar[i], '#');
+                }
+            }
+            else
+            {
+                for (i = 0; i < questSequences.Length; i++)
+                {
+                    questSequences[i].SetQuestsStatus("", '#');
+                }
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void SaveQuestProgress()
+    {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < questSequences.Length; i++)
+        {
+            sb.Append($"{questSequences[i].ToCsvString()}=");
+        }
+        GameManager.Instance.currentPlayer.questProgress = sb.ToString();
     }
 
     public void SavePositionAndRotation()
@@ -65,6 +98,6 @@ public class LevelControl : MonoBehaviour
         GameManager.Instance.currentPlayer.currentRotation = player.transform.rotation.eulerAngles;
         GameManager.Instance.currentPlayer.currentLocation = "Building";
         GameManager.Instance.currentPlayer.currentCameraName = player.GetComponent<PlayerViewManager>().CurrentStaticCamera.Name;
-        ui_control.LoadMenuScene();
+        //ui_control.LoadMenuScene();
     }
 }

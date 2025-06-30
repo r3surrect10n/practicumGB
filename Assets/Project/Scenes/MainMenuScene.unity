@@ -452,6 +452,7 @@ MonoBehaviour:
     currentPosition: {x: 0, y: 0, z: 0}
     currentRotation: {x: 0, y: 0, z: 0}
     currentCameraName: 
+    questProgress: 
     isHintView: 1
     isSoundFone: 1
     isSoundEffects: 1
@@ -500,6 +501,9 @@ MonoBehaviour:
   - name: "\u041F\u0440\u0435\u0434\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u0435\u043B\u044C
       25\u0410"
     sprite: {fileID: 21300000, guid: 74bf2e3910f5b904591839332778e526, type: 3}
+  - name: "\u041F\u0440\u0435\u0434\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u0435\u043B\u044C
+      32\u0410"
+    sprite: {fileID: 21300000, guid: 55464edf9a7947c40a8bcdec77acc5d7, type: 3}
 --- !u!4 &244365121
 Transform:
   m_ObjectHideFlags: 0

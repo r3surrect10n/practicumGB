@@ -66,6 +66,9 @@ public class GameManager : MonoBehaviour
         GameManager.Instance.currentPlayer.inventory = new Inventory(data.csvInventory);
         CreateInventory();
 
+        GameManager.Instance.currentPlayer.questProgress = data.csvQuestProgress;
+        GameManager.Instance.currentPlayer.listMiniGames = new ListMiniGames(data.csvMiniGamesStatus, '#');
+
         GameManager.Instance.currentPlayer.isHintView = data.isHints;
         GameManager.Instance.currentPlayer.isSoundFone = data.isFone;
         GameManager.Instance.currentPlayer.isSoundEffects = data.isEffects;
@@ -101,6 +104,8 @@ public class GameManager : MonoBehaviour
         data.location = GameManager.Instance.currentPlayer.currentLocation;
 
         data.csvInventory = GameManager.Instance.currentPlayer.inventory.ToCsvString();
+        data.csvMiniGamesStatus = GameManager.Instance.currentPlayer.listMiniGames.ToCsvString();
+        data.csvQuestProgress = GameManager.Instance.currentPlayer.questProgress;
 
         data.isHints = GameManager.Instance.currentPlayer.isHintView;
         data.isFone = GameManager.Instance.currentPlayer.isSoundFone;
@@ -140,6 +145,10 @@ public class PlayerInfo
     public Inventory inventory;
     //public Inventory currentInventory;
 
+    public string questProgress = "";
+
+    public ListMiniGames listMiniGames = null;
+
     public bool isHintView = true;
     public bool isSoundFone = true;
     public bool isSoundEffects = true;
@@ -155,6 +164,7 @@ public class PlayerInfo
         //maxLevel = 0;
         //currentLevel = 0;
         inventory = new Inventory();
+        listMiniGames = new ListMiniGames();
     }
 
     public static PlayerInfo FirstGame()
@@ -226,6 +236,8 @@ public class SaveData
     public string location;
     public string camera;
     public string day;
+    public string csvMiniGamesStatus = "";
+    public string csvQuestProgress = "";
 
     public bool isFone;
     public bool isEffects;
