@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.InputAction;
 
 [RequireComponent(typeof(CharacterController))]
 
@@ -29,11 +30,16 @@ public class PlayerMovement : MonoBehaviour
 
         _playerController.Move(motion * Time.deltaTime);
     }
-        
+
     public void OnMove(InputAction.CallbackContext callbackContext)
     {
-        _moveInput = callbackContext.ReadValue<Vector2>();        
+        _moveInput = callbackContext.ReadValue<Vector2>();
     }
+
+    //public void Move(Vector2 moveInput)
+    //{
+    //    _moveInput = moveInput;
+    //}
 
     private Vector3 CalculateMovement()
     {

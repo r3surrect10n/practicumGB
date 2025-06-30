@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerLook : MonoBehaviour
 {
@@ -41,4 +42,9 @@ public class PlayerLook : MonoBehaviour
     {
         _mouseInput = callbackContext.ReadValue<Vector2>();
     }
+
+    //public void Look(Vector2 mouseInput)
+    //{
+    //    _mouseInput = mouseInput;
+    //}
 }

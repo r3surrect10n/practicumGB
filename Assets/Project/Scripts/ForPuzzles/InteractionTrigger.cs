@@ -14,24 +14,24 @@ public class InteractionTrigger : MonoBehaviour
 
     public bool CanInteract => _canInteract;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.GetComponent<PlayerInteraction>())
-        {
-            Debug.Log("Press E");
-            _canInteract = true;
-            _playerInteraction.CurrentInteractionSelector(_currentInteraction);
-        }
-    }
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.GetComponent<PlayerInteraction>())
+    //    {
+    //        Debug.Log("Press E");
+    //        _canInteract = true;
+    //        _playerInteraction.CurrentInteractionSelector(_currentInteraction);
+    //    }
+    //}
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.GetComponent<PlayerInteraction>())
-        {
-            _canInteract = false;
-            _playerInteraction.CurrentInteractionSelector("");
-        }
-    }
+    //private void OnTriggerExit(Collider other)
+    //{
+    //    if (other.GetComponent<PlayerInteraction>())
+    //    {
+    //        _canInteract = false;
+    //        _playerInteraction.CurrentInteractionSelector("");
+    //    }
+    //}
 
 
 }

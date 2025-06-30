@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,27 +6,27 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private Camera _playerCamera;
     [SerializeField] private TogglePuzzle _togglePuzzle;
 
-    private PlayerViewManager _playerViewManager;
-    private string _currentInteraction;
+    [SerializeField] private LayerMask _interactionLayer;
+    [SerializeField] private LayerMask _highlightLayer;
+
+    private PlayerInput playerInput;
 
     private Ray _playerLook;
     private RaycastHit _lookHit;
-    private int _interactDistance = 5;
-
-    private Cursor _cursor;
+    private float _interactDistance = 1.5f;
+    private Collider _lastCollider;    
 
     private void Awake()
-    {
-        _playerViewManager = GetComponent<PlayerViewManager>();
-
+    { 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        playerInput = GetComponent<PlayerInput>();
     }
 
     private void Update()
     {
-        _playerLook = _playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
-        Debug.DrawRay(_playerLook.origin, _playerLook.direction * _interactDistance, Color.red);
+        PlayerLook();
     }
 
     public void OnInteract(InputAction.CallbackContext callbackContext)
@@ -35,49 +34,64 @@ public class PlayerInteraction : MonoBehaviour
         if (callbackContext.phase != InputActionPhase.Started)
             return;
 
+        if (_lookHit.collider == null)
+            return;
 
+        IInteractable interactable = _lookHit.collider.GetComponent<IInteractable>();
+
+        if (interactable == null)
+            return;
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;        
+        playerInput.enabled = false;
+        interactable.Interact();
     }
 
-    public void OnScreenClick(InputAction.CallbackContext callbackContext)
+    //public void Interact()
+    //{
+    //    IInteractable interactable = _lookHit.collider.GetComponent<IInteractable>();
+
+    //    if (interactable == null)
+    //        return;
+
+    //    interactable.Interact();
+    //    Time.timeScale = 0;
+    //}
+
+    public void OnExit(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.phase != InputActionPhase.Started)
             return;
+    }
 
-        if (_playerViewManager.FirstPerson)
-        {
-            Ray playerTouch = _playerCamera.ScreenPointToRay(Input.mousePosition);
+    private void PlayerLook()
+    {
+        _playerLook = _playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        Debug.DrawRay(_playerLook.origin, _playerLook.direction * _interactDistance, Color.red);
 
-            if (Physics.Raycast(playerTouch, out RaycastHit hit))
-            {
-                switch (_currentInteraction)
-                {
-                    case "TogglePuzzle":
-                        TogglePuzzle(playerTouch, hit);
-                        break;
-
-                    case "SafePuzzle":
-                        return;
-
-                    default:
-                        break;
-                }
-            }
-            
-        }
+        if (Physics.Raycast(_playerLook, out _lookHit, _interactDistance, _interactionLayer | _highlightLayer))
+            TryHighlight(_lookHit.collider);
         else
+            ClearHighlight();
+    }
+
+    private void TryHighlight(Collider interactor)
+    {
+        if (_lastCollider == interactor)
             return;
+
+        ClearHighlight();
+        interactor.gameObject.layer = LayerMask.NameToLayer("Outline");
+        _lastCollider = interactor;        
     }
 
-    public void CurrentInteractionSelector(string currentInteraction)
+    private void ClearHighlight()
     {
-        _currentInteraction = currentInteraction;
-    }
-
-    private void TogglePuzzle(Ray playerTouch, RaycastHit hit)
-    {
-        if (hit.collider.GetComponent<Toggle>())
+        if (_lastCollider)
         {
-            _togglePuzzle.ToggleSwitchPuzzle(hit.collider.GetComponent<Toggle>().ToggleNumber);
+            _lastCollider.gameObject.layer = LayerMask.NameToLayer("Interaction");
+            _lastCollider = null;
         }
-    }
+    }  
 }
