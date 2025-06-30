@@ -10,6 +10,7 @@ public class QuestObject : MonoBehaviour
     [SerializeField] private string hintAfter;
     [SerializeField] private string hintFailed;
     [SerializeField] private string toNotebook;
+    [SerializeField] private string nameSpriteToNotebook;
     [SerializeField] private string nameForInventory;
     [SerializeField] private string btnOkText;
     [SerializeField] private GameObject[] objectsAfter;
@@ -60,6 +61,15 @@ public class QuestObject : MonoBehaviour
                         quest.SetLevelControl(levelControl);
                         quest.ChangeStatus(QuestStatus.isAccessible, isSave);
                     }
+                }
+                if (toNotebook != "")
+                {
+                    Sprite sprite = null;
+                    if (nameSpriteToNotebook != "")
+                    {
+                        sprite = SpriteSet.Instance.GetSprite(nameSpriteToNotebook);
+                    }
+                    GameManager.Instance.currentPlayer.listNoteMessages.AddMessage(new NotepadMessage(toNotebook, nameSpriteToNotebook, sprite));
                 }
                 gameObject.SetActive(false);
             }

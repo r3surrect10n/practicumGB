@@ -504,6 +504,10 @@ MonoBehaviour:
   - name: "\u041F\u0440\u0435\u0434\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u0435\u043B\u044C
       32\u0410"
     sprite: {fileID: 21300000, guid: 55464edf9a7947c40a8bcdec77acc5d7, type: 3}
+  - name: "\u041F\u0440\u0435\u0434\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u0435\u043B\u0438"
+    sprite: {fileID: 21300000, guid: 10451f4f98e61bc428e1cf7fbb17c452, type: 3}
+  - name: "\u0417\u0430\u043F\u0438\u0441\u043A\u0430 \u041C\u0430\u0440\u043A\u0430"
+    sprite: {fileID: 21300000, guid: 198f6b2bcbdb9c840bf1221d5fa9c925, type: 3}
 --- !u!4 &244365121
 Transform:
   m_ObjectHideFlags: 0

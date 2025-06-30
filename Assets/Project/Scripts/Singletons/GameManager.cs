@@ -68,6 +68,8 @@ public class GameManager : MonoBehaviour
 
         GameManager.Instance.currentPlayer.questProgress = data.csvQuestProgress;
         GameManager.Instance.currentPlayer.listMiniGames = new ListMiniGames(data.csvMiniGamesStatus, '#');
+        GameManager.Instance.currentPlayer.listNoteMessages = new ListNoteMessages(data.csvNoteMessages, '#');
+        CreateNoteImgMessages();
 
         GameManager.Instance.currentPlayer.isHintView = data.isHints;
         GameManager.Instance.currentPlayer.isSoundFone = data.isFone;
@@ -88,6 +90,20 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void CreateNoteImgMessages()
+    {
+        for (int i = 0; i < GameManager.Instance.currentPlayer.listNoteMessages.CountMessage; i++)
+        {
+            NotepadMessage msg = GameManager.Instance.currentPlayer.listNoteMessages.GetNoteMessage(i);
+            if (msg.NameSprite != "")
+            {
+                Sprite spr = SpriteSet.Instance.GetSprite(msg.NameSprite);
+                if (spr != null) msg.SetSprite(spr);
+                else Debug.Log($"Not found sprite for {msg.NameSprite}");
+            }
+        }
+    }
+
     public void SaveGame()
     {
         BinaryFormatter bf = new BinaryFormatter();
@@ -105,6 +121,7 @@ public class GameManager : MonoBehaviour
 
         data.csvInventory = GameManager.Instance.currentPlayer.inventory.ToCsvString();
         data.csvMiniGamesStatus = GameManager.Instance.currentPlayer.listMiniGames.ToCsvString();
+        data.csvNoteMessages = GameManager.Instance.currentPlayer.listNoteMessages.ToCsvString();
         data.csvQuestProgress = GameManager.Instance.currentPlayer.questProgress;
 
         data.isHints = GameManager.Instance.currentPlayer.isHintView;
@@ -148,6 +165,7 @@ public class PlayerInfo
     public string questProgress = "";
 
     public ListMiniGames listMiniGames = null;
+    public ListNoteMessages listNoteMessages = null;
 
     public bool isHintView = true;
     public bool isSoundFone = true;
@@ -165,6 +183,7 @@ public class PlayerInfo
         //currentLevel = 0;
         inventory = new Inventory();
         listMiniGames = new ListMiniGames();
+        listNoteMessages = new ListNoteMessages();
     }
 
     public static PlayerInfo FirstGame()
@@ -236,6 +255,7 @@ public class SaveData
     public string location;
     public string camera;
     public string day;
+    public string csvNoteMessages = "";
     public string csvMiniGamesStatus = "";
     public string csvQuestProgress = "";
 
