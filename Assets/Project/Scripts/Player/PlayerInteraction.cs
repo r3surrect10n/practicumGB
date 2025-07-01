@@ -20,6 +20,8 @@ public class PlayerInteraction : MonoBehaviour
 
     private bool _isInteract = false;
 
+
+    [SerializeField] private ViewManager _viewManager;
     private void Awake()
     { 
         /*                                  */
@@ -61,7 +63,10 @@ public class PlayerInteraction : MonoBehaviour
 
     private void PlayerLook()
     {
-        _playerLook = _playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        if (_viewManager.IsFirstPerson)
+            _playerLook = _playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0));
+        else
+            _playerLook = _playerCamera.ScreenPointToRay(Input.mousePosition);
         Debug.DrawRay(_playerLook.origin, _playerLook.direction * _interactDistance, Color.red);
 
         if (Physics.Raycast(_playerLook, out _lookHit, _interactDistance, _interactionLayer | _highlightLayer))
