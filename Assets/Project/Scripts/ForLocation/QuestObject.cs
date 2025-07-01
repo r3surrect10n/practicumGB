@@ -39,6 +39,7 @@ public class QuestObject : MonoBehaviour
 
     public void ChangeStatus(QuestStatus newStatus, bool isSave = true)
     {
+        if (newStatus == QuestStatus.isClosed) return;
         status = newStatus;
         if (isSave) levelControl.SaveQuestProgress();
         if (status == QuestStatus.isAccessible)
@@ -96,8 +97,9 @@ public class QuestObject : MonoBehaviour
                 levelControl.SaveQuestProgress();
             }
             SceneManager.LoadScene(miniGameScene);
-            print($"status=<{GameManager.Instance.currentPlayer.listMiniGames.GetMiniGamesStatus(miniGameScene)}>");
-            ChangeStatus(GameManager.Instance.currentPlayer.listMiniGames.GetMiniGamesStatus(miniGameScene));
+            QuestStatus miniGameStatus = GameManager.Instance.currentPlayer.listMiniGames.GetMiniGamesStatus(miniGameScene);
+            print($"OnClickOk status=<{miniGameStatus}>");
+            if (miniGameStatus != QuestStatus.isClosed) ChangeStatus(GameManager.Instance.currentPlayer.listMiniGames.GetMiniGamesStatus(miniGameScene));
         }
         else ChangeStatus(QuestStatus.isSuccess);
         hintPanel.gameObject.SetActive(false);
@@ -131,9 +133,14 @@ public class QuestObject : MonoBehaviour
                     Button btnOk = hintPanel.transform.GetChild(1).gameObject.GetComponent<Button>();
                     if (btnOk != null)
                     {
-                        btnOk.transform.GetChild(0).gameObject.GetComponent<Text>().text = btnOkText;
-                        btnOk.onClick.AddListener(OnClickOk);
-                        print($"onClick => {btnOk.onClick}");
+                        if (btnOkText != "")
+                        {
+                            btnOk.transform.GetChild(0).gameObject.GetComponent<Text>().text = btnOkText;
+                            btnOk.onClick.AddListener(OnClickOk);
+                            btnOk.gameObject.SetActive(true);
+                            //print($"onClick => {btnOk.onClick}");
+                        }
+                        else btnOk.gameObject.SetActive(false);
                     }
                     hintPanel.transform.GetChild(0).gameObject.GetComponent<Text>().text = hint;
                     hintPanel.SetActive(true);
@@ -149,6 +156,12 @@ public class QuestObject : MonoBehaviour
             if (hintPanel != null)
             {
                 hintPanel.SetActive(false);
+                Button btnOk = hintPanel.transform.GetChild(1).gameObject.GetComponent<Button>();
+                if (btnOk != null)
+                {
+                    btnOk.onClick.RemoveListener(OnClickOk);
+                    btnOk.gameObject.SetActive(true);
+                }
             }
         }
     }

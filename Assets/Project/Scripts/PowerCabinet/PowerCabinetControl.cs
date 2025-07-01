@@ -96,9 +96,28 @@ public class PowerCabinetControl : MonoBehaviour
             //  все правильные предохранители на месте -> включаем свет
             Invoke("LampOn", 1.5f);
             status = QuestStatus.isSuccess;
+            DelFusesFromInventory();
             return true;
         }
         return false;
+    }
+
+    private void DelFusesFromInventory()
+    {
+        Inventory inventory = GameManager.Instance.currentPlayer.inventory;
+        for (int i = inventory.CountItem; i > 0; i--)
+        {
+            string nmItem = inventory.GetItem(i - 1).ItemName;
+            for (int j = 0; j < fuses.Length; j++)
+            {
+                string nmFuse = $"Предохранитель {fuses[j].FuseID}А";
+                if (nmFuse == nmItem)
+                {
+                    inventory.RemoveItem(i - 1);
+                    break;
+                }
+            }
+        }
     }
 
     private void LampOn()

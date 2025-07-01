@@ -69,11 +69,12 @@ public class QuestSequence : MonoBehaviour
                 }
                 if (quests[i].MiniGameScene != "")
                 {
-                    status = GameManager.Instance.currentPlayer.listMiniGames.GetMiniGamesStatus(quests[i].MiniGameScene);
+                    QuestStatus miniGameStatus = GameManager.Instance.currentPlayer.listMiniGames.GetMiniGamesStatus(quests[i].MiniGameScene);
+                    if (miniGameStatus != QuestStatus.isClosed) status = miniGameStatus;
                     quests[i].ChangeStatus(status);
                 }
                 else quests[i].ChangeStatus(status, false);
-                print($"znFromCsv={ar[i+2]}  status={status}");
+                print($"{quests[i].gameObject.name}  znFromCsv={ar[i+2]}  status={status}");
             }
         }
         else

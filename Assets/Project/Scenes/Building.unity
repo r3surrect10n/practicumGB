@@ -15796,6 +15796,7 @@ GameObject:
   - component: {fileID: 1213397954}
   - component: {fileID: 1213397953}
   - component: {fileID: 1213397952}
+  - component: {fileID: 1213397956}
   m_Layer: 0
   m_Name: RectImageWingAfter
   m_TagString: Untagged
@@ -15892,6 +15893,30 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1711927658}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1213397956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1213397951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee0faa21b2e42c14baff13ced143a288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effect: {fileID: 0}
+  miniGameScene: 
+  hintBefore: "\u041A\u0430\u0440\u0442\u0438\u043D\u0430 \u0447\u0435\u0442\u0432\u0435\u0440\u0442\u043E\u0433\u043E
+    \u043A\u0440\u044B\u043B\u0430"
+  hintAfter: 
+  hintFailed: 
+  toNotebook: 
+  nameSpriteToNotebook: 
+  nameForInventory: 
+  btnOkText: "\u041A\u043E\u0441\u043D\u0443\u0442\u044C\u0441\u044F"
+  objectsAfter: []
+  hintPanel: {fileID: 0}
 --- !u!1001 &1217417264
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21813,6 +21838,7 @@ MonoBehaviour:
   - {fileID: 1401213806}
   - {fileID: 902166257}
   - {fileID: 2096401436}
+  - {fileID: 1213397956}
   - {fileID: 81834336}
   - {fileID: 1756623426}
   nameSequence: Sequence3
@@ -27210,7 +27236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effect: {fileID: 1704836294}
   miniGameScene: Alexander
-  hintBefore: "\u041F\u0443\u0441\u0442\u0430\u044F \u0440\u0430\u043C\u0430\u043D\u0430
+  hintBefore: "\u041F\u0443\u0441\u0442\u0430\u044F \u0440\u0430\u043C\u043A\u0430
     \u043D\u0430 \u0441\u0442\u0435\u043D\u0435 ..."
   hintAfter: 
   hintFailed: "\u041F\u043E\u043F\u0440\u043E\u0431\u043E\u0432\u0430\u0442\u044C
