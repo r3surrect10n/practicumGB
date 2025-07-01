@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerLook : MonoBehaviour
 {
+    [Header("ViewManager")]
+    [SerializeField] private ViewManager _viewManager;
+
     [Header("Components properties")]
     [SerializeField] private Transform _playerCameraPoint;
 
@@ -12,21 +14,14 @@ public class PlayerLook : MonoBehaviour
     [SerializeField] private float _mouseSensivityY;
 
     [Header("Camera properties")]
-    [SerializeField] private float _maxCameraPitch;
-
-    private PlayerViewManager _playerViewManager;
+    [SerializeField] private float _maxCameraPitch;    
 
     private Vector2 _mouseInput;
-    private float _cameraPitch = 0f;
-
-    private void Awake()
-    {
-        _playerViewManager = GetComponent<PlayerViewManager>();
-    }
+    private float _cameraPitch = 0f;           
 
     private void Update()
     {  
-        if (_playerViewManager.FirstPerson)
+        if (_viewManager.IsFirstPerson)
         {
             float yaw = _mouseSensivityX * _mouseInput.x;
             transform.Rotate(Vector3.up * yaw);
@@ -41,10 +36,5 @@ public class PlayerLook : MonoBehaviour
     public void OnLook(InputAction.CallbackContext callbackContext)
     {
         _mouseInput = callbackContext.ReadValue<Vector2>();
-    }
-
-    //public void Look(Vector2 mouseInput)
-    //{
-    //    _mouseInput = mouseInput;
-    //}
+    }   
 }

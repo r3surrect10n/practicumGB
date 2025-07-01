@@ -17,7 +17,7 @@ public class PlayerViewManager : MonoBehaviour
     private Coroutine setCoroutine;
 
     private int _currentCameraPriority = 100;
-    private int _otherCameraPriority = 11;
+    private int _otherCameraPriority = 10;
 
     public bool FirstPerson { get; private set; }
 

@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.InputSystem.InputAction;
 
 [RequireComponent(typeof(CharacterController))]
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private ViewManager _viewManager;
+
     [Header("Movement and rotation speeds")]
     [SerializeField, Range(0, 10)] private float _movementSpeed;    //Скорость передвижения персонажа   
     [SerializeField, Range(0, 20)] private float _rotationSmoothness;    // Коэффициент плавности поворота
@@ -13,14 +14,12 @@ public class PlayerMovement : MonoBehaviour
     private const float Gravity = -2f;  
     
     private CharacterController _playerController;
-    private PlayerViewManager _playerViewManager;
 
     private Vector3 _moveInput;    
 
     private void Awake()
     {
-        _playerController = GetComponent<CharacterController>();     
-        _playerViewManager = GetComponent<PlayerViewManager>();
+        _playerController = GetComponent<CharacterController>();        
     }
 
     private void Update()
@@ -36,17 +35,12 @@ public class PlayerMovement : MonoBehaviour
         _moveInput = callbackContext.ReadValue<Vector2>();
     }
 
-    //public void Move(Vector2 moveInput)
-    //{
-    //    _moveInput = moveInput;
-    //}
-
     private Vector3 CalculateMovement()
     {
-        if (_playerViewManager.FirstPerson)
+        if (_viewManager.IsFirstPerson)
            return FirstPersonMovement();
         else
-            return SideViewMovement();
+            return /*SideViewMovement()*/ new Vector3(0, 0, 0);
     }    
 
     private Vector3 FirstPersonMovement()   //Движение от первого лица
@@ -58,7 +52,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 SideViewMovement()      //Движение с видом сбоку/сверху/везде короче
     {
-        Transform currentCameraTransform = _playerViewManager.CurrentStaticCamera.transform;
+        Transform currentCameraTransform = _viewManager.CurrentStaticCam.transform;
 
         Vector3 cameraForward = Vector3.ProjectOnPlane(currentCameraTransform.forward, Vector3.up).normalized;
         Vector3 cameraRight = Vector3.ProjectOnPlane(currentCameraTransform.right, Vector3.up).normalized;

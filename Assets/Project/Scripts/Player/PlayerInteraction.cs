@@ -1,27 +1,30 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerInteraction : MonoBehaviour
 {
+    public static Action<bool> IsInteract;    
+
+    [Header ("Player camera")]
     [SerializeField] private Camera _playerCamera;
-    [SerializeField] private TogglePuzzle _togglePuzzle;
 
+    [Header ("Layer for interactables")]
     [SerializeField] private LayerMask _interactionLayer;
-    [SerializeField] private LayerMask _highlightLayer;
+    [SerializeField] private LayerMask _highlightLayer;    
 
-    private PlayerInput playerInput;
-
+    private Collider _lastCollider;    
     private Ray _playerLook;
     private RaycastHit _lookHit;
     private float _interactDistance = 1.5f;
-    private Collider _lastCollider;    
+
+    private bool _isInteract = false;
 
     private void Awake()
     { 
+        /*                                  */
         Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
-
-        playerInput = GetComponent<PlayerInput>();
+        Cursor.lockState = CursorLockMode.Locked;        
     }
 
     private void Update()
@@ -37,27 +40,18 @@ public class PlayerInteraction : MonoBehaviour
         if (_lookHit.collider == null)
             return;
 
-        IInteractable interactable = _lookHit.collider.GetComponent<IInteractable>();
+        if (_lookHit.collider.TryGetComponent<IInteractable>(out var interactable))
+        {            
+            if (!_isInteract)            
+                interactable.Interact();            
+            else            
+                interactable.EndInteract();
 
-        if (interactable == null)
+            _isInteract = !_isInteract;
+        }
+        else
             return;
-
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;        
-        playerInput.enabled = false;
-        interactable.Interact();
-    }
-
-    //public void Interact()
-    //{
-    //    IInteractable interactable = _lookHit.collider.GetComponent<IInteractable>();
-
-    //    if (interactable == null)
-    //        return;
-
-    //    interactable.Interact();
-    //    Time.timeScale = 0;
-    //}
+    }  
 
     public void OnExit(InputAction.CallbackContext callbackContext)
     {
