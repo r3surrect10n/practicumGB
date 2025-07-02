@@ -142,6 +142,6 @@ public class PowerCabinetControl : MonoBehaviour
     public void OnClickQuit()
     {
         GameManager.Instance.currentPlayer.listMiniGames.AddMiniGame(new MiniGameStatus("PowerCabinetScene", status));
-        SceneManager.LoadScene("Building");
+        SceneManager.LoadScene("BuildingOld");
     }
 }

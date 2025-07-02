@@ -158,6 +158,6 @@ public class DotGameControl : MonoBehaviour
     {
         GameManager.Instance.currentPlayer.listMiniGames.AddMiniGame(new MiniGameStatus("Alexander", status));
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        SceneManager.LoadScene("Building");
+        SceneManager.LoadScene("BuildingOld");
     }
 }
