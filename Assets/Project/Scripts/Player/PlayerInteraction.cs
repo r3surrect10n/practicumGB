@@ -1,18 +1,17 @@
-using System;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerInteraction : MonoBehaviour
-{
-    public static Action<bool> IsInteract;    
-
+{    
     [Header ("Player camera")]
     [SerializeField] private Camera _playerCamera;
 
     [Header ("Layer for interactables")]
     [SerializeField] private LayerMask _interactionLayer;
-    [SerializeField] private LayerMask _highlightLayer;    
+    [SerializeField] private LayerMask _highlightLayer;
 
+    private IInteractable _currentInteractable;
     private Collider _lastCollider;    
     private Ray _playerLook;
     private RaycastHit _lookHit;
@@ -39,17 +38,29 @@ public class PlayerInteraction : MonoBehaviour
         if (callbackContext.phase != InputActionPhase.Started)
             return;
 
-        if (_lookHit.collider == null)
-            return;
+        if (!_isInteract)
+        {
+            if (_lookHit.collider == null)
+                return;
 
-        if (_lookHit.collider.TryGetComponent<IInteractable>(out var interactable))
-        {            
-            if (!_isInteract)            
-                interactable.Interact();            
-            else            
-                interactable.EndInteract();
+            if (_lookHit.collider.TryGetComponent<IInteractable>(out var interactable))
+            {
+                ClearHighlight();
+                interactable.Interact();
+                _currentInteractable = interactable;
+                _isInteract = !_isInteract;
 
-            _isInteract = !_isInteract;
+            }
+        }
+        else if (_isInteract)
+        {
+            if (_currentInteractable != null)
+            {
+                ClearHighlight();
+                _currentInteractable.EndInteract();
+                _currentInteractable = null;
+                _isInteract = !_isInteract;
+            }
         }
         else
             return;

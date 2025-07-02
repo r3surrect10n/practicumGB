@@ -1,15 +1,11 @@
-using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Item : MonoBehaviour, IInteractable
 {
-    [SerializeField] private CinemachineCamera _itemCamera;
     [SerializeField] private GameObject _note;
     [SerializeField] private Text _noteText;    
     [SerializeField] private string _noteContent;
-
-
 
     public void Interact()
     {

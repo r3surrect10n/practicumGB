@@ -12,8 +12,7 @@ public class ViewManager : MonoBehaviour
 
     public void SetView(CinemachineCamera currentCam, CinemachineCamera nextCam)
     {
-        _isFirstPerson = !_isFirstPerson;
-        
+        _isFirstPerson = !_isFirstPerson;        
 
         currentCam.Priority = _otherCamPriority;
         nextCam.Priority = _currrentCamPriority;
