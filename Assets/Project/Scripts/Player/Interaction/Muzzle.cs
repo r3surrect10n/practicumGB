@@ -4,8 +4,7 @@ using UnityEngine;
 public class Muzzle : MonoBehaviour, IInteractable
 {
     [Header("Main camera view manager")]
-    [SerializeField] private ViewManager _viewManager;
-    //[SerializeField] private CursorVisible _cursorVisible;
+    [SerializeField] private ViewManager _viewManager;    
 
     [Header("Muzzle and player cameras")]
     [SerializeField] private CinemachineCamera _muzzleCamera;
