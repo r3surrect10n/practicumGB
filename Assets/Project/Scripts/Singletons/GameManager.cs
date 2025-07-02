@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("There is no save data!");
             GameManager.Instance.currentPlayer = PlayerInfo.FirstGame();
+            CreateInventory();
         }
 #endif
     }
@@ -59,16 +60,48 @@ public class GameManager : MonoBehaviour
         GameManager.Instance.currentDay = data.day;
         GameManager.Instance.currentPlayer.currentLocation = data.location;
         GameManager.Instance.currentPlayer.CsvToPosition(data.csvPosition);
+        GameManager.Instance.currentPlayer.CsvToRotation(data.csvRotation);
+        GameManager.Instance.currentPlayer.currentCameraName = data.camera;
 
-        //GameManager.Instance.currentPlayer.inventory = new Inventory(data.csvInventory);
+        GameManager.Instance.currentPlayer.inventory = new Inventory(data.csvInventory);
+        CreateInventory();
+
+        GameManager.Instance.currentPlayer.questProgress = data.csvQuestProgress;
+        GameManager.Instance.currentPlayer.listMiniGames = new ListMiniGames(data.csvMiniGamesStatus, '#');
+        GameManager.Instance.currentPlayer.listNoteMessages = new ListNoteMessages(data.csvNoteMessages, '#');
+        CreateNoteImgMessages();
 
         GameManager.Instance.currentPlayer.isHintView = data.isHints;
         GameManager.Instance.currentPlayer.isSoundFone = data.isFone;
         GameManager.Instance.currentPlayer.isSoundEffects = data.isEffects;
         GameManager.Instance.currentPlayer.volumeFone = data.volFone;
         GameManager.Instance.currentPlayer.volumeEffects = data.volEffects;
+    }
 
+    private void CreateInventory()
+    {
+        if (GameManager.Instance.currentPlayer.inventory.CountItem == 0) GameManager.Instance.currentPlayer.inventory.AddItem(new InventoryItem(0, "Жетон", null));
+        for (int i = 0; i < GameManager.Instance.currentPlayer.inventory.CountItem; i++)
+        {
+            InventoryItem item = GameManager.Instance.currentPlayer.inventory.GetItem(i);
+            Sprite spr = SpriteSet.Instance.GetSprite(item.ItemName);
+            if (spr != null) item.SetSprite(spr);
+            else Debug.Log($"Not found sprite for {item.ItemName}");
+        }
+    }
 
+    private void CreateNoteImgMessages()
+    {
+        for (int i = 0; i < GameManager.Instance.currentPlayer.listNoteMessages.CountMessage; i++)
+        {
+            NotepadMessage msg = GameManager.Instance.currentPlayer.listNoteMessages.GetNoteMessage(i);
+            if (msg.NameSprite != "")
+            {
+                Sprite spr = SpriteSet.Instance.GetSprite(msg.NameSprite);
+                if (spr != null) msg.SetSprite(spr);
+                else Debug.Log($"Not found sprite for {msg.NameSprite}");
+            }
+        }
     }
 
     public void SaveGame()
@@ -80,11 +113,16 @@ public class GameManager : MonoBehaviour
 
         data.score = GameManager.Instance.currentPlayer.totalScore;
         data.csvPosition = GameManager.Instance.currentPlayer.PositionToCsv();
+        data.csvRotation = GameManager.Instance.currentPlayer.RotationToCsv();
+        data.camera = GameManager.Instance.currentPlayer.currentCameraName;
         data.csvInventory = "";
         data.day = GameManager.Instance.currentDay;
         data.location = GameManager.Instance.currentPlayer.currentLocation;
 
-        //data.csvInventory = GameManager.Instance.currentPlayer.inventory.ToCsvString();
+        data.csvInventory = GameManager.Instance.currentPlayer.inventory.ToCsvString();
+        data.csvMiniGamesStatus = GameManager.Instance.currentPlayer.listMiniGames.ToCsvString();
+        data.csvNoteMessages = GameManager.Instance.currentPlayer.listNoteMessages.ToCsvString();
+        data.csvQuestProgress = GameManager.Instance.currentPlayer.questProgress;
 
         data.isHints = GameManager.Instance.currentPlayer.isHintView;
         data.isFone = GameManager.Instance.currentPlayer.isSoundFone;
@@ -118,9 +156,16 @@ public class PlayerInfo
     public string currentLocation = "";
     public string currentDay = "";
     public Vector3 currentPosition = Vector3.zero;
+    public Vector3 currentRotation = Vector3.zero;
+    public string currentCameraName = "";
 
-    //public Inventory inventory;
+    public Inventory inventory;
     //public Inventory currentInventory;
+
+    public string questProgress = "";
+
+    public ListMiniGames listMiniGames = null;
+    public ListNoteMessages listNoteMessages = null;
 
     public bool isHintView = true;
     public bool isSoundFone = true;
@@ -136,7 +181,9 @@ public class PlayerInfo
     {
         //maxLevel = 0;
         //currentLevel = 0;
-        //inventory = new Inventory();
+        inventory = new Inventory();
+        listMiniGames = new ListMiniGames();
+        listNoteMessages = new ListNoteMessages();
     }
 
     public static PlayerInfo FirstGame()
@@ -178,6 +225,24 @@ public class PlayerInfo
         }
         else currentPosition = Vector3.zero;
     }
+    public string RotationToCsv(char sep = ';')
+    {
+        return $"{currentRotation.x:0.000}{sep}{currentRotation.y:0.000}{sep}{currentRotation.z:0.000}{sep}";
+    }
+
+    public void CsvToRotation(string csv, char sep = ';')
+    {
+        string[] ar = csv.Split(sep);
+        if (ar.Length == 3)
+        {
+            if (float.TryParse(ar[0], out float fx) && float.TryParse(ar[1], out float fy) && float.TryParse(ar[2], out float fz))
+            {
+                currentRotation = new Vector3(fx, fy, fz);
+            }
+            else currentRotation = Vector3.zero;
+        }
+        else currentRotation = Vector3.zero;
+    }
 }
 
 [Serializable]
@@ -186,8 +251,13 @@ public class SaveData
     public int score;
     public string csvInventory = "";
     public string csvPosition = "";
+    public string csvRotation = "";
     public string location;
+    public string camera;
     public string day;
+    public string csvNoteMessages = "";
+    public string csvMiniGamesStatus = "";
+    public string csvQuestProgress = "";
 
     public bool isFone;
     public bool isEffects;

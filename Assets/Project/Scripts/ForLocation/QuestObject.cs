@@ -1,16 +1,25 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class QuestObject : MonoBehaviour
 {
     [SerializeField] private ParticleSystem effect;
+    [SerializeField] private string miniGameScene;
     [SerializeField] private string hintBefore;
     [SerializeField] private string hintAfter;
+    [SerializeField] private string hintFailed;
     [SerializeField] private string toNotebook;
+    [SerializeField] private string nameSpriteToNotebook;
+    [SerializeField] private string nameForInventory;
+    [SerializeField] private string btnOkText;
     [SerializeField] private GameObject[] objectsAfter;
-    [SerializeField] private GameObject hintPanel;    
+    [SerializeField] private GameObject hintPanel;
 
     private QuestStatus status = QuestStatus.isClosed;
+    private LevelControl levelControl = null;
+    public QuestStatus Status { get => status; }
+    public string MiniGameScene { get => miniGameScene; }
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -23,9 +32,16 @@ public class QuestObject : MonoBehaviour
         }
     }
 
-    public void ChangeStatus(QuestStatus newStatus)
+    public void SetLevelControl(LevelControl lc)
     {
+        levelControl = lc;
+    }
+
+    public void ChangeStatus(QuestStatus newStatus, bool isSave = true)
+    {
+        if (newStatus == QuestStatus.isClosed) return;
         status = newStatus;
+        if (isSave) levelControl.SaveQuestProgress();
         if (status == QuestStatus.isAccessible)
         {
             if (effect != null) effect.Play();
@@ -41,7 +57,20 @@ public class QuestObject : MonoBehaviour
                     go.SetActive(true);
                     QuestObject quest = go.GetComponent<QuestObject>();
                     print($"QuestObject => {quest}");
-                    if (quest != null) quest.ChangeStatus(QuestStatus.isAccessible);
+                    if (quest != null)
+                    {
+                        quest.SetLevelControl(levelControl);
+                        quest.ChangeStatus(QuestStatus.isAccessible, isSave);
+                    }
+                }
+                if (toNotebook != "")
+                {
+                    Sprite sprite = null;
+                    if (nameSpriteToNotebook != "")
+                    {
+                        sprite = SpriteSet.Instance.GetSprite(nameSpriteToNotebook);
+                    }
+                    GameManager.Instance.currentPlayer.listNoteMessages.AddMessage(new NotepadMessage(toNotebook, nameSpriteToNotebook, sprite));
                 }
                 gameObject.SetActive(false);
             }
@@ -52,7 +81,27 @@ public class QuestObject : MonoBehaviour
     {
         Button btnOk = hintPanel.transform.GetChild(1).gameObject.GetComponent<Button>();
         if (btnOk != null) btnOk.onClick.RemoveListener(OnClickOk);
-        ChangeStatus(QuestStatus.isSuccess);
+        if (nameForInventory != "")
+        {
+            Inventory inventory = GameManager.Instance.currentPlayer.inventory;
+            Sprite spr = SpriteSet.Instance.GetSprite(nameForInventory);
+            InventoryItem item = new InventoryItem(inventory.CountItem, nameForInventory, spr);
+            //print($"{item.ToString()}  sprite=<{spr}>");
+            inventory.AddItem(item);
+        }
+        if (miniGameScene != "")
+        {
+            if (levelControl != null)
+            {
+                levelControl.SavePositionAndRotation();
+                levelControl.SaveQuestProgress();
+            }
+            SceneManager.LoadScene(miniGameScene);
+            QuestStatus miniGameStatus = GameManager.Instance.currentPlayer.listMiniGames.GetMiniGamesStatus(miniGameScene);
+            print($"OnClickOk status=<{miniGameStatus}>");
+            if (miniGameStatus != QuestStatus.isClosed) ChangeStatus(GameManager.Instance.currentPlayer.listMiniGames.GetMiniGamesStatus(miniGameScene));
+        }
+        else ChangeStatus(QuestStatus.isSuccess);
         hintPanel.gameObject.SetActive(false);
     }
 
@@ -61,6 +110,7 @@ public class QuestObject : MonoBehaviour
         print($"GetHint status={status} questName={gameObject.name}");
         if (status == QuestStatus.isAccessible) return hintBefore;
         if (status == QuestStatus.isSuccess) return hintAfter;
+        if (status == QuestStatus.isFailed) return hintFailed;
         return "";
     }
 
@@ -83,8 +133,14 @@ public class QuestObject : MonoBehaviour
                     Button btnOk = hintPanel.transform.GetChild(1).gameObject.GetComponent<Button>();
                     if (btnOk != null)
                     {
-                        btnOk.onClick.AddListener(OnClickOk);
-                        print($"onClick => {btnOk.onClick}");
+                        if (btnOkText != "")
+                        {
+                            btnOk.transform.GetChild(0).gameObject.GetComponent<Text>().text = btnOkText;
+                            btnOk.onClick.AddListener(OnClickOk);
+                            btnOk.gameObject.SetActive(true);
+                            //print($"onClick => {btnOk.onClick}");
+                        }
+                        else btnOk.gameObject.SetActive(false);
                     }
                     hintPanel.transform.GetChild(0).gameObject.GetComponent<Text>().text = hint;
                     hintPanel.SetActive(true);
@@ -100,6 +156,12 @@ public class QuestObject : MonoBehaviour
             if (hintPanel != null)
             {
                 hintPanel.SetActive(false);
+                Button btnOk = hintPanel.transform.GetChild(1).gameObject.GetComponent<Button>();
+                if (btnOk != null)
+                {
+                    btnOk.onClick.RemoveListener(OnClickOk);
+                    btnOk.gameObject.SetActive(true);
+                }
             }
         }
     }

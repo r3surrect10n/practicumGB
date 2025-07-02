@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PowerCabinetControl : MonoBehaviour
@@ -14,6 +15,7 @@ public class PowerCabinetControl : MonoBehaviour
 
     private List<GameObject> enteredFuses = new List<GameObject>();
     private int _fuseMask = 2;
+    private QuestStatus status = QuestStatus.isFailed;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -27,6 +29,15 @@ public class PowerCabinetControl : MonoBehaviour
         fuseOff.transform.GetChild(0).gameObject.GetComponent<FuseOffControl>().SetParams(pcc);
         scheme.transform.GetChild(1).gameObject.SetActive(false);
         lamp.SetActive(false);
+        for (int i = 0; i < fuses.Length; i++)
+        {
+            string nameFuse = $"Предохранитель {fuses[i].FuseID}А";
+            if (GameManager.Instance.currentPlayer.inventory.GetItem(nameFuse) != null)
+            {
+                fuses[i].gameObject.SetActive(true);
+            }
+            else fuses[i].gameObject.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -84,9 +95,29 @@ public class PowerCabinetControl : MonoBehaviour
             }
             //  все правильные предохранители на месте -> включаем свет
             Invoke("LampOn", 1.5f);
+            status = QuestStatus.isSuccess;
+            DelFusesFromInventory();
             return true;
         }
         return false;
+    }
+
+    private void DelFusesFromInventory()
+    {
+        Inventory inventory = GameManager.Instance.currentPlayer.inventory;
+        for (int i = inventory.CountItem; i > 0; i--)
+        {
+            string nmItem = inventory.GetItem(i - 1).ItemName;
+            for (int j = 0; j < fuses.Length; j++)
+            {
+                string nmFuse = $"Предохранитель {fuses[j].FuseID}А";
+                if (nmFuse == nmItem)
+                {
+                    inventory.RemoveItem(i - 1);
+                    break;
+                }
+            }
+        }
     }
 
     private void LampOn()
@@ -106,5 +137,11 @@ public class PowerCabinetControl : MonoBehaviour
         _fuseMask &= mask[index];
         //print($"x={x} dx={dx}  index={index}  mask={_fuseMask}");
         scheme.transform.GetChild(index).gameObject.SetActive(true);
+    }
+
+    public void OnClickQuit()
+    {
+        GameManager.Instance.currentPlayer.listMiniGames.AddMiniGame(new MiniGameStatus("PowerCabinetScene", status));
+        SceneManager.LoadScene("BuildingOld");
     }
 }
