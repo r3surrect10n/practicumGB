@@ -26,12 +26,12 @@ public class LevelControl : MonoBehaviour
                     player.GetComponent<PlayerViewManager>().SetView();
                     if (cameraName == camers[0].name)
                     {   //  камера от первого лица
-                        player.GetComponent<PlayerViewManager>().SetNextCamera(camera);
+                        //player.GetComponent<PlayerViewManager>().SetNextCamera(camera);
                         //player.GetComponent<PlayerViewManager>().Set(camera);
                     }
                     else
                     {
-                        player.GetComponent<PlayerViewManager>().SetNextCamera(camera);
+                        //player.GetComponent<PlayerViewManager>().SetNextCamera(camera);
                         string roomName = cameraName.Substring(0, cameraName.IndexOf("CinemachineCamera"));
                         print($"roomName <{roomName}>");
                         foreach(CameraSwitchTrigger trigger in triggers)
