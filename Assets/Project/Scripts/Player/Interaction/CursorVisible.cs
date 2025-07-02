@@ -2,6 +2,11 @@ using UnityEngine;
 
 public class CursorVisible : MonoBehaviour
 {
+    private void Start()
+    {
+        CursorDisable();
+    }
+
     public static void CursorEnable()
     {
         Cursor.visible = true;

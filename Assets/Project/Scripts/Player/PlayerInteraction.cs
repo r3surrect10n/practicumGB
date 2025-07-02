@@ -22,10 +22,8 @@ public class PlayerInteraction : MonoBehaviour
 
     [SerializeField] private ViewManager _viewManager;
     private void Awake()
-    { 
-        /*                                  */
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;        
+    {         
+                
     }
 
     private void Update()
