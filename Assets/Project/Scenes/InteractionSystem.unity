@@ -3350,7 +3350,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03d9ec34f9b89954e8266a318503d3d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enigmaLocks: []
+  _enigmaLocks:
+  - {fileID: 8340284499860698726}
+  - {fileID: 8306155955382189572}
+  - {fileID: 6111360691032715462}
 --- !u!33 &4515160414035093292
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -3457,7 +3460,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enigmaSafe: {fileID: 4473730734879489509}
-  _currentNumber: 2
+  _lockNumber: 2
 --- !u!1 &6451943566585402979
 GameObject:
   m_ObjectHideFlags: 0
@@ -3605,7 +3608,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enigmaSafe: {fileID: 4473730734879489509}
-  _currentNumber: 1
+  _lockNumber: 1
 --- !u!23 &8340284499860698725
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3664,7 +3667,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _enigmaSafe: {fileID: 4473730734879489509}
-  _currentNumber: 0
+  _lockNumber: 0
 --- !u!4 &8671137796673094246
 Transform:
   m_ObjectHideFlags: 0
