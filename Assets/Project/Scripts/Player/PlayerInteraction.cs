@@ -64,7 +64,25 @@ public class PlayerInteraction : MonoBehaviour
         }
         else
             return;
-    }  
+    }
+    
+    public void OnInteractionClick(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.phase != InputActionPhase.Started)
+            return;
+
+        if (_lookHit.collider == null)
+            return;
+
+        if (_lookHit.collider.TryGetComponent<IClickable>(out var clickable))
+        {
+            Debug.Log(_lookHit.collider.gameObject.name);
+            clickable.SetValue();
+        }
+        else
+            return;
+
+    }
 
     public void OnExit(InputAction.CallbackContext callbackContext)
     {
