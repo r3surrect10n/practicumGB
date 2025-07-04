@@ -18,8 +18,6 @@ public class Muzzle : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        CursorVisible.CursorEnable();
-
         _viewManager.SetView(_playerCamera, _muzzleCamera);
 
         gameObject.layer = LayerMask.NameToLayer("Default");
@@ -31,9 +29,7 @@ public class Muzzle : MonoBehaviour, IInteractable
     }
 
     public void EndInteract()
-    {
-        CursorVisible.CursorDisable();
-
+    {       
         _viewManager.SetView(_muzzleCamera, _playerCamera);
         
         foreach (var obj in _interactableObjects)

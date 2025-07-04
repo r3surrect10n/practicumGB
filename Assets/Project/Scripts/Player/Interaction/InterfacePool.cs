@@ -9,3 +9,8 @@ public interface IClickable
 {
     void SetValue();
 }
+
+public interface IResetable
+{
+    void Reset();
+}

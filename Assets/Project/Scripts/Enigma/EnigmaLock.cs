@@ -16,16 +16,11 @@ public class EnigmaLock : MonoBehaviour, IClickable
     private bool _isRotating = false;
 
     public bool IsRotating => _isRotating;
-    public int CurrentValue => _currentValue;
-
-    private void Start()
-    {
-        ResetValue();
-    }
+    public int CurrentValue => _currentValue;    
 
     public void SetValue()
     {
-        _enigmaSafe.RotateLocks(_lockNumber);
+        _enigmaSafe.RotateLocks(_lockNumber);        
     }
 
     public void RotateForward()
@@ -39,32 +34,42 @@ public class EnigmaLock : MonoBehaviour, IClickable
 
     public void RotateBackward()
     {
-        _currentValue = (_currentValue + 9) % 10;
-        StartCoroutine(Rotate(_rotateDegrees));
+        if (!_isRotating)
+        {
+            _currentValue = (_currentValue + 9) % 10;
+            StartCoroutine(Rotate(_rotateDegrees));
+        }
     }
 
-    private void ResetValue()
-    {
+    public void ResetValue()
+    {        
+        int steps = (_startValue -  _currentValue + 10) % 10;
+
+        if (steps == 0)
+            return;
+
         _currentValue = _startValue;
+
+        StartCoroutine(Rotate(-steps * _rotateDegrees));
     }
 
     private IEnumerator Rotate(float angle)
     {
         _isRotating = true;        
 
-        Quaternion startedRotaton = transform.localRotation;
-        Quaternion finalRotation = startedRotaton * Quaternion.Euler(0, 0, angle);
+        Quaternion currentRotaton = transform.localRotation;
+        Quaternion endRotation = currentRotaton * Quaternion.Euler(0, 0, angle);
 
         float elapsed = 0;
 
         while (elapsed < _rotationDuration) 
         {
-            transform.localRotation = Quaternion.Slerp(startedRotaton, finalRotation, elapsed / _rotationDuration);
+            transform.localRotation = Quaternion.Slerp(currentRotaton, endRotation, elapsed / _rotationDuration);
             elapsed += Time.deltaTime;
             yield return null;
         }
 
-        transform.localRotation = finalRotation;
+        transform.localRotation = endRotation;
 
         _isRotating = false;
     }
