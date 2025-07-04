@@ -1,8 +1,11 @@
+using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
 public class Muzzle : MonoBehaviour, IInteractable
 {
+    public event Action IsMuzzleSolved;
+
     [Header("Main camera view manager")]
     [SerializeField] private ViewManager _viewManager;    
 
@@ -39,5 +42,17 @@ public class Muzzle : MonoBehaviour, IInteractable
         }
 
         gameObject.layer = LayerMask.NameToLayer("Interaction");
+    } 
+    public void OnPlayerInvoke()
+    {
+        IsMuzzleSolved?.Invoke();
     }
+    
+    public void OnMuzzleSolve()
+    {
+        EndInteract();
+        gameObject.layer = LayerMask.NameToLayer("Default");
+        Destroy(this);
+    }
+
 }

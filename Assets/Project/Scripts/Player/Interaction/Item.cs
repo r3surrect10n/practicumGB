@@ -18,4 +18,9 @@ public class Item : MonoBehaviour, IInteractable
         _note.SetActive(false);
         Destroy(gameObject);
     }
+
+    public void OnMuzzleSolve()
+    {
+        throw new System.NotImplementedException();
+    }
 }
