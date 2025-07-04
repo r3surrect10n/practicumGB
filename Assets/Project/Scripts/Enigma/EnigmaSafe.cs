@@ -44,7 +44,7 @@ public class EnigmaSafe : MonoBehaviour
             if (_enigmaLocks[0].CurrentValue == 7 && _enigmaLocks[1].CurrentValue == 5 && _enigmaLocks[2].CurrentValue == 3)
             {
                 _anim.SetBool("IsOpen", true);
-                _muzzle.OnMuzzleSolve();
+                _muzzle.OnPlayerInvoke();
             }
         }
 

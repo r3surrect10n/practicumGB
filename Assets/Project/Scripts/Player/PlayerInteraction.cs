@@ -11,6 +11,7 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private LayerMask _interactionLayer;
     [SerializeField] private LayerMask _highlightLayer;
 
+    #region Interaction Properties
     private IInteractable _currentInteractable;
     private Muzzle _currentMuzzle;
     private Collider _lastCollider;    
@@ -18,6 +19,7 @@ public class PlayerInteraction : MonoBehaviour
     private RaycastHit _lookHit;
     private float _interactDistance = 1.5f;
     private bool _isInteract = false;
+    #endregion
 
     private void Update()
     {
@@ -83,23 +85,15 @@ public class PlayerInteraction : MonoBehaviour
         else
             return;
 
-    }
-
-    public void OnExit(InputAction.CallbackContext callbackContext)
-    {
-        if (callbackContext.phase != InputActionPhase.Started)
-            return;
-    }
+    }    
 
     public void PuzzleSolved()
-    {        
-        _currentInteractable.OnMuzzleSolve();
-
+    {
         if (_currentInteractable != null)
         {
             ClearHighlight();
-
-            _currentInteractable.EndInteract();
+                        
+            _currentInteractable.OnMuzzleSolve();
             _currentInteractable = null;
 
             _currentMuzzle.IsMuzzleSolved -= PuzzleSolved;
