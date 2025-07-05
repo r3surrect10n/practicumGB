@@ -8,10 +8,12 @@ public class FourAnglesControl : MonoBehaviour
 
     private int[] chipTabl;
     private GameObject[] chips;
+    private QuestStatus status = QuestStatus.isFailed;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        CursorVisible.CursorEnable();
         GenerateChips();
     }
 
@@ -69,12 +71,21 @@ public class FourAnglesControl : MonoBehaviour
         chipTabl[from] = 0;
         if (TestWin())
         {
-            uiControl.HintView("Очередная подсказка");
+            //uiControl.HintView("Очередная подсказка");
+            status = QuestStatus.isSuccess;
+            uiControl.SetStatus(status);
+            Invoke("EndGame", 1f);
         }
+    }
+
+    private void EndGame()
+    {
+        uiControl.OnQuitClick();
     }
 
     private bool TestWin()
     {
+        //return true;
         int i;
         int[] dops = { 0, 3, 15, 18};
         for (i = 0; i < 4; i++)

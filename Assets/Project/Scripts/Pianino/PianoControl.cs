@@ -30,6 +30,8 @@ public class PianoControl : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        CursorVisible.CursorEnable();
+
         PianoControl pc = GetComponent<PianoControl>();
         for (int i = 0; i < pianoKeys.Length; i++)
         {
@@ -99,7 +101,7 @@ public class PianoControl : MonoBehaviour
 
     public void OnClickQuit()
     {
-
+        SceneManager.LoadScene("Building");
     }
 
     public void Restart()
