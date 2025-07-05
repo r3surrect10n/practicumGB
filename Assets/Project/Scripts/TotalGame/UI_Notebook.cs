@@ -10,7 +10,7 @@ public class UI_Notebook : MonoBehaviour
     [SerializeField] private Text txtLeft;
     [SerializeField] private Text txtRight;
 
-    public static string[] NameRooms = { "Book", "Control", "Laboratory", "Bed", "Secret", "Headquarters"};
+    public static string[] NameRooms = { "Book", "Control", "Laboratory", "Bed", "Secret", "Headquarters", "Warehouse" };
     //[SerializeField] private NotebookControl notebookControl;
     //[SerializeField] 
     private Color selectBtn = Color.blue;

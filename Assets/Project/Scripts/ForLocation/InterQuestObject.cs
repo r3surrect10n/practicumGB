@@ -12,7 +12,14 @@ public class InterQuestObject : MonoBehaviour, IInteractable
     [SerializeField] private string nameSceneMiniGame = "";
     [SerializeField] private string hintText = "";
     [SerializeField] private string btnOkText = "";
+    [SerializeField] private string ids_note;
+    [SerializeField] private string roomNote;
 
+    public bool IsGameItem { get => isGameItem; set => isGameItem = value; }
+    public string HintText { get => hintText; set => hintText = value; }
+    public string BtnOkText { get => btnOkText; set => btnOkText = value; }
+
+    //public bool IsGameItem { get =; set; }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -30,13 +37,14 @@ public class InterQuestObject : MonoBehaviour, IInteractable
         CursorVisible.CursorDisable();
         if (hintPanel != null)
         {
-            if (btnOkText != "")
+            if (BtnOkText != "")
             {
                 Button btnHint = hintPanel.transform.GetChild(1).gameObject.GetComponent<Button>();
                 btnHint.onClick.RemoveListener(OnBtnOKClick);
             }
             hintPanel.SetActive(false);
         }
+        if (roomNote != "") GameManager.Instance.currentPlayer.notebookList.AddNote(new NotebookItem(ids_note, roomNote));
         PerformActions();
     }
 
@@ -48,9 +56,9 @@ public class InterQuestObject : MonoBehaviour, IInteractable
             Text txtHint = hintPanel.transform.GetChild(0).gameObject.GetComponent<Text>();
             Button btnHint = hintPanel.transform.GetChild(1).gameObject.GetComponent<Button>();
             Text btnText = btnHint.transform.GetChild(0).gameObject.GetComponent<Text>();
-            if (btnOkText != "")
+            if (BtnOkText != "")
             {
-                btnText.text = btnOkText;
+                btnText.text = BtnOkText;
                 btnHint.gameObject.SetActive(true);
                 btnHint.onClick.AddListener(OnBtnOKClick);
             }
@@ -58,7 +66,7 @@ public class InterQuestObject : MonoBehaviour, IInteractable
             {
                 btnHint.gameObject.SetActive(false);
             }
-            txtHint.text = hintText;
+            txtHint.text = HintText;
             hintPanel.SetActive(true);
         }
     }
@@ -68,7 +76,7 @@ public class InterQuestObject : MonoBehaviour, IInteractable
         if (hintPanel != null)
         {
             print("OnBtnOKClick сработал !");
-            if (btnOkText != "")
+            if (BtnOkText != "")
             {
                 Button btnHint = hintPanel.transform.GetChild(1).gameObject.GetComponent<Button>();
                 btnHint.onClick.RemoveListener(OnBtnOKClick);
@@ -93,7 +101,7 @@ public class InterQuestObject : MonoBehaviour, IInteractable
             }
             Destroy(gameObject);
         }
-        if (isGameItem)
+        if (IsGameItem)
         {
             if (nameSceneMiniGame != "")
             {
