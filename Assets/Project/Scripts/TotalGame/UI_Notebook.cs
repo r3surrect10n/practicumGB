@@ -40,7 +40,7 @@ public class UI_Notebook : MonoBehaviour
     private void ViewText()
     {
         List<NotebookItem> items = GameManager.Instance.currentPlayer.notebookList.GetRoomItemList(UI_Notebook.NameRooms[currentPage]);
-        print($"count={items.Count} for room={UI_Notebook.NameRooms[currentPage]}");
+        //print($"count={items.Count} for room={UI_Notebook.NameRooms[currentPage]}");
         string lang = GameManager.Instance.currentLanguale;
         StringBuilder sb = new StringBuilder();
         foreach(NotebookItem item in items)
@@ -59,6 +59,7 @@ public class UI_Notebook : MonoBehaviour
         if (countLines < 34)
         {
             txtLeft.text = sb.ToString();
+            txtRight.text = "";
             //txtRight.text = $"CountString={ar.Length}  countLines={countLines}";
         }
         else
