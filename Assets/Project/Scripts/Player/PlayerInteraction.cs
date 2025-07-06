@@ -59,7 +59,9 @@ public class PlayerInteraction : MonoBehaviour
             if (_currentInteractable != null)
             {
                 _currentInteractable.EndInteract();
-                _currentResetable.Reset();
+
+                if (_currentResetable != null)
+                    _currentResetable.Reset();
 
                 PuzzleExit();
             }
@@ -78,10 +80,8 @@ public class PlayerInteraction : MonoBehaviour
 
         if (_lookHit.collider.TryGetComponent<IClickable>(out var clickable))
             clickable.SetValue();
-
         else
             return;
-
     }    
 
     public void PuzzleSolved()
@@ -98,7 +98,8 @@ public class PlayerInteraction : MonoBehaviour
     {
         ClearHighlight();
 
-        _currentMuzzle.IsMuzzleSolved -= PuzzleSolved;
+        if (_currentMuzzle != null)
+            _currentMuzzle.IsMuzzleSolved -= PuzzleSolved;
 
         _currentMuzzle = null;        
         _currentResetable = null;
