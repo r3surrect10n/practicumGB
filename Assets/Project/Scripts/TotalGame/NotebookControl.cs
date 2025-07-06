@@ -22,11 +22,11 @@ public class NotebookControl : MonoBehaviour
         isVisible = !isVisible;
         if (isVisible)
         {
-            CursorVisible.CursorEnable();
+            
         }
         else
         {
-            CursorVisible.CursorDisable();
+            
         }
         notePanel.SetActive(isVisible);
     }

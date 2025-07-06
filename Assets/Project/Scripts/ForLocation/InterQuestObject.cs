@@ -34,7 +34,7 @@ public class InterQuestObject : MonoBehaviour, IInteractable
 
     public void EndInteract()
     {
-        CursorVisible.CursorDisable();
+        
         if (hintPanel != null)
         {
             if (BtnOkText != "")
@@ -50,7 +50,7 @@ public class InterQuestObject : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        CursorVisible.CursorEnable();
+        
         if (hintPanel != null)
         {
             Text txtHint = hintPanel.transform.GetChild(0).gameObject.GetComponent<Text>();
@@ -88,7 +88,7 @@ public class InterQuestObject : MonoBehaviour, IInteractable
 
     private void PerformActions()
     {
-        CursorVisible.CursorDisable();
+        
         if (isTakeItem)
         {
             if (nameForInventory != "")
@@ -113,5 +113,10 @@ public class InterQuestObject : MonoBehaviour, IInteractable
             }
         }
 
+    }
+
+    public void OnMuzzleSolve()
+    {
+        throw new System.NotImplementedException();
     }
 }

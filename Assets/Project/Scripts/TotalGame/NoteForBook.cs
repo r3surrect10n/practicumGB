@@ -19,4 +19,9 @@ public class NoteForBook : MonoBehaviour, IInteractable
         txtNote.text = NoteSet.Instance.GetNote(ids_note, lang);
         notePanel.SetActive(true);
     }
+
+    public void OnMuzzleSolve()
+    {
+        throw new System.NotImplementedException();
+    }
 }

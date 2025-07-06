@@ -20,7 +20,7 @@ public class PowerCabinetControl : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        CursorVisible.CursorEnable();
+        
         PowerCabinetControl pcc = gameObject.GetComponent<PowerCabinetControl>();
         for (int i = 0; i < fuses.Length; i++)
         {

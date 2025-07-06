@@ -6,8 +6,17 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Project/Scenes/MainMenuScene.unity
+    guid: 5a4105e9ad340ea45bd55ed8f795ea0c
+  - enabled: 1
     path: Assets/Project/Scenes/Building.unity
     guid: a7e702b9429a6ce44827ceecd31714b5
+  - enabled: 1
+    path: Assets/Project/Scenes/FourAnglesScene.unity
+    guid: 4314af72cbde277428deb1efcd6b5463
+  - enabled: 1
+    path: Assets/Project/Scenes/PowerCabinetScene.unity
+    guid: 97695596cff3769489affb46d2f4369e
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
