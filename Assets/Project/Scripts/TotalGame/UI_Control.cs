@@ -9,7 +9,7 @@ public class UI_Control : MonoBehaviour
     [SerializeField] private float hintDelay = 5f;
 
     private float timer = 5f;
-    bool isHintView = false;
+    bool isHintView = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -38,6 +38,11 @@ public class UI_Control : MonoBehaviour
         hintPanel.SetActive(true);
         isHintView = true;
         timer = hintDelay;
+    }
+
+    public void CloseHint()
+    {
+        hintPanel.SetActive(false);
     }
 
     public void LoadMenuScene()

@@ -18,7 +18,7 @@ public class MainMenuControl : MonoBehaviour
     public void PlayGame()
     {
         //string scene = "HousePlayersScene";
-        string scene = "BuildingOld";
+        string scene = "Building";
         if (GameManager.Instance.currentPlayer.currentLocation != "")
         {
             scene = GameManager.Instance.currentPlayer.currentLocation;

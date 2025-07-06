@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     //public NoteBook noteBook = new NoteBook();
+    public string currentLanguale = "ru";
     public string currentDay = "1";
     public PlayerInfo currentPlayer = new PlayerInfo();
 
@@ -70,6 +71,7 @@ public class GameManager : MonoBehaviour
         GameManager.Instance.currentPlayer.listMiniGames = new ListMiniGames(data.csvMiniGamesStatus, '#');
         GameManager.Instance.currentPlayer.listNoteMessages = new ListNoteMessages(data.csvNoteMessages, '#');
         CreateNoteImgMessages();
+        GameManager.Instance.currentPlayer.notebookList = new NotebookList(data.csvNoteList, '#');
 
         GameManager.Instance.currentPlayer.isHintView = data.isHints;
         GameManager.Instance.currentPlayer.isSoundFone = data.isFone;
@@ -123,6 +125,7 @@ public class GameManager : MonoBehaviour
         data.csvMiniGamesStatus = GameManager.Instance.currentPlayer.listMiniGames.ToCsvString();
         data.csvNoteMessages = GameManager.Instance.currentPlayer.listNoteMessages.ToCsvString();
         data.csvQuestProgress = GameManager.Instance.currentPlayer.questProgress;
+        data.csvNoteList = GameManager.Instance.currentPlayer.notebookList.ToCsvString();
 
         data.isHints = GameManager.Instance.currentPlayer.isHintView;
         data.isFone = GameManager.Instance.currentPlayer.isSoundFone;
@@ -166,6 +169,7 @@ public class PlayerInfo
 
     public ListMiniGames listMiniGames = null;
     public ListNoteMessages listNoteMessages = null;
+    public NotebookList notebookList = null;
 
     public bool isHintView = true;
     public bool isSoundFone = true;
@@ -184,6 +188,7 @@ public class PlayerInfo
         inventory = new Inventory();
         listMiniGames = new ListMiniGames();
         listNoteMessages = new ListNoteMessages();
+        notebookList = new NotebookList();
     }
 
     public static PlayerInfo FirstGame()
@@ -256,6 +261,7 @@ public class SaveData
     public string camera;
     public string day;
     public string csvNoteMessages = "";
+    public string csvNoteList = "";
     public string csvMiniGamesStatus = "";
     public string csvQuestProgress = "";
 

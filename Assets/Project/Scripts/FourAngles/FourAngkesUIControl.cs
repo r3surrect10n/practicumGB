@@ -12,6 +12,7 @@ public class FourAngkesUIControl : MonoBehaviour
     private float timer = 0.5f;
     private bool isBlink = false;
     private bool isFoneView = false;
+    private QuestStatus status = QuestStatus.isFailed;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -50,8 +51,15 @@ public class FourAngkesUIControl : MonoBehaviour
         infoPanel.SetActive(true);
     }
 
+    public void SetStatus(QuestStatus zn)
+    {
+        status = zn;
+    }
+
     public void OnQuitClick()
     {
-        //SceneManager.LoadScene(GameManager.Instance.currentScene);
+        GameManager.Instance.currentPlayer.listMiniGames.AddMiniGame(new MiniGameStatus("FourAnglesScene", status));
+
+        SceneManager.LoadScene("Building");
     }
 }
