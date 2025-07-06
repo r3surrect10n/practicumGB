@@ -4,19 +4,26 @@ public class EnigmaSafe : MonoBehaviour, IResetable
 {
     [SerializeField] private EnigmaLock[] _enigmaLocks;
 
+    [SerializeField] private AudioClip _lockSound;
+    [SerializeField] private AudioClip _safeOpen;
+
     private Muzzle _muzzle;
     private Animator _anim;
+    private AudioSource _audioSource;
 
     private void Awake()
     {
         _muzzle = GetComponent<Muzzle>();
         _anim = GetComponentInParent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     public void RotateLocks(int index)
     {
         if (!_enigmaLocks[index].IsRotating)
-        {            
+        {       
+            _audioSource.PlayOneShot(_lockSound);
+
             switch (index)
             {
                 case 0:
@@ -41,6 +48,7 @@ public class EnigmaSafe : MonoBehaviour, IResetable
             if (_enigmaLocks[0].CurrentValue == 7 && _enigmaLocks[1].CurrentValue == 5 && _enigmaLocks[2].CurrentValue == 3)
             {
                 _anim.SetBool("IsOpen", true);
+                _audioSource.PlayOneShot(_safeOpen);
                 _muzzle.OnPlayerInvoke();
             }
         }

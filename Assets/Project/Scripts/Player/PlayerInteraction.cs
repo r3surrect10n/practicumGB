@@ -22,6 +22,13 @@ public class PlayerInteraction : MonoBehaviour
     private bool _isInteract = false;
     #endregion
 
+    private PlayerLook _mouseLook;
+
+    private void Awake()
+    {
+        _mouseLook = GetComponent<PlayerLook>();
+    }
+
     private void Update()
     {
         PlayerLook();
@@ -39,6 +46,8 @@ public class PlayerInteraction : MonoBehaviour
 
             if (_lookHit.collider.TryGetComponent<IInteractable>(out var interactable))
             {
+                _mouseLook.enabled = false;
+
                 ClearHighlight();
                 interactable.Interact();
                 _currentInteractable = interactable;
@@ -96,6 +105,8 @@ public class PlayerInteraction : MonoBehaviour
 
     private void PuzzleExit()
     {
+        _mouseLook.enabled = true;
+
         ClearHighlight();
 
         if (_currentMuzzle != null)
