@@ -5,7 +5,7 @@ public class PlayerInteraction : MonoBehaviour
 {    
     [Header ("Player camera")]
     [SerializeField] private Camera _playerCamera;
-    [SerializeField] private ViewManager _viewManager;
+    [SerializeField] private ViewManager _viewManager;    
 
     [Header ("Layer for interactables")]
     [SerializeField] private LayerMask _interactionLayer;
@@ -13,6 +13,7 @@ public class PlayerInteraction : MonoBehaviour
 
     #region Interaction Properties
     private IInteractable _currentInteractable;
+    private IResetable _currentResetable;
     private Muzzle _currentMuzzle;
     private Collider _lastCollider;    
     private Ray _playerLook;
@@ -48,27 +49,27 @@ public class PlayerInteraction : MonoBehaviour
                     _currentMuzzle = muzzle;
                     _currentMuzzle.IsMuzzleSolved += PuzzleSolved;
                 }
+
+                if (_lookHit.collider.TryGetComponent<IResetable>(out var resetable))
+                    _currentResetable = resetable;
             }
         }
         else if (_isInteract)
         {
             if (_currentInteractable != null)
             {
-                ClearHighlight();
-
                 _currentInteractable.EndInteract();
-                _currentInteractable = null;
 
-                _currentMuzzle.IsMuzzleSolved -= PuzzleSolved;
-                _currentMuzzle = null;
+                if (_currentResetable != null)
+                    _currentResetable.Reset();
 
-                _isInteract = !_isInteract;
+                PuzzleExit();
             }
         }
         else
             return;
     }
-    
+
     public void OnInteractionClick(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.phase != InputActionPhase.Started)
@@ -78,29 +79,33 @@ public class PlayerInteraction : MonoBehaviour
             return;
 
         if (_lookHit.collider.TryGetComponent<IClickable>(out var clickable))
-        {
-            Debug.Log(_lookHit.collider.gameObject.name);
             clickable.SetValue();
-        }
         else
             return;
-
     }    
 
     public void PuzzleSolved()
     {
         if (_currentInteractable != null)
         {
-            ClearHighlight();
-                        
-            _currentInteractable.OnMuzzleSolve();
-            _currentInteractable = null;
+            _currentInteractable.OnMuzzleSolve();            
 
-            _currentMuzzle.IsMuzzleSolved -= PuzzleSolved;
-            _currentMuzzle = null;
-
-            _isInteract = !_isInteract;
+            PuzzleExit();
         }
+    }
+
+    private void PuzzleExit()
+    {
+        ClearHighlight();
+
+        if (_currentMuzzle != null)
+            _currentMuzzle.IsMuzzleSolved -= PuzzleSolved;
+
+        _currentMuzzle = null;        
+        _currentResetable = null;
+        _currentInteractable = null;
+
+        _isInteract = !_isInteract;
     }
 
     private void PlayerLook()
@@ -134,7 +139,5 @@ public class PlayerInteraction : MonoBehaviour
             _lastCollider.gameObject.layer = LayerMask.NameToLayer("Interaction");
             _lastCollider = null;
         }
-    }  
-
-
+    }
 }

@@ -1,10 +1,7 @@
-using System;
 using UnityEngine;
 
-public class EnigmaSafe : MonoBehaviour 
+public class EnigmaSafe : MonoBehaviour, IResetable 
 {
-    public static Action IsMuzzleDone;
-
     [SerializeField] private EnigmaLock[] _enigmaLocks;
 
     private Muzzle _muzzle;
@@ -48,5 +45,11 @@ public class EnigmaSafe : MonoBehaviour
             }
         }
 
+    }
+
+    public void Reset()
+    {
+        foreach (var item in _enigmaLocks)
+            item.ResetValue();
     }
 }

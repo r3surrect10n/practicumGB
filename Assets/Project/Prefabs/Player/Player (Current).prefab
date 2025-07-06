@@ -340,7 +340,6 @@ GameObject:
   - component: {fileID: 1081594582996623778}
   - component: {fileID: 3133739524674306898}
   - component: {fileID: 652282294189421304}
-  - component: {fileID: 2875565940155744896}
   - component: {fileID: 6063793584673860717}
   - component: {fileID: 3078031977693473810}
   - component: {fileID: 7967657686676419464}
@@ -627,7 +626,7 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2875565940155744896}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PlayerViewManager, Assembly-CSharp
         m_MethodName: OnLookSwitch
         m_Mode: 0
@@ -695,22 +694,6 @@ MonoBehaviour:
   _mouseSensivityX: 0.2
   _mouseSensivityY: 0.2
   _maxCameraPitch: 60
---- !u!114 &2875565940155744896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4715706418045703292}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c39cdcc71a8337740a7c932bc3fcc82c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _currentStaticCamera: {fileID: 0}
-  _firstLookCamera: {fileID: 7461488740537598007}
-  _noiseImage: {fileID: 0}
-  _noiseTime: 0
 --- !u!114 &6063793584673860717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -754,13 +737,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerCamera: {fileID: 0}
+  _viewManager: {fileID: 0}
   _interactionLayer:
     serializedVersion: 2
     m_Bits: 256
   _highlightLayer:
     serializedVersion: 2
     m_Bits: 128
-  _viewManager: {fileID: 0}
 --- !u!1 &4988199086085382867
 GameObject:
   m_ObjectHideFlags: 0
