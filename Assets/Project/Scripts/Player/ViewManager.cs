@@ -12,6 +12,11 @@ public class ViewManager : MonoBehaviour
     public bool IsFirstPerson => _isFirstPerson;
     public CinemachineCamera CurrentStaticCam { get; private set; }
 
+    private void Start()
+    {
+        QualitySettings.vSyncCount = 1;
+    }
+
     public void SetView(CinemachineCamera currentCam, CinemachineCamera nextCam)
     {
         _isFirstPerson = !_isFirstPerson;        

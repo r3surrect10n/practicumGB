@@ -3,26 +3,26 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuControl : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Application.targetFrameRate = 60;
     }
 
     public void PlayGame()
     {
         //string scene = "HousePlayersScene";
         string scene = "Building";
+
         if (GameManager.Instance.currentPlayer.currentLocation != "")
         {
             scene = GameManager.Instance.currentPlayer.currentLocation;
         }
+
         SceneManager.LoadScene(scene);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

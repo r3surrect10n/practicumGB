@@ -11,10 +11,14 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private LayerMask _interactionLayer;
     [SerializeField] private LayerMask _highlightLayer;
 
+    [Header("Interaction tip")]
+    [SerializeField] private GameObject _interactionTip;
+
     #region Interaction Properties
+    private SolvableMuzzle _currentSolvableMuzzle;
     private IInteractable _currentInteractable;
+    private ISolvable _currentSolvable;
     private IResetable _currentResetable;
-    private Muzzle _currentMuzzle;
     private Collider _lastCollider;    
     private Ray _playerLook;
     private RaycastHit _lookHit;
@@ -41,39 +45,11 @@ public class PlayerInteraction : MonoBehaviour
 
         if (!_isInteract)
         {
-            if (_lookHit.collider == null)
-                return;
-
-            if (_lookHit.collider.TryGetComponent<IInteractable>(out var interactable))
-            {
-                _mouseLook.enabled = false;
-
-                ClearHighlight();
-                interactable.Interact();
-                _currentInteractable = interactable;
-                _isInteract = !_isInteract;
-
-                if (_lookHit.collider.TryGetComponent<Muzzle>(out var muzzle))
-                {
-                    _currentMuzzle = muzzle;
-                    _currentMuzzle.IsMuzzleSolved += PuzzleSolved;
-                }
-
-                if (_lookHit.collider.TryGetComponent<IResetable>(out var resetable))
-                    _currentResetable = resetable;
-            }
+            StartInteraction();
         }
         else if (_isInteract)
         {
-            if (_currentInteractable != null)
-            {
-                _currentInteractable.EndInteract();
-
-                if (_currentResetable != null)
-                    _currentResetable.Reset();
-
-                PuzzleExit();
-            }
+            EndInteraction();
         }
         else
             return;
@@ -95,9 +71,51 @@ public class PlayerInteraction : MonoBehaviour
 
     public void PuzzleSolved()
     {
+        if (_currentSolvable != null)
+        {
+            _currentSolvable.OnMuzzleSolve();            
+
+            PuzzleExit();
+        }
+    }
+
+    private void StartInteraction()
+    {
+        if (_lookHit.collider == null)
+            return;
+
+        if (_lookHit.collider.TryGetComponent<IInteractable>(out var interactable))
+        {
+            _mouseLook.enabled = false;
+
+            ClearHighlight();
+            interactable.Interact();
+            _currentInteractable = interactable;
+            _isInteract = !_isInteract;
+
+            if (_lookHit.collider.TryGetComponent<SolvableMuzzle>(out var solvableMuzzle))
+            {
+                _currentSolvableMuzzle = solvableMuzzle;
+                _currentSolvableMuzzle.IsMuzzleSolved += PuzzleSolved;
+            }
+
+            if (_lookHit.collider.TryGetComponent<ISolvable>(out var solvable))
+                _currentSolvable = solvable;
+
+            if (_lookHit.collider.TryGetComponent<IResetable>(out var resetable))
+                _currentResetable = resetable;
+
+        }
+    }
+
+    private void EndInteraction()
+    {
         if (_currentInteractable != null)
         {
-            _currentInteractable.OnMuzzleSolve();            
+            _currentInteractable.EndInteract();
+
+            if (_currentResetable != null)
+                _currentResetable.Reset();
 
             PuzzleExit();
         }
@@ -109,10 +127,10 @@ public class PlayerInteraction : MonoBehaviour
 
         ClearHighlight();
 
-        if (_currentMuzzle != null)
-            _currentMuzzle.IsMuzzleSolved -= PuzzleSolved;
+        if (_currentSolvableMuzzle != null)
+            _currentSolvableMuzzle.IsMuzzleSolved -= PuzzleSolved;
 
-        _currentMuzzle = null;        
+        _currentSolvableMuzzle = null;        
         _currentResetable = null;
         _currentInteractable = null;
 
@@ -140,7 +158,10 @@ public class PlayerInteraction : MonoBehaviour
 
         ClearHighlight();
         interactor.gameObject.layer = LayerMask.NameToLayer("Outline");
-        _lastCollider = interactor;        
+        _lastCollider = interactor;
+
+        if (!_isInteract)
+            ShowInteractionTip();
     }
 
     private void ClearHighlight()
@@ -149,6 +170,18 @@ public class PlayerInteraction : MonoBehaviour
         {
             _lastCollider.gameObject.layer = LayerMask.NameToLayer("Interaction");
             _lastCollider = null;
+
+            if (_isInteract)
+                ShowInteractionTip();
         }
+    }
+
+    private void ShowInteractionTip()
+    {
+        if (_interactionTip.activeInHierarchy)        
+            _interactionTip.SetActive(false);
+        else
+            _interactionTip.SetActive(true);
+        
     }
 }

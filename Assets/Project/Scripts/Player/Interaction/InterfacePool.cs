@@ -2,6 +2,12 @@ public interface IInteractable
 {
     void Interact();
     void EndInteract();
+    //void OnMuzzleSolve();
+}
+
+public interface ISolvable
+{
+    void OnPlayerInvoke();
     void OnMuzzleSolve();
 }
 
@@ -13,4 +19,9 @@ public interface IClickable
 public interface IResetable
 {
     void Reset();
+}
+
+public interface IReadable
+{
+    void ShowTitle();
 }

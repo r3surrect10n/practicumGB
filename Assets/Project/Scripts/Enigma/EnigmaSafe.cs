@@ -7,13 +7,13 @@ public class EnigmaSafe : MonoBehaviour, IResetable
     [SerializeField] private AudioClip _lockSound;
     [SerializeField] private AudioClip _safeOpen;
 
-    private Muzzle _muzzle;
+    private SolvableMuzzle _solvableMuzzle;
     private Animator _anim;
     private AudioSource _audioSource;
 
     private void Awake()
     {
-        _muzzle = GetComponent<Muzzle>();
+        _solvableMuzzle = GetComponent<SolvableMuzzle>();
         _anim = GetComponentInParent<Animator>();
         _audioSource = GetComponent<AudioSource>();
     }
@@ -49,7 +49,7 @@ public class EnigmaSafe : MonoBehaviour, IResetable
             {
                 _anim.SetBool("IsOpen", true);
                 _audioSource.PlayOneShot(_safeOpen);
-                _muzzle.OnPlayerInvoke();
+                _solvableMuzzle.OnPlayerInvoke();
             }
         }
 

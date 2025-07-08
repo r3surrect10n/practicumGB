@@ -2,9 +2,9 @@ using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class Muzzle : MonoBehaviour, IInteractable
+public class Muzzle : MonoBehaviour, IInteractable, ISolvable
 {
-    public event Action IsMuzzleSolved;
+    //public event Action IsMuzzleSolved;
 
     [Header("Main camera view manager")]
     [SerializeField] private ViewManager _viewManager;    
@@ -38,17 +38,30 @@ public class Muzzle : MonoBehaviour, IInteractable
         }
 
         gameObject.layer = LayerMask.NameToLayer("Interaction");
-    } 
+    }
+
     public void OnPlayerInvoke()
     {
-        IsMuzzleSolved?.Invoke();
+        throw new NotImplementedException();
     }
-    
+
     public void OnMuzzleSolve()
     {
         EndInteract();
         gameObject.layer = LayerMask.NameToLayer("Default");
-        Destroy(this);
+        enabled = false;
     }
+
+    //public void OnPlayerInvoke()
+    //{
+    //    IsMuzzleSolved?.Invoke();
+    //}
+
+    //public void OnMuzzleSolve()
+    //{
+    //    EndInteract();
+    //    gameObject.layer = LayerMask.NameToLayer("Default");
+    //    Destroy(this);
+    //}
 
 }
