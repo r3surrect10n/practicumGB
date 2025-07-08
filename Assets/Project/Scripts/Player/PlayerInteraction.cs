@@ -159,9 +159,8 @@ public class PlayerInteraction : MonoBehaviour
         ClearHighlight();
         interactor.gameObject.layer = LayerMask.NameToLayer("Outline");
         _lastCollider = interactor;
-
-        if (!_isInteract)
-            ShowInteractionTip();
+        
+        ShowInteractionTip();
     }
 
     private void ClearHighlight()
@@ -170,18 +169,17 @@ public class PlayerInteraction : MonoBehaviour
         {
             _lastCollider.gameObject.layer = LayerMask.NameToLayer("Interaction");
             _lastCollider = null;
-
-            if (_isInteract)
-                ShowInteractionTip();
+            
+            ShowInteractionTip();
         }
     }
 
     private void ShowInteractionTip()
     {
-        if (_interactionTip.activeInHierarchy)        
-            _interactionTip.SetActive(false);
-        else
+        if (!_interactionTip.activeInHierarchy && !_isInteract)        
             _interactionTip.SetActive(true);
+        else
+            _interactionTip.SetActive(false);
         
     }
 }
