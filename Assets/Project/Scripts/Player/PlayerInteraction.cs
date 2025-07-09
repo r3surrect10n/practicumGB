@@ -22,7 +22,7 @@ public class PlayerInteraction : MonoBehaviour
     private Collider _lastCollider;    
     private Ray _playerLook;
     private RaycastHit _lookHit;
-    private float _interactDistance = 1.5f;
+    private float _interactDistance = 2.5f;
     private bool _isInteract = false;
     #endregion
 

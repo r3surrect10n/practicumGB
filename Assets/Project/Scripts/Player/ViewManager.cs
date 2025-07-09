@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ViewManager : MonoBehaviour
 {
-    [SerializeField] private CursorVisible _cursor;
+    [SerializeField] private UIController _uiController;
 
     private bool _isFirstPerson = true;
     private int _currrentCamPriority = 100;
@@ -25,8 +25,8 @@ public class ViewManager : MonoBehaviour
         nextCam.Priority = _currrentCamPriority;
 
         if (_isFirstPerson)
-            _cursor.CursorDisable();
+            _uiController.CursorDisable();
         else
-            _cursor.CursorEnable();
+            _uiController.CursorEnable();
     }
 }

@@ -1177,7 +1177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _morzeAlphabet: {fileID: 494045235}
-  _createdCode: {fileID: 1553658131}
+  _generatedCode: {fileID: 0}
   _morzeCodeText: {fileID: 645081325}
   _hiddenCodeLength: 4
 --- !u!1660057539 &9223372036854775807
