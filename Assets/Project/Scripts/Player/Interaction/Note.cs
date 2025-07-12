@@ -20,10 +20,5 @@ public class Note : MonoBehaviour, IInteractable
         _note.SetActive(false);
         _canvasAudioSource.PlayOneShot(_notePickClip);
         gameObject.SetActive(false);
-    }
-
-    public void OnMuzzleSolve()
-    {
-        throw new System.NotImplementedException();
-    }
+    }    
 }

@@ -35,7 +35,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Update()
     {
-        PlayerLook();
+        PlayerLook();        
     }
 
     public void OnInteract(InputAction.CallbackContext callbackContext)
@@ -43,16 +43,26 @@ public class PlayerInteraction : MonoBehaviour
         if (callbackContext.phase != InputActionPhase.Started)
             return;
 
-        if (!_isInteract)
-        {
-            StartInteraction();
-        }
-        else if (_isInteract)
+        if (_isInteract)
         {
             EndInteraction();
-        }
-        else
             return;
+        }
+
+        if (_lookHit.collider == null)
+            return;
+
+        if (_lookHit.collider.TryGetComponent<ITouchable>(out var touchable))
+        {
+            ClearHighlight();
+            touchable.OnTouch();
+            return;
+        }        
+
+        if (_lookHit.collider.TryGetComponent<IInteractable>(out var interactable))
+        {
+            StartInteraction(interactable);
+        }        
     }
 
     public void OnInteractionClick(InputAction.CallbackContext callbackContext)
@@ -70,42 +80,45 @@ public class PlayerInteraction : MonoBehaviour
     }    
 
     public void PuzzleSolved()
-    {
+    {        
         if (_currentSolvable != null)
-        {
+        {            
+            ClearHighlight();
+
             _currentSolvable.OnMuzzleSolve();            
 
             PuzzleExit();
         }
     }
 
-    private void StartInteraction()
+    public void ClearPreviousHighlight()
     {
-        if (_lookHit.collider == null)
-            return;
+        ClearHighlight();
+    }
 
-        if (_lookHit.collider.TryGetComponent<IInteractable>(out var interactable))
-        {
-            _mouseLook.enabled = false;
+    private void StartInteraction(IInteractable interactable)
+    {
+        _mouseLook.enabled = false;
 
-            ClearHighlight();
-            interactable.Interact();
-            _currentInteractable = interactable;
-            _isInteract = !_isInteract;
+        ClearHighlight();
+        interactable.Interact();
+        _currentInteractable = interactable;
+        Debug.Log(_currentInteractable);
+        _isInteract = !_isInteract;
 
-            if (_lookHit.collider.TryGetComponent<SolvableMuzzle>(out var solvableMuzzle))
-            {
-                _currentSolvableMuzzle = solvableMuzzle;
-                _currentSolvableMuzzle.IsMuzzleSolved += PuzzleSolved;
-            }
-
-            if (_lookHit.collider.TryGetComponent<ISolvable>(out var solvable))
-                _currentSolvable = solvable;
-
-            if (_lookHit.collider.TryGetComponent<IResetable>(out var resetable))
-                _currentResetable = resetable;
-
+        if (_lookHit.collider.TryGetComponent<SolvableMuzzle>(out var solvableMuzzle))
+        {            
+            _currentSolvableMuzzle = solvableMuzzle;
+            _currentSolvableMuzzle.IsMuzzleSolved += PuzzleSolved;
         }
+
+        if (_lookHit.collider.TryGetComponent<ISolvable>(out var solvable))
+        {
+            _currentSolvable = solvable;            
+        }
+
+        if (_lookHit.collider.TryGetComponent<IResetable>(out var resetable))
+            _currentResetable = resetable;
     }
 
     private void EndInteraction()

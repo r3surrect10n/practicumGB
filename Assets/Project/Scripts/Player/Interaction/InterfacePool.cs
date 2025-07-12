@@ -1,8 +1,7 @@
 public interface IInteractable
 {
     void Interact();
-    void EndInteract();
-    //void OnMuzzleSolve();
+    void EndInteract();    
 }
 
 public interface ISolvable
@@ -21,7 +20,7 @@ public interface IResetable
     void Reset();
 }
 
-public interface IReadable
+public interface ITouchable
 {
-    void ShowTitle();
+    void OnTouch();
 }
