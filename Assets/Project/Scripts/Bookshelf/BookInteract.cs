@@ -1,9 +1,14 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class BookInteract : MonoBehaviour, ITouchable
+public class BookInteract : MonoBehaviour, ITouchable, IReadable
 {
     [SerializeField] private Bookshelf _bookShelf;
+
+    [SerializeField] private GameObject _bookNamePanel;
+    [SerializeField] private Text _bookName;
+    [SerializeField] private string _bookNameText;
 
     private bool _isTouched = false;
     private Coroutine _bookMoving;
@@ -45,6 +50,17 @@ public class BookInteract : MonoBehaviour, ITouchable
         _bookShelf.CheckBooks();
 
         StopCoroutine(_bookMoving);
+    }
+
+    public void ShowName()
+    {
+        _bookName.text = _bookNameText;
+        _bookNamePanel.SetActive(true);
+    }
+
+    public void HideName()
+    {
+        _bookNamePanel.SetActive(false);
     }
 }
 

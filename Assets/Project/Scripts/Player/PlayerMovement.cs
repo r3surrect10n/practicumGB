@@ -11,6 +11,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField, Range(0, 10)] private float _movementSpeed;    //Скорость передвижения персонажа   
     [SerializeField, Range(0, 20)] private float _rotationSmoothness;    // Коэффициент плавности поворота
 
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip[] _footstepSounds;
+    [SerializeField, Range(0, 1)] private float _stepInterval;
+    private float _stepTimer = 0f;
+    
+
     private const float Gravity = -2f;  
     
     private CharacterController _playerController;
@@ -28,6 +34,8 @@ public class PlayerMovement : MonoBehaviour
         motion += Gravity * Vector3.up;
 
         _playerController.Move(motion * Time.deltaTime);
+
+        HandleFootsteps();
     }
 
     public void OnMove(InputAction.CallbackContext callbackContext)
@@ -68,5 +76,27 @@ public class PlayerMovement : MonoBehaviour
         }
 
         return movement;       
+    }
+
+    private void HandleFootsteps()
+    {        
+        if (!_playerController.isGrounded || _moveInput == Vector3.zero)
+        {
+            _stepTimer = _stepInterval;
+            return;
+        }        
+
+        _stepTimer -= Time.deltaTime;
+        if (_stepTimer <= 0f)
+        {
+            PlayFootstepSound();
+            _stepTimer = _stepInterval;
+        }
+    }
+
+    private void PlayFootstepSound()
+    {
+        int index = Random.Range(0, _footstepSounds.Length);
+        _audioSource.PlayOneShot(_footstepSounds[index]);
     }
 }

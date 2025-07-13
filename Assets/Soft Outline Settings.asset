@@ -87,7 +87,7 @@ MonoBehaviour:
   type: 0
   hardness: 1
   sharedColor: {r: 0, g: 1, b: 0, a: 1}
-  intensity: 0.6
+  intensity: 1
   gap: 0
   blendMode: 1
   dilationMethod: 3

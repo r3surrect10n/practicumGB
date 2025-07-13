@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerInteraction : MonoBehaviour
-{    
+{
+    public static Action PauseGame;
+
     [Header ("Player camera")]
     [SerializeField] private Camera _playerCamera;
     [SerializeField] private ViewManager _viewManager;    
@@ -11,6 +14,7 @@ public class PlayerInteraction : MonoBehaviour
     [Header ("Layer for interactables")]
     [SerializeField] private LayerMask _interactionLayer;
     [SerializeField] private LayerMask _highlightLayer;
+    [SerializeField] private LayerMask _raycastBlockingLayers;
 
     [Header("Interaction tip")]
     [SerializeField] private GameObject _interactionTip;
@@ -20,6 +24,7 @@ public class PlayerInteraction : MonoBehaviour
     private IInteractable _currentInteractable;
     private ISolvable _currentSolvable;
     private IResetable _currentResetable;
+    private IReadable _currentReadable;
     private Collider _lastCollider;    
     private Ray _playerLook;
     private RaycastHit _lookHit;
@@ -89,7 +94,9 @@ public class PlayerInteraction : MonoBehaviour
         {
             EndInteraction();
             return;
-        }        
+        }
+        else
+            PauseGame?.Invoke();
     }
 
     public void PuzzleSolved()
@@ -171,21 +178,30 @@ public class PlayerInteraction : MonoBehaviour
             _playerLook = _playerCamera.ScreenPointToRay(Input.mousePosition);
         Debug.DrawRay(_playerLook.origin, _playerLook.direction * _interactDistance, Color.red);
 
-        if (Physics.Raycast(_playerLook, out _lookHit, _interactDistance, _interactionLayer | _highlightLayer))
-            TryHighlight(_lookHit.collider);
+        if (Physics.Raycast(_playerLook, out _lookHit, _interactDistance, /*_interactionLayer | _highlightLayer*/ _raycastBlockingLayers))
+        {
+            if (_lookHit.collider.gameObject.layer != LayerMask.NameToLayer("BlockRaycast"))
+                TryHighlight(_lookHit.collider);
+            else
+                ClearHighlight();
+        }
         else
             ClearHighlight();
     }
 
     private void TryHighlight(Collider interactor)
-    {        
+    {
         if (_lastCollider == interactor)
-            return;
+            return;        
 
         ClearHighlight();
+
         interactor.gameObject.layer = LayerMask.NameToLayer("Outline");
         _lastCollider = interactor;
         
+        if (interactor.TryGetComponent<IReadable>(out var readable))        
+            _currentReadable = readable;
+
         ShowInteractionTip();
     }
 
@@ -196,16 +212,24 @@ public class PlayerInteraction : MonoBehaviour
             _lastCollider.gameObject.layer = LayerMask.NameToLayer("Interaction");
             _lastCollider = null;
             
+            if (_currentReadable != null)
+            {
+                _currentReadable.HideName();
+                _currentReadable = null;
+            }
+
             ShowInteractionTip();
         }
     }
 
     private void ShowInteractionTip()
     {
-        if (!_interactionTip.activeInHierarchy && !_isInteract)        
+        if (_currentReadable != null)
+            _currentReadable.ShowName();        
+
+        if (!_interactionTip.activeInHierarchy && !_isInteract)
             _interactionTip.SetActive(true);
         else
             _interactionTip.SetActive(false);
-        
     }
 }

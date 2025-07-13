@@ -11,6 +11,16 @@ public class UIController: MonoBehaviour
 
     private bool _isPause = false;
 
+    private void OnEnable()
+    {
+        PlayerInteraction.PauseGame += PauseGame;
+    }
+
+    private void OnDisable()
+    {
+        PlayerInteraction.PauseGame -= PauseGame;
+    }
+
     private void Start()
     {
         CursorDisable();        
@@ -32,13 +42,13 @@ public class UIController: MonoBehaviour
         _crosshair.SetActive(true);
     }
     
-    public void OnEscPush(InputAction.CallbackContext callbackContext)
-    {
-        if (callbackContext.phase != InputActionPhase.Started)
-            return;        
+    //public void OnEscPush(InputAction.CallbackContext callbackContext)
+    //{
+    //    if (callbackContext.phase != InputActionPhase.Started)
+    //        return;        
 
-        PauseGame();
-    }
+    //    PauseGame();
+    //}
 
     public void OnApplicationQuit()
     {

@@ -43,9 +43,13 @@ public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
 
     public void EndInteract()
     {
-        _viewManager.SetView(_muzzleCamera, _playerCamera);        
+        _viewManager.SetView(_muzzleCamera, _playerCamera);
 
-        CheckPassword();
+        if (_passField.text != _password)
+        {
+            CheckPassword();
+        }
+
         _passField.DeactivateInputField();
 
         gameObject.layer = LayerMask.NameToLayer("Interaction");
@@ -62,6 +66,7 @@ public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
         else
         {
             _passField.text = "";
+            _passField.ActivateInputField();
         }
     }
 
