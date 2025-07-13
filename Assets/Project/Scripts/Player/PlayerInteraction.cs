@@ -165,7 +165,7 @@ public class PlayerInteraction : MonoBehaviour
     }
 
     private void TryHighlight(Collider interactor)
-    {
+    {        
         if (_lastCollider == interactor)
             return;
 

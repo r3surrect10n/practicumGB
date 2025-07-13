@@ -8,16 +8,19 @@ public class Note : MonoBehaviour, IInteractable
     [SerializeField] private AudioClip _notePickClip;
     
     [SerializeField] private GameObject _note;
+    [SerializeField] private GameObject _noteTip;
 
     public void Interact()
     {
-        _note.SetActive(true);        
+        _note.SetActive(true);   
+        _noteTip.SetActive(true);
         _canvasAudioSource.PlayOneShot(_noteTakeClip);
     }
 
     public void EndInteract()
     {
         _note.SetActive(false);
+        _noteTip.SetActive(false);
         _canvasAudioSource.PlayOneShot(_notePickClip);
         gameObject.SetActive(false);
     }    

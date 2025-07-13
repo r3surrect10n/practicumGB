@@ -120,7 +120,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   renderQueue: 0
-  occlusion: 0
+  occlusion: 2
   cullingMode: 0
   closedLoop: 1
   alphaCutout: 0

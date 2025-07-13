@@ -1,2 +1,16 @@
 fileFormatVersion: 2
 guid: 10f60419b71cff042bb64a95fd769f4d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _canvasAudioSource: {instanceID: 0}
+  - _noteTakeClip: {fileID: 8300000, guid: cd1791983a0a2774ebcc42c1c54bd770, type: 3}
+  - _notePickClip: {fileID: 8300000, guid: 8ca2686a8544d58458b6d6abc19b7485, type: 3}
+  - _note: {instanceID: 0}
+  - _noteTip: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
