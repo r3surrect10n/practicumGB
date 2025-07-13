@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerInteraction : MonoBehaviour
 {    
@@ -43,11 +44,11 @@ public class PlayerInteraction : MonoBehaviour
         if (callbackContext.phase != InputActionPhase.Started)
             return;
 
-        if (_isInteract)
-        {
-            EndInteraction();
-            return;
-        }
+        //if (_isInteract)
+        //{
+        //    EndInteraction();
+        //    return;
+        //}
 
         if (_lookHit.collider == null)
             return;
@@ -77,7 +78,19 @@ public class PlayerInteraction : MonoBehaviour
             clickable.SetValue();
         else
             return;
-    }    
+    }
+
+    public void OnEndInteract(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.phase != InputActionPhase.Started)
+            return;
+
+        if (_isInteract)
+        {
+            EndInteraction();
+            return;
+        }        
+    }
 
     public void PuzzleSolved()
     {        

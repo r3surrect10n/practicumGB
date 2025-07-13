@@ -36,12 +36,17 @@ public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
     {
         _viewManager.SetView(_playerCamera, _muzzleCamera);
 
+        _passField.ActivateInputField();
+
         gameObject.layer = LayerMask.NameToLayer("Default");
     }
 
     public void EndInteract()
     {
         _viewManager.SetView(_muzzleCamera, _playerCamera);        
+
+        CheckPassword();
+        _passField.DeactivateInputField();
 
         gameObject.layer = LayerMask.NameToLayer("Interaction");
     }
