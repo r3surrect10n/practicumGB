@@ -17,6 +17,10 @@ public class PlayerInteraction : MonoBehaviour
     [Header("Interaction tip")]
     [SerializeField] private GameObject _interactionTip;
 
+    [Header("Notebook")]
+    [SerializeField] private GameObject _notebook;
+    private bool _isVisible = false;
+
     #region Interaction Properties
     private SolvableMuzzle _currentSolvableMuzzle;
     private IInteractable _currentInteractable;
@@ -91,6 +95,23 @@ public class PlayerInteraction : MonoBehaviour
             PauseGame?.Invoke();
     }
 
+    public void OnNotebook(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.phase != InputActionPhase.Started || _isInteract)
+            return;
+
+        _isVisible = !_isVisible;
+
+        _mouseLook.enabled = !_isVisible;
+
+        if (_isVisible)
+            _viewManager.CursorEnable();
+        else
+            _viewManager.CursorDisable();
+
+        _notebook.SetActive(_isVisible);
+    }
+
     public void PuzzleSolved()
     {        
         if (_currentSolvable != null)
@@ -114,8 +135,7 @@ public class PlayerInteraction : MonoBehaviour
 
         ClearHighlight();
         interactable.Interact();
-        _currentInteractable = interactable;
-        Debug.Log(_currentInteractable);
+        _currentInteractable = interactable;        
         _isInteract = !_isInteract;
 
         if (_lookHit.collider.TryGetComponent<SolvableMuzzle>(out var solvableMuzzle))

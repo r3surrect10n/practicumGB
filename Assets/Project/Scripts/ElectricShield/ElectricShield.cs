@@ -1,7 +1,7 @@
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class ElectricShield : MonoBehaviour, IInteractable, IResetable
+public class ElectricShield : MonoBehaviour, IInteractable, IResetable, ISolvable
 {
     [Header("Main camera view manager")]
     [SerializeField] private ViewManager _viewManager;
@@ -14,12 +14,24 @@ public class ElectricShield : MonoBehaviour, IInteractable, IResetable
     [SerializeField] private GameObject[] _interactableObjects;
     [SerializeField] private ToggleSwitcher[] _toggleSwitchers;
 
-    [SerializeField] private Animator _anim;
+    [SerializeField] private Material _lampMaterial;
+    [SerializeField] private GameObject[] _lights;
 
-    [SerializeField] private Material _material;
-    [SerializeField] private GameObject _light;
+    [SerializeField] private AudioClip[] _toggleSounds;
 
-    private bool _isSolved = false;
+    private AudioSource _audioSource;
+    private Animator _anim;
+    private SolvableMuzzle _solvableMuzzle;
+
+
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+        _anim = GetComponent<Animator>();
+        _solvableMuzzle = GetComponent<SolvableMuzzle>();
+
+        _lampMaterial.DisableKeyword("_EMISSIOM");
+    }
 
     public void Interact()
     {
@@ -44,24 +56,17 @@ public class ElectricShield : MonoBehaviour, IInteractable, IResetable
             obj.layer = LayerMask.NameToLayer("Default");
         }
 
-        gameObject.layer = LayerMask.NameToLayer("Interaction");
-
-        if (!_isSolved)
-        {
-            foreach (var toggle in _toggleSwitchers)
-                toggle.ResetToggle();
-        }
-        else
-        {
-            Destroy(this);
-            gameObject.layer = LayerMask.NameToLayer("Default");
-        }
+        gameObject.layer = LayerMask.NameToLayer("Interaction");        
 
         _anim.SetBool("IsOpen", false);
     }
 
     public void ToggleSwitch(int toggleNum)
     {
+        int sound = Random.Range(0, _toggleSounds.Length);
+
+        _audioSource.PlayOneShot(_toggleSounds[sound]);
+
         _toggleSwitchers[toggleNum].SwitchToggleStatus();
 
         if (toggleNum == 0)
@@ -75,6 +80,24 @@ public class ElectricShield : MonoBehaviour, IInteractable, IResetable
         }
 
         CheckElectricity();
+    }
+
+    public void PlayElectricShieldSound(AudioClip clip)
+    {
+        _audioSource.PlayOneShot(clip);
+    }
+
+    public void Reset()
+    {
+        foreach (var toggle in _toggleSwitchers)
+            toggle.ResetToggle();
+    }
+
+    public void OnMuzzleSolve()
+    {
+        EndInteract();
+        gameObject.layer = LayerMask.NameToLayer("Default");
+        enabled = false;
     }
 
     private void CheckElectricity()
@@ -92,14 +115,12 @@ public class ElectricShield : MonoBehaviour, IInteractable, IResetable
 
         if (allToggles)
         {
-            _light.SetActive(allToggles);
-            _material.EnableKeyword("_EMISSION");
-            _isSolved = true;
-        }
-    }
+            foreach (var light in _lights)
+                light.SetActive(allToggles);            
+            
+            _lampMaterial.EnableKeyword("_EMISSION");
 
-    public void Reset()
-    {
-        
+            _solvableMuzzle.OnPlayerInvoke();
+        }
     }
 }

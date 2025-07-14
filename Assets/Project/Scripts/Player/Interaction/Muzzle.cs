@@ -42,10 +42,5 @@ public class Muzzle : MonoBehaviour, IInteractable, ISolvable
         EndInteract();
         gameObject.layer = LayerMask.NameToLayer("Default");
         enabled = false;
-    }
-
-    public void OnPlayerInvoke()
-    {
-        
-    }
+    }    
 }

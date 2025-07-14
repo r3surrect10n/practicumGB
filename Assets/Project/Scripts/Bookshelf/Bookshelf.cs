@@ -8,6 +8,7 @@ public class Bookshelf : MonoBehaviour
     [SerializeField] private BookInteract[] _books;
 
     private Animator _anim;
+    private AudioSource _audioSource;
 
     private int _booksTouched = 0;
     
@@ -15,6 +16,7 @@ public class Bookshelf : MonoBehaviour
     private void Awake()
     {
         _anim = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     public void CheckBooks()
@@ -23,6 +25,11 @@ public class Bookshelf : MonoBehaviour
 
         if (_booksTouched == 3)
             CheckSolve();
+    }
+
+    public void PlayBookshelfSound(AudioClip clip)
+    {
+        _audioSource.PlayOneShot(clip);
     }
 
     private void CheckSolve()

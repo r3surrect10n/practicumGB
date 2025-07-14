@@ -10,16 +10,21 @@ public class BookInteract : MonoBehaviour, ITouchable, IReadable
     [SerializeField] private Text _bookName;
     [SerializeField] private string _bookNameText;
 
+    [SerializeField] private AudioClip _bookMovingSound;
+    [SerializeField] private AudioClip _bookKnock;
+
     private bool _isTouched = false;
     private Coroutine _bookMoving;
+    private Animator _anim;
+    private AudioSource _audioSource;
     
     public bool IsTouched => _isTouched;
 
-    private Animator _anim;
 
     private void Awake()
     {
         _anim = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
     }
   
     public void OnTouch()
@@ -61,6 +66,11 @@ public class BookInteract : MonoBehaviour, ITouchable, IReadable
     public void HideName()
     {
         _bookNamePanel.SetActive(false);
+    }
+
+    public void PlayBookMovingSound(AudioClip clip)
+    {
+        _audioSource.PlayOneShot(clip);
     }
 }
 

@@ -55,7 +55,7 @@ public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
 
         if (!IsPassCorrect())
         {
-            CheckPassword();
+            _passField.text = "";
         }
 
         _passField.DeactivateInputField();

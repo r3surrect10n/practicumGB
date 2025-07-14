@@ -24,9 +24,19 @@ public class ViewManager : MonoBehaviour
         currentCam.Priority = _otherCamPriority;
         nextCam.Priority = _currrentCamPriority;
 
-        if (_isFirstPerson)        
-            _uiController.CursorDisable();        
-        else        
-            _uiController.CursorEnable();        
+        if (_isFirstPerson)
+            CursorDisable();        
+        else
+            CursorEnable();        
+    }
+
+    public void CursorEnable()
+    {
+        _uiController.CursorEnable();
+    }
+
+    public void CursorDisable() 
+    {
+        _uiController.CursorDisable();
     }
 }

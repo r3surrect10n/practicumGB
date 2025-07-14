@@ -40,15 +40,7 @@ public class UIController: MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
 
         _crosshair.SetActive(true);
-    }
-    
-    //public void OnEscPush(InputAction.CallbackContext callbackContext)
-    //{
-    //    if (callbackContext.phase != InputActionPhase.Started)
-    //        return;        
-
-    //    PauseGame();
-    //}
+    }    
 
     public void OnApplicationQuit()
     {

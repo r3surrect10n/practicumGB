@@ -13,6 +13,7 @@ public class ToggleSwitcher : MonoBehaviour, IClickable
     [SerializeField] private Material _green;    
 
     [SerializeField] private Renderer _renderer;
+    
     private Animator _anim;
 
     private bool _startCondition;
