@@ -14,8 +14,16 @@ public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
     [Header("Muzzle interactables objects")]
     [SerializeField] private GameObject[] _interactableObjects;
 
+    [Header("Tablet settings")]
     [SerializeField] private InputField _passField;
     [SerializeField] private string _password;
+
+    [Header("Tablet wing settings")]
+    [SerializeField] private Renderer _wing;
+    [SerializeField] private Material _wingEnabledMaterial;
+
+    [Header("Main door settings")]
+    [SerializeField] private MainDoor _mainDoor;
 
     private SolvableMuzzle _solvableMuzzle;
 
@@ -45,7 +53,7 @@ public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
     {
         _viewManager.SetView(_muzzleCamera, _playerCamera);
 
-        if (_passField.text != _password)
+        if (!IsPassCorrect())
         {
             CheckPassword();
         }
@@ -58,7 +66,7 @@ public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
 
     public void CheckPassword()
     {
-        if (_passField.text == _password)
+        if (IsPassCorrect())
         {
             _passField.enabled = false;
             _solvableMuzzle.OnPlayerInvoke();
@@ -68,17 +76,23 @@ public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
             _passField.text = "";
             _passField.ActivateInputField();
         }
-    }
-
-    public void OnPlayerInvoke()
-    {
-        throw new System.NotImplementedException();
-    }
+    }    
 
     public void OnMuzzleSolve()
     {
+        _wing.material = _wingEnabledMaterial;
+        _mainDoor.CheckPasswords();
+
         EndInteract();
         gameObject.layer = LayerMask.NameToLayer("Default");
         enabled = false;
+    }
+
+    public bool IsPassCorrect()
+    {
+        if (_passField.text.ToUpper().Trim() == _password)
+            return true;
+        else
+            return false;
     }
 }

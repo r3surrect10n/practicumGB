@@ -5,8 +5,7 @@ public interface IInteractable
 }
 
 public interface ISolvable
-{
-    void OnPlayerInvoke();
+{    
     void OnMuzzleSolve();
 }
 

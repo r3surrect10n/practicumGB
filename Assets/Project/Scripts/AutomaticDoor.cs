@@ -2,8 +2,11 @@ using UnityEngine;
 
 public class AutomaticDoor : MonoBehaviour
 {
+    [SerializeField] private bool _doorStatus;
+
     private Animator _anim;
     private bool _doorCondition = false;
+    
 
     private void Awake()
     {
@@ -20,12 +23,18 @@ public class AutomaticDoor : MonoBehaviour
         SetDoorCondition(other);
     }
 
+    public void SetDoorStatusOpen()
+    {
+        _doorStatus = true;
+    }
+
     private void SetDoorCondition(Collider col)
     {
-        if (col.gameObject.GetComponent<PlayerMovement>())
+        if (col.gameObject.GetComponent<PlayerMovement>() && _doorStatus)
         {            
             _doorCondition = !_doorCondition;
             _anim.SetBool("DoorStatus", _doorCondition);
         }
     }
+
 }

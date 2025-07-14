@@ -11,9 +11,7 @@ public class PlayerInteraction : MonoBehaviour
     [SerializeField] private Camera _playerCamera;
     [SerializeField] private ViewManager _viewManager;    
 
-    [Header ("Layer for interactables")]
-    [SerializeField] private LayerMask _interactionLayer;
-    [SerializeField] private LayerMask _highlightLayer;
+    [Header ("Layers for interactables")]    
     [SerializeField] private LayerMask _raycastBlockingLayers;
 
     [Header("Interaction tip")]
@@ -47,13 +45,7 @@ public class PlayerInteraction : MonoBehaviour
     public void OnInteract(InputAction.CallbackContext callbackContext)
     {
         if (callbackContext.phase != InputActionPhase.Started)
-            return;
-
-        //if (_isInteract)
-        //{
-        //    EndInteraction();
-        //    return;
-        //}
+            return;        
 
         if (_lookHit.collider == null)
             return;
@@ -178,7 +170,7 @@ public class PlayerInteraction : MonoBehaviour
             _playerLook = _playerCamera.ScreenPointToRay(Input.mousePosition);
         Debug.DrawRay(_playerLook.origin, _playerLook.direction * _interactDistance, Color.red);
 
-        if (Physics.Raycast(_playerLook, out _lookHit, _interactDistance, /*_interactionLayer | _highlightLayer*/ _raycastBlockingLayers))
+        if (Physics.Raycast(_playerLook, out _lookHit, _interactDistance, _raycastBlockingLayers))
         {
             if (_lookHit.collider.gameObject.layer != LayerMask.NameToLayer("BlockRaycast"))
                 TryHighlight(_lookHit.collider);
