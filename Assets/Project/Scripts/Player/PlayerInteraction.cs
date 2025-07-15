@@ -48,7 +48,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public void OnInteract(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.phase != InputActionPhase.Started)
+        if (callbackContext.phase != InputActionPhase.Started || _isInteract)
             return;        
 
         if (_lookHit.collider == null)

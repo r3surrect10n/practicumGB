@@ -27,6 +27,11 @@ public class Terminal : MonoBehaviour, IInteractable, ISolvable
         _solvableMuzzle = GetComponent<SolvableMuzzle>();
     }
 
+    private void Start()
+    {
+        _passField.enabled = false;
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Return))
@@ -39,6 +44,7 @@ public class Terminal : MonoBehaviour, IInteractable, ISolvable
     {
         _viewManager.SetView(_playerCamera, _muzzleCamera);
 
+        _passField.enabled = true;
         _passField.ActivateInputField();
 
         gameObject.layer = LayerMask.NameToLayer("Default");
@@ -54,6 +60,7 @@ public class Terminal : MonoBehaviour, IInteractable, ISolvable
         }
 
         _passField.DeactivateInputField();
+        _passField.enabled = false;
 
         gameObject.layer = LayerMask.NameToLayer("Interaction");
     }
@@ -61,11 +68,8 @@ public class Terminal : MonoBehaviour, IInteractable, ISolvable
 
     public void CheckPassword()
     {
-        if (IsPassCorrect())
-        {
-            _passField.enabled = false;
+        if (IsPassCorrect())          
             _solvableMuzzle.OnPlayerInvoke();
-        }
         else
         {
             _passField.text = "";
