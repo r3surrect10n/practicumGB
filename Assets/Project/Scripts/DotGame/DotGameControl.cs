@@ -24,7 +24,7 @@ public class DotGameControl : MonoBehaviour
     private List<int> selectPoints2 = new List<int>();
     private Color colorDots1, colorDots2;
 
-    private QuestStatus status = QuestStatus.isFailed;
+   // private QuestStatus status = QuestStatus.isFailed;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -122,7 +122,7 @@ public class DotGameControl : MonoBehaviour
             dots1.SetActive(false);
             dots2.SetActive(false);
             bigBee.gameObject.SetActive(true);
-            status = QuestStatus.isSuccess;
+            //status = QuestStatus.isSuccess;
         }
     }
 
@@ -156,7 +156,7 @@ public class DotGameControl : MonoBehaviour
 
     public void OnClickQuit()
     {
-        GameManager.Instance.currentPlayer.listMiniGames.AddMiniGame(new MiniGameStatus("Alexander", status));
+        //GameManager.Instance.currentPlayer.listMiniGames.AddMiniGame(new MiniGameStatus("Alexander", status));
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         SceneManager.LoadScene("BuildingOld");
     }

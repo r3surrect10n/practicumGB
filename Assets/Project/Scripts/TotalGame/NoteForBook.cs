@@ -9,14 +9,14 @@ public class NoteForBook : MonoBehaviour, IInteractable
     [SerializeField] private string roomNote;
     public void EndInteract()
     {
-        if (roomNote != "") GameManager.Instance.currentPlayer.notebookList.AddNote(new NotebookItem(ids_note, roomNote));
-        notePanel.SetActive(false);
+        //if (roomNote != "") GameManager.Instance.currentPlayer.notebookList.AddNote(new NotebookItem(ids_note, roomNote));
+        //notePanel.SetActive(false);
     }
 
     public void Interact()
     {
-        string lang = GameManager.Instance.currentLanguale;
-        txtNote.text = NoteSet.Instance.GetNote(ids_note, lang);
+        //string lang = GameManager.Instance.currentLanguale;
+        //txtNote.text = NoteSet.Instance.GetNote(ids_note, lang);
         notePanel.SetActive(true);
     }
 

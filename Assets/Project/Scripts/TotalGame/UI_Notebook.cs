@@ -39,15 +39,15 @@ public class UI_Notebook : MonoBehaviour
 
     private void ViewText()
     {
-        List<NotebookItem> items = GameManager.Instance.currentPlayer.notebookList.GetRoomItemList(UI_Notebook.NameRooms[currentPage]);
+        //List<NotebookItem> items = GameManager.Instance.currentPlayer.notebookList.GetRoomItemList(UI_Notebook.NameRooms[currentPage]);
         //print($"count={items.Count} for room={UI_Notebook.NameRooms[currentPage]}");
-        string lang = GameManager.Instance.currentLanguale;
+        //string lang = GameManager.Instance.currentLanguale;
         StringBuilder sb = new StringBuilder();
-        foreach(NotebookItem item in items)
-        {
-            string note = NoteSet.Instance.GetNote(item.IDS, lang);
-            sb.Append($"{note}{"\n********************************\n\n"}");
-        }
+        //foreach(NotebookItem item in items)
+        //{
+        //    string note = NoteSet.Instance.GetNote(item.IDS, lang);
+        //    sb.Append($"{note}{"\n********************************\n\n"}");
+        //}
         string leftText = sb.ToString();
         
         string[] ar = leftText.Split("\n");

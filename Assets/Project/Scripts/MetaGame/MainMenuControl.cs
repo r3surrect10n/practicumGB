@@ -10,15 +10,7 @@ public class MainMenuControl : MonoBehaviour
 
     public void PlayGame()
     {
-        //string scene = "HousePlayersScene";
-        string scene = "Building";
-
-        if (GameManager.Instance.currentPlayer.currentLocation != "")
-        {
-            scene = GameManager.Instance.currentPlayer.currentLocation;
-        }
-
-        SceneManager.LoadScene(scene);
+        SceneManager.LoadScene("Building");
     }
 
     public void QuitGame()
