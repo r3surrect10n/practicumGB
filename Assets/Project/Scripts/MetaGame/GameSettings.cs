@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class GameSettings : MonoBehaviour
 {
     
     [SerializeField] private AudioSource _musicSource;
+    [SerializeField] private AudioMixer _mixer;
     [SerializeField] private PlayerLook _playerMouseController;
 
     [SerializeField] private Slider _soundSlider;
@@ -17,14 +19,12 @@ public class GameSettings : MonoBehaviour
 
     public void OnSceneLoad()
     {
+        _soundSlider.value = _musicSource.volume;
         
     }
 
     public void OnSaveClick()
     {
-        PlayerPrefs.SetFloat("sound", _soundSlider.value);
-        PlayerPrefs.SetFloat("music", _musicSlider.value);
-        PlayerPrefs.SetFloat("sensivity", _sensivitySlider.value);
-        PlayerPrefs.Save();
+        
     }
 }

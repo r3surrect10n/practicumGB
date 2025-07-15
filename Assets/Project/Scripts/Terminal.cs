@@ -20,11 +20,16 @@ public class Terminal : MonoBehaviour, IInteractable, ISolvable
     [Header("Main door settings")]
     [SerializeField] private AutomaticDoor _door;
 
+    [SerializeField] private AudioClip _confirm;
+    [SerializeField] private AudioClip _denied;
+
     private SolvableMuzzle _solvableMuzzle;
+    private AudioSource _audioSource;
 
     private void Awake()
     {
         _solvableMuzzle = GetComponent<SolvableMuzzle>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -34,7 +39,7 @@ public class Terminal : MonoBehaviour, IInteractable, ISolvable
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) && _passField.enabled)
         {
             CheckPassword();
         }
@@ -68,10 +73,15 @@ public class Terminal : MonoBehaviour, IInteractable, ISolvable
 
     public void CheckPassword()
     {
-        if (IsPassCorrect())          
+        if (IsPassCorrect())
+        {
+            _audioSource.PlayOneShot(_confirm);
             _solvableMuzzle.OnPlayerInvoke();
+            return;
+        }
         else
         {
+            _audioSource.PlayOneShot(_denied);
             _passField.text = "";
             _passField.ActivateInputField();
         }
@@ -79,6 +89,7 @@ public class Terminal : MonoBehaviour, IInteractable, ISolvable
 
     public void OnMuzzleSolve()
     {
+        
         _terminalScreen.material = _greenMaterial;
         _door.SetDoorStatusOpen();
 

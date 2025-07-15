@@ -25,10 +25,16 @@ public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
     [Header("Main door settings")]
     [SerializeField] private MainDoor _mainDoor;
 
+    [Header("Tablet sounds")]
+    [SerializeField] private AudioClip _confirmSound;
+    [SerializeField] private AudioClip _deniedSound;
+
+    private AudioSource _audioSource;
     private SolvableMuzzle _solvableMuzzle;
 
     private void Awake()
     {
+        _audioSource = GetComponent<AudioSource>();
         _solvableMuzzle = GetComponent<SolvableMuzzle>();        
     }
 
@@ -39,7 +45,7 @@ public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) && _passField.enabled)
         {
             CheckPassword();
         }
@@ -73,10 +79,16 @@ public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
 
     public void CheckPassword()
     {
-        if (IsPassCorrect())            
-            _solvableMuzzle.OnPlayerInvoke();        
+        if (IsPassCorrect())
+        {
+            _audioSource.PlayOneShot(_confirmSound);
+            _solvableMuzzle.OnPlayerInvoke();
+            return;
+        }
         else
         {
+            Debug.Log("pass ass" + name);
+            _audioSource.PlayOneShot(_deniedSound);
             _passField.text = "";
             _passField.ActivateInputField();
         }
@@ -86,7 +98,7 @@ public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
     {
         _wing.material = _wingEnabledMaterial;
         _mainDoor.CheckPasswords();
-
+        
         EndInteract();
         gameObject.layer = LayerMask.NameToLayer("Default");
         enabled = false;

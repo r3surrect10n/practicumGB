@@ -20,11 +20,16 @@ public class LockerTerminal : MonoBehaviour, IInteractable, ISolvable
     [Header("Locker door settings")]
     [SerializeField] private Locker _locker;
 
+    [SerializeField] private AudioClip _confirmClip;
+    [SerializeField] private AudioClip _deniedClip;
+
     private SolvableMuzzle _solvableMuzzle;
+    private AudioSource _audioSource;
 
     private void Awake()
     {
         _solvableMuzzle = GetComponent<SolvableMuzzle>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
@@ -34,7 +39,7 @@ public class LockerTerminal : MonoBehaviour, IInteractable, ISolvable
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) && _passField.enabled)
         {
             CheckPassword();
         }
@@ -68,17 +73,22 @@ public class LockerTerminal : MonoBehaviour, IInteractable, ISolvable
 
     public void CheckPassword()
     {
-        if (IsPassCorrect())        
+        if (IsPassCorrect())
+        {
+            _audioSource.PlayOneShot(_confirmClip);
             _solvableMuzzle.OnPlayerInvoke();
+            return;
+        }
         else
         {
+            _audioSource.PlayOneShot(_deniedClip);
             _passField.text = "";
             _passField.ActivateInputField();
         }
     }
 
     public void OnMuzzleSolve()
-    {
+    {        
         _terminalScreen.material = _greenMaterial;
         _locker.OpenLocker();
 
