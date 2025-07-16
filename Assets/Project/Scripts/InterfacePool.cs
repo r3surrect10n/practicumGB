@@ -29,3 +29,8 @@ public interface IReadable
     void ShowName();
     void HideName();
 }
+
+public interface ITellable
+{
+    void Tell();
+}

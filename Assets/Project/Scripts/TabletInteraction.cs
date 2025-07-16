@@ -9,13 +9,11 @@ public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
 
     [Header("Muzzle and player cameras")]
     [SerializeField] private CinemachineCamera _muzzleCamera;
-    [SerializeField] private CinemachineCamera _playerCamera;
-
-    [Header("Muzzle interactables objects")]
-    [SerializeField] private GameObject[] _interactableObjects;
+    [SerializeField] private CinemachineCamera _playerCamera;    
 
     [Header("Tablet settings")]
     [SerializeField] private InputField _passField;
+    [SerializeField] private GameObject _tip;
     [SerializeField] private string _password;
 
     [Header("Tablet wing settings")]
@@ -58,6 +56,8 @@ public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
         _passField.enabled = true;
         _passField.ActivateInputField();
 
+        _tip.SetActive(true);
+
         gameObject.layer = LayerMask.NameToLayer("Default");
     }
 
@@ -72,6 +72,8 @@ public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
 
         _passField.DeactivateInputField();
         _passField.enabled = false;
+
+        _tip.SetActive(false);
 
         gameObject.layer = LayerMask.NameToLayer("Interaction");
     }
