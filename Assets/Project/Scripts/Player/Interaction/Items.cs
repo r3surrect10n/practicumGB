@@ -14,11 +14,14 @@ public class Items : MonoBehaviour, ITouchable
     [SerializeField] private float _tellDuration;
     [SerializeField] private float _tellDurationAfterTouch;
 
+    private Coroutine _tellCoroutine;
+
     private bool _isTouching = false;
 
     public void OnTouch()
     {
-        StartCoroutine(TellTime());
+        if (_tellCoroutine == null)
+            _tellCoroutine = StartCoroutine(TellTime());
     }    
 
     private IEnumerator TellTime()
@@ -30,7 +33,7 @@ public class Items : MonoBehaviour, ITouchable
 
         _tellWindow.SetActive(true);
 
-        if (_isTouching)
+        if (!_isTouching)
             yield return new WaitForSeconds(_tellDuration);
         else
             yield return new WaitForSeconds(_tellDurationAfterTouch);
@@ -39,6 +42,8 @@ public class Items : MonoBehaviour, ITouchable
 
         _isTouching = true;
 
-        StopCoroutine(TellTime());
+        StopCoroutine(_tellCoroutine);
+
+        _tellCoroutine = null;
     }
 }

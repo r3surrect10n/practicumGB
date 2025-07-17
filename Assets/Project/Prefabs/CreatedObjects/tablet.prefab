@@ -687,7 +687,7 @@ MonoBehaviour:
   _wing: {fileID: 0}
   _wingEnabledMaterial: {fileID: 2100000, guid: be2bd8a9277a5e74eb4969926ca5f9f0, type: 2}
   _mainDoor: {fileID: 0}
-  _confirmSound: {fileID: 8300000, guid: ea5224e3bd6e3ce43bb086ec79a52394, type: 3}
+  _confirmSound: {fileID: 8300000, guid: 220e4223ff683634bb860ea9d2208299, type: 3}
   _deniedSound: {fileID: 8300000, guid: 700775893a562d44c86c92aaf0e8a5f5, type: 3}
 --- !u!114 &362406493040831694
 MonoBehaviour:

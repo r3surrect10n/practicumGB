@@ -14,18 +14,26 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip[] _footstepSounds;
     [SerializeField, Range(0, 1)] private float _stepInterval;
-    private float _stepTimer = 0f;
-    
+    private float _stepTimer = 0f;    
 
     private const float Gravity = -2f;  
     
     private CharacterController _playerController;
 
-    private Vector3 _moveInput;    
+    private Vector3 _moveInput;
+
+    private float _currentSpeed;
+    private float _currentStepInterval;
 
     private void Awake()
     {
         _playerController = GetComponent<CharacterController>();        
+    }
+
+    private void Start()
+    {
+        _currentSpeed = _movementSpeed;
+        _currentStepInterval = _stepInterval;
     }
 
     private void Update()
@@ -42,6 +50,24 @@ public class PlayerMovement : MonoBehaviour
     {
         _moveInput = callbackContext.ReadValue<Vector2>();
     }
+    public void OnSprint(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.phase == InputActionPhase.Started)
+        {
+            _movementSpeed = _currentSpeed * 2f;
+            _stepInterval = _currentStepInterval * 0.5f;
+        }
+
+        else if (callbackContext.phase == InputActionPhase.Canceled)
+        {
+            _movementSpeed = _currentSpeed;
+            _stepInterval = _currentStepInterval;
+
+            return;
+        }
+        else 
+            return;        
+    }
 
     private Vector3 CalculateMovement()
     {
@@ -49,7 +75,8 @@ public class PlayerMovement : MonoBehaviour
            return FirstPersonMovement();
         else
             return /*SideViewMovement()*/ new Vector3(0, 0, 0);
-    }    
+    }
+    
 
     private Vector3 FirstPersonMovement()   //Движение от первого лица
     {

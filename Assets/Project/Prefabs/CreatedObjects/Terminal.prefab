@@ -693,7 +693,7 @@ MonoBehaviour:
   _password: "\u041B\u0415\u0412\u0418\u0410\u0424\u0410\u041D"
   _enterImage: {fileID: 6123678562343356002}
   _door: {fileID: 0}
-  _confirm: {fileID: 8300000, guid: ea5224e3bd6e3ce43bb086ec79a52394, type: 3}
+  _confirm: {fileID: 8300000, guid: e3ce9beb479a932468d342de2b566a90, type: 3}
   _denied: {fileID: 8300000, guid: 700775893a562d44c86c92aaf0e8a5f5, type: 3}
 --- !u!114 &3244200823441327752
 MonoBehaviour:

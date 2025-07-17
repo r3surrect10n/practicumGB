@@ -14,10 +14,14 @@ public class ElectricShield : MonoBehaviour, IInteractable, IResetable, ISolvabl
     [SerializeField] private GameObject[] _interactableObjects;
     [SerializeField] private ToggleSwitcher[] _toggleSwitchers;
 
+    [Header("Interactable objects")]
+    [SerializeField] private GameObject[] _roomObjects;
+
     [Header("Lights")]
     [SerializeField] private GameObject _volume;
     [SerializeField] private Material _lampMaterial;
     [SerializeField] private GameObject[] _lights;
+    [SerializeField] private GameObject[] _paintingLights;
 
     [Header("Sounds")]
     [SerializeField] private AudioClip[] _toggleSounds;
@@ -33,7 +37,7 @@ public class ElectricShield : MonoBehaviour, IInteractable, IResetable, ISolvabl
         _anim = GetComponent<Animator>();
         _solvableMuzzle = GetComponent<SolvableMuzzle>();
 
-        //_lampMaterial.DisableKeyword("_EMISSIOM");
+        _lampMaterial.DisableKeyword("_EMISSION");
     }
 
     public void Interact()
@@ -101,6 +105,9 @@ public class ElectricShield : MonoBehaviour, IInteractable, IResetable, ISolvabl
         EndInteract();
         gameObject.layer = LayerMask.NameToLayer("Default");
         enabled = false;
+
+        foreach (var rObject in _roomObjects)
+            rObject.layer = LayerMask.NameToLayer("Interaction");
     }
 
     private void CheckElectricity()
@@ -122,6 +129,10 @@ public class ElectricShield : MonoBehaviour, IInteractable, IResetable, ISolvabl
                 light.SetActive(allToggles);            
             
             _lampMaterial.EnableKeyword("_EMISSION");
+
+            foreach (var light in _paintingLights)
+                light.SetActive(allToggles);
+
             _volume.SetActive(!allToggles);
 
             _solvableMuzzle.OnPlayerInvoke();

@@ -40,7 +40,7 @@ public class Terminal : MonoBehaviour, IInteractable, ISolvable
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return) && _passField.enabled)
+        if ((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) && _passField.enabled)
         {
             CheckPassword();
         }
