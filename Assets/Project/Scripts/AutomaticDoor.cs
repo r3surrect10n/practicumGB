@@ -9,14 +9,20 @@ public class AutomaticDoor : MonoBehaviour
 
     private AudioSource _doorAudioSource;
     private Animator _anim;
-    private bool _doorCondition = false;
-
-    
+    private Collider _doorTrigger;
+    private bool _doorCondition = false;    
 
     private void Awake()
     {
         _doorAudioSource = GetComponent<AudioSource>();
         _anim = GetComponent<Animator>();
+        _doorTrigger = GetComponent<Collider>();
+    }
+
+    private void Start()
+    {
+        if (!_doorStatus)
+            _doorTrigger.enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -34,17 +40,13 @@ public class AutomaticDoor : MonoBehaviour
     public void SetDoorStatusOpen()
     {
         _doorStatus = true;
+        _doorTrigger.enabled = true;        
     }
 
     private void SetDoorCondition(Collider col)
     {
         if (col.gameObject.GetComponent<PlayerMovement>() && _doorStatus)
-        {
-            Debug.Log(name);
-
-            //_doorCondition = !_doorCondition;
-            _anim.SetBool("DoorStatus", _doorCondition);
-        }
+            _anim.SetBool("DoorStatus", _doorCondition);        
     }
 
     public void PlaySound()

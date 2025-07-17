@@ -14,8 +14,9 @@ public class LockerTerminal : MonoBehaviour, IInteractable, ISolvable
     [Header("Tablet settings")]
     [SerializeField] private Image _terminalScreen;
     [SerializeField] private InputField _passField;
-    [SerializeField] private string _password;
     [SerializeField] private Material _greenMaterial;
+    [SerializeField] private string _password;
+    [SerializeField] private GameObject _enterImage;
 
     [Header("Locker door settings")]
     [SerializeField] private Locker _locker;
@@ -52,6 +53,8 @@ public class LockerTerminal : MonoBehaviour, IInteractable, ISolvable
         _passField.enabled = true;
         _passField.ActivateInputField();
 
+        _enterImage.SetActive(true);
+
         gameObject.layer = LayerMask.NameToLayer("Default");
     }
 
@@ -66,6 +69,8 @@ public class LockerTerminal : MonoBehaviour, IInteractable, ISolvable
 
         _passField.DeactivateInputField();
         _passField.enabled = false;
+
+        _enterImage.SetActive(false);
 
         gameObject.layer = LayerMask.NameToLayer("Interaction");
     }

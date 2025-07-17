@@ -91,6 +91,11 @@ public class PlayerInteraction : MonoBehaviour
             EndInteraction();
             return;
         }
+        else if (_isVisible)
+        {
+            NotebookInteraction();
+            return;
+        }
         else
             PauseGame?.Invoke();
     }
@@ -100,16 +105,7 @@ public class PlayerInteraction : MonoBehaviour
         if (callbackContext.phase != InputActionPhase.Started || _isInteract)
             return;
 
-        _isVisible = !_isVisible;
-
-        _mouseLook.enabled = !_isVisible;
-
-        if (_isVisible)
-            _viewManager.CursorEnable();
-        else
-            _viewManager.CursorDisable();
-
-        _notebook.SetActive(_isVisible);
+        NotebookInteraction();       
     }
 
     public void PuzzleSolved()
@@ -180,6 +176,36 @@ public class PlayerInteraction : MonoBehaviour
         _currentInteractable = null;
 
         _isInteract = !_isInteract;
+    }
+
+    private void OnNotebookOpen()
+    {
+        _isVisible = true;
+        _mouseLook.enabled = false;
+        _viewManager.CursorEnable();
+        _notebook.SetActive(true);
+    }
+
+    private void OnNotebookClose()
+    {
+        _isVisible = false;
+        _mouseLook.enabled = true;
+        _viewManager.CursorDisable();
+        _notebook.SetActive(false);
+    }
+
+    private void NotebookInteraction()
+    {
+        _isVisible = !_isVisible;
+
+        _mouseLook.enabled = !_isVisible;
+
+        if (_isVisible)
+            _viewManager.CursorEnable();
+        else
+            _viewManager.CursorDisable();
+
+        _notebook.SetActive(_isVisible);
     }
 
     private void PlayerLook()

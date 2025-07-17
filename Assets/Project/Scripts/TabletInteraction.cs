@@ -88,10 +88,10 @@ public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
             return;
         }
         else
-        {
-            Debug.Log("pass ass" + name);
+        {            
             _audioSource.PlayOneShot(_deniedSound);
             _passField.text = "";
+            
             _passField.ActivateInputField();
         }
     }    
