@@ -11,29 +11,25 @@ public class Card : MonoBehaviour, ITouchable
     [SerializeField] private string _tipPhrase;
     [SerializeField] private float _tipTime;
 
-    private Coroutine _coroutine;
-
     public void OnTouch()
     {
         _cardPanel.CardGetted();        
 
-        _coroutine = StartCoroutine(TellTime());
+        StartCoroutine(TellTime());
     }
 
     private IEnumerator TellTime()
     {
         _tipText.text = _tipPhrase;
-
         _takingTip.SetActive(true);
 
-        gameObject.SetActive(false);
+        GetComponent<Renderer>().enabled = false;
+        GetComponent<Collider>().enabled = false;
+
 
         yield return new WaitForSeconds(_tipTime);
 
         _takingTip.SetActive(false);
-
-        StopCoroutine(_coroutine);
-
-        _coroutine = null;
+        gameObject.SetActive(false);
     }
 }

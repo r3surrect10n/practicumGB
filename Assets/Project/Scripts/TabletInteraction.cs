@@ -1,6 +1,8 @@
+using System.Text.RegularExpressions;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.Rendering.DebugUI;
 
 public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
 {
@@ -108,9 +110,19 @@ public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
 
     public bool IsPassCorrect()
     {
-        if (_passField.text.ToUpper().Trim() == _password)
+        if (_passField.text == _password)
             return true;
         else
             return false;
+    }
+
+    public void SetToUpper()
+    {        
+        string filteredText = Regex.Replace(_passField.text, "[^à-ÿÀ-ß]", "");
+        
+        filteredText = filteredText.ToUpper();
+        
+        if (filteredText != _passField.text)        
+            _passField.text = filteredText;        
     }
 }

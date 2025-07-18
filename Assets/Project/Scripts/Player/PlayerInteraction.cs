@@ -48,7 +48,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public void OnInteract(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.phase != InputActionPhase.Started || _isInteract)
+        if (callbackContext.phase != InputActionPhase.Started || _isInteract || _isVisible)
             return;        
 
         if (_lookHit.collider == null)
@@ -177,28 +177,12 @@ public class PlayerInteraction : MonoBehaviour
 
         _isInteract = !_isInteract;
     }
-
-    private void OnNotebookOpen()
-    {
-        _isVisible = true;
-        _mouseLook.enabled = false;
-        _viewManager.CursorEnable();
-        _notebook.SetActive(true);
-    }
-
-    private void OnNotebookClose()
-    {
-        _isVisible = false;
-        _mouseLook.enabled = true;
-        _viewManager.CursorDisable();
-        _notebook.SetActive(false);
-    }
-
+        
     private void NotebookInteraction()
     {
         _isVisible = !_isVisible;
 
-        _mouseLook.enabled = !_isVisible;
+        _mouseLook.enabled = !_isVisible;             
 
         if (_isVisible)
             _viewManager.CursorEnable();
@@ -265,7 +249,7 @@ public class PlayerInteraction : MonoBehaviour
         if (_currentReadable != null)
             _currentReadable.ShowName();        
 
-        if (!_interactionTip.activeInHierarchy && !_isInteract)
+        if (!_interactionTip.activeInHierarchy && (!_isInteract || !_isVisible))
             _interactionTip.SetActive(true);
         else
             _interactionTip.SetActive(false);
