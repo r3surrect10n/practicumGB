@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
@@ -109,5 +110,15 @@ public class Terminal : MonoBehaviour, IInteractable, ISolvable
             return true;
         else
             return false;
+    }
+
+    public void SetToUpper()
+    {
+        string filteredText = Regex.Replace(_passField.text, "[^à-ÿÀ-ß]", "");
+
+        filteredText = filteredText.ToUpper();
+
+        if (filteredText != _passField.text)
+            _passField.text = filteredText;
     }
 }

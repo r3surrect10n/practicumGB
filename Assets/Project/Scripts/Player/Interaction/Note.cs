@@ -17,14 +17,7 @@ public class Note : MonoBehaviour, IInteractable
     [SerializeField] private GameObject _takingTip;
     [SerializeField] private Text _tipText;
     [SerializeField] private string _tipPhrase;
-    [SerializeField] private float _tipTime;
-
-    [SerializeField] private GameObject _takingTell;
-    [SerializeField] private Text _tellText;
-    [SerializeField] private string _tellPhrase;
-    [SerializeField] private float _tellTime;
-
-    [SerializeField] private bool _isTellable;
+    [SerializeField] private float _tipTime;    
 
     public void Interact()
     {
@@ -53,20 +46,9 @@ public class Note : MonoBehaviour, IInteractable
         GetComponent<Renderer>().enabled = false;
         GetComponent<Collider>().enabled = false;
 
-
         yield return new WaitForSeconds(_tipTime);
 
-        _takingTip.SetActive(false);
-
-        if (_isTellable)
-        {
-            _tellText.text = _tellPhrase;
-            _takingTell.SetActive(true);
-
-            yield return new WaitForSeconds(_tellTime);
-
-            _takingTell.SetActive(false);
-        }
+        _takingTip.SetActive(false);        
 
         gameObject.SetActive(false);
     }

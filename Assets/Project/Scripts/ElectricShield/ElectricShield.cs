@@ -49,9 +49,7 @@ public class ElectricShield : MonoBehaviour, IInteractable, IResetable, ISolvabl
         gameObject.layer = LayerMask.NameToLayer("Default");
 
         foreach (var obj in _interactableObjects)
-        {
-            obj.layer = LayerMask.NameToLayer("Interaction");
-        }        
+            obj.layer = LayerMask.NameToLayer("Interaction");                
     }
 
     public void EndInteract()

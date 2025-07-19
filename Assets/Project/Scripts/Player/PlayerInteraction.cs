@@ -30,7 +30,7 @@ public class PlayerInteraction : MonoBehaviour
     private Collider _lastCollider;    
     private Ray _playerLook;
     private RaycastHit _lookHit;
-    private float _interactDistance = 2.5f;
+    private float _interactDistance = 1.5f;
     private bool _isInteract = false;
     #endregion
 
@@ -249,7 +249,7 @@ public class PlayerInteraction : MonoBehaviour
         if (_currentReadable != null)
             _currentReadable.ShowName();        
 
-        if (!_interactionTip.activeInHierarchy && (!_isInteract || !_isVisible))
+        if (!_interactionTip.activeInHierarchy && !_isInteract && !_isVisible)
             _interactionTip.SetActive(true);
         else
             _interactionTip.SetActive(false);

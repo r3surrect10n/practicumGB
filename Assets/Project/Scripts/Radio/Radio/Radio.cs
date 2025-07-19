@@ -10,7 +10,7 @@ public class Radio : MonoBehaviour
     
     private AudioSource _radioSource;
 
-    private int _firstHalfFreqStart = 85;
+    private int _firstHalfFreqStart = 80;
     private int _secondHalfFreqStart = 1;
 
     private int _firstHalf;
@@ -34,11 +34,11 @@ public class Radio : MonoBehaviour
         switch (buttonIndex)
         {
             case 1: 
-                if (_firstHalf < 109)                
+                if (_firstHalf < 120)                
                     _firstHalf++;                
                 break;
             case 0:
-                if (_firstHalf > 85)                
+                if (_firstHalf > 80)                
                     _firstHalf--;               
                 break;
             case 2:
@@ -46,7 +46,7 @@ public class Radio : MonoBehaviour
                 if (_secondHalf > 9)
                 {
                     _secondHalf = _secondHalf % 10;
-                    if (_firstHalf < 109)
+                    if (_firstHalf < 120)
                     {
                         _firstHalf++;
                     }
@@ -61,7 +61,7 @@ public class Radio : MonoBehaviour
                 if (_secondHalf < 1)
                 {
                     _secondHalf += 10;
-                    if (_firstHalf > 85)
+                    if (_firstHalf > 80)
                     {
                         _firstHalf--;
                     }

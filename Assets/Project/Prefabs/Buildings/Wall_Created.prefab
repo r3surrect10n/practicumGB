@@ -78,7 +78,7 @@ GameObject:
   - component: {fileID: 8383811407759008887}
   - component: {fileID: 7560892754290590330}
   - component: {fileID: 3427570360134623392}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -378,7 +378,7 @@ GameObject:
   - component: {fileID: 7382422745255087068}
   - component: {fileID: 317304208229523236}
   - component: {fileID: 8786934187190655597}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -486,7 +486,7 @@ GameObject:
   - component: {fileID: 7036592874532151959}
   - component: {fileID: 734663137883448929}
   - component: {fileID: 3787027471343553771}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Arch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -638,6 +638,14 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: c41229c3ddb5adb4ba069022c79b6897, type: 3}
       propertyPath: m_Name
       value: good_wall_B
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c41229c3ddb5adb4ba069022c79b6897, type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c41229c3ddb5adb4ba069022c79b6897, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
