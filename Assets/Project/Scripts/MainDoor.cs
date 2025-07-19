@@ -6,6 +6,15 @@ public class MainDoor : MonoBehaviour
 
     [SerializeField] private GameObject _medalPlace;
 
+    [SerializeField] private OnSceneExit _sceneExit;
+
+    private AudioSource _audioSource;
+
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
+
     public void CheckPasswords()
     {
         bool allPasswords = true;
@@ -23,5 +32,15 @@ public class MainDoor : MonoBehaviour
         {
             _medalPlace.layer = LayerMask.NameToLayer("Interaction");
         }
+    }
+
+    public void PlaySound(AudioClip clip)
+    {
+        _audioSource.PlayOneShot(clip);
+    }
+
+    public void LoadEndScene()
+    {
+        _sceneExit.OnSceneEnd("EndingScene");
     }
 }

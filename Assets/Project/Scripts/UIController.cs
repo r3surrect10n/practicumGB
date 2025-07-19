@@ -7,8 +7,10 @@ public class UIController: MonoBehaviour
     [SerializeField] private PlayerLook _playerLook;
     [SerializeField] private GameObject _crosshair;
 
-    [SerializeField] private GameObject _menuPanel;    
+    [SerializeField] private GameObject _menuPanel;
 
+    [SerializeField] private AudioSource _audioSource;
+    
     private bool _isPause = false;
 
     private void OnEnable()
@@ -47,9 +49,9 @@ public class UIController: MonoBehaviour
         Application.Quit();
     }
     
-    public void OnMainMenuClick()
+    public void SoundOnClick(AudioClip clip)
     {
-        SceneManager.LoadScene("MainMenuScene");
+        _audioSource.PlayOneShot(clip);
     }
 
     public void PauseGame()

@@ -6,6 +6,9 @@ public class Card : MonoBehaviour, ITouchable
 {
     [SerializeField] private CardReaderPanel _cardPanel;
 
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _audioClip;
+
     [SerializeField] private GameObject _takingTip;
     [SerializeField] private Text _tipText;
     [SerializeField] private string _tipPhrase;
@@ -22,6 +25,7 @@ public class Card : MonoBehaviour, ITouchable
     {
         _tipText.text = _tipPhrase;
         _takingTip.SetActive(true);
+        _audioSource.PlayOneShot(_audioClip);
 
         GetComponent<Renderer>().enabled = false;
         GetComponent<Collider>().enabled = false;

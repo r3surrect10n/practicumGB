@@ -1,30 +1,87 @@
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.UI;
 
-public class GameSettings : MonoBehaviour
+public class SettingsManager : MonoBehaviour
 {
-    
-    [SerializeField] private AudioSource _musicSource;
-    [SerializeField] private AudioMixer _mixer;
-    [SerializeField] private PlayerLook _playerMouseController;
+    public static SettingsManager Instance { get; private set; }
 
-    [SerializeField] private Slider _soundSlider;
-    [SerializeField] private Slider _musicSlider;
-    [SerializeField] private Slider _sensivitySlider;
+    [Header("Audio")]
+    [SerializeField] private AudioSource musicSource; // Может быть null, назначается в сцене
+    [SerializeField] private AudioMixer sfxMixer;
 
-    [SerializeField] private Text _soundText;
-    [SerializeField] private Text _musicText;
-    [SerializeField] private Text _sensivityText;
+    [Header("Defaults")]
+    [SerializeField] private float defaultSensitivity = 1f;
+    [SerializeField] private float defaultSoundVolume = 1f;
+    [SerializeField] private float defaultMusicVolume = 1f;
 
-    public void OnSceneLoad()
+    public float MusicVolume { get; private set; }
+    public float SFXVolume { get; private set; }
+    public float MouseSensitivity { get; private set; }
+
+    private void Awake()
     {
-        _soundSlider.value = _musicSource.volume;
-        
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        // Загрузка настроек
+        MusicVolume = PlayerPrefs.GetFloat("MusicVolume", defaultMusicVolume);
+        SFXVolume = PlayerPrefs.GetFloat("SFXVolume", defaultSoundVolume);
+        MouseSensitivity = PlayerPrefs.GetFloat("MouseSensitivity", defaultSensitivity);
     }
 
-    public void OnSaveClick()
+    private void Start()
     {
-        
+        ApplySettings();
+    }
+
+    public void SetMusicSource(AudioSource newMusicSource)
+    {
+        musicSource = newMusicSource;
+        // Применяем текущую громкость к новому источнику
+        if (musicSource != null)
+            musicSource.volume = MusicVolume;
+    }
+
+    public void SetMusicVolume(float value)
+    {
+        MusicVolume = Mathf.Clamp01(value);
+        PlayerPrefs.SetFloat("MusicVolume", MusicVolume);
+        PlayerPrefs.Save();
+
+        if (musicSource != null)
+            musicSource.volume = MusicVolume;
+    }
+
+    public void SetSFXVolume(float value)
+    {
+        SFXVolume = Mathf.Clamp01(value);
+        PlayerPrefs.SetFloat("SFXVolume", SFXVolume);
+        PlayerPrefs.Save();
+
+        if (sfxMixer != null)
+        {
+            float db = Mathf.Log10(Mathf.Clamp(SFXVolume, 0.0001f, 1f)) * 20f;
+            sfxMixer.SetFloat("SFXVolume", db);
+        }
+    }
+
+    public void SetSensitivity(float value)
+    {
+        MouseSensitivity = Mathf.Max(0.01f, value); // Минимум 0.01 чтобы не было 0
+        PlayerPrefs.SetFloat("MouseSensitivity", MouseSensitivity);
+        PlayerPrefs.Save();
+    }
+
+    public void ApplySettings()
+    {
+        SetMusicVolume(MusicVolume);
+        SetSFXVolume(SFXVolume);
+        SetSensitivity(MouseSensitivity);
     }
 }
