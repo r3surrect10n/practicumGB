@@ -35,8 +35,7 @@ public class HereTip : MonoBehaviour
 
         _tellWindow.SetActive(true);
         
-        yield return new WaitForSeconds(_tellDuration);
-       
+        yield return new WaitForSeconds(_tellDuration);       
 
         _tellWindow.SetActive(false);
 

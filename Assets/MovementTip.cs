@@ -3,11 +3,8 @@ using UnityEngine;
 
 public class MovementTip : MonoBehaviour
 {
-    [SerializeField] private PlayerMovement _playerMovement;
-    [SerializeField] private PlayerLook _playerLook;
-    [SerializeField] private PlayerInteraction _playerInteraction;
-
     [SerializeField] private GameObject _movementTip;
+    [SerializeField] private GameObject _sprintTip;
     [SerializeField] private GameObject _hereTip;
 
     [SerializeField] private float _tipDuration;
@@ -18,13 +15,6 @@ public class MovementTip : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<PlayerMovement>())
-        {
-            _playerInteraction.enabled = true;
-            _playerLook.enabled = true;
-            _playerLook.enabled = true;           
-        }
-
         if (other.GetComponent<PlayerMovement>() && !_isWalked)
             _tipCoroutine = StartCoroutine(TipTime());
     }
@@ -35,19 +25,15 @@ public class MovementTip : MonoBehaviour
 
         _movementTip.SetActive(true);        
 
-        yield return new WaitForSeconds(_tipDuration);
+        yield return new WaitForSeconds(_tipDuration);        
 
+        _sprintTip.SetActive(true);
+
+        yield return new WaitForSeconds(_tipDuration + 2);
 
         _movementTip.SetActive(false);
-
-        _hereTip.SetActive(true);
+        _sprintTip.SetActive(false);
 
         Destroy(gameObject);
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.GetComponent<PlayerMovement>())
-            _hereTip.SetActive(true);
-    }
+    }    
 }
