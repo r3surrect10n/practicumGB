@@ -16,6 +16,8 @@ public class Radio : MonoBehaviour
     private int _firstHalf;
     private int _secondHalf;
 
+    private bool _isCharged = false;
+
     private void Awake()
     {
         _radioSource = GetComponent<AudioSource>();
@@ -30,7 +32,7 @@ public class Radio : MonoBehaviour
     }
 
     public void SwitchStations(int buttonIndex)
-    {
+    {        
         switch (buttonIndex)
         {
             case 1: 

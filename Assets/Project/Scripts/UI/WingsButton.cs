@@ -4,7 +4,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class WingsButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
-{    
+{
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip _audioClip;
+
     [SerializeField] private float _onCursorX;
     [SerializeField] private float _moveTime;
 
@@ -26,7 +29,8 @@ public class WingsButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         if (!_wingButton.interactable)
             return;
 
-        _buttonRectTransform.DOAnchorPosX(_originalPostition.x + _onCursorX, _moveTime);
+        _buttonRectTransform.DOAnchorPosX(_originalPostition.x + _onCursorX, _moveTime).SetUpdate(true);
+        _audioSource.PlayOneShot(_audioClip);
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -34,6 +38,6 @@ public class WingsButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         if (!_wingButton.interactable)
             return;
 
-        _buttonRectTransform.DOAnchorPosX(_originalPostition.x, _moveTime);
+        _buttonRectTransform.DOAnchorPosX(_originalPostition.x, _moveTime).SetUpdate(true);
     }    
 }
