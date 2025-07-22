@@ -136,4 +136,9 @@ public class ElectricShield : MonoBehaviour, IInteractable, IResetable, ISolvabl
             _solvableMuzzle.OnPlayerInvoke();
         }
     }
+
+    public bool IsActive()
+    {
+        return true;
+    }
 }

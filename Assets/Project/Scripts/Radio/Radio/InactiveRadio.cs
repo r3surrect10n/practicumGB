@@ -3,7 +3,7 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RadioMuzzle : MonoBehaviour, IInteractable, ISolvable
+public class RadioMuzzle : MonoBehaviour, IInteractable, ISolvable, ITouchable
 {
     [Header("Main camera view manager")]
     [SerializeField] private ViewManager _viewManager;
@@ -20,38 +20,36 @@ public class RadioMuzzle : MonoBehaviour, IInteractable, ISolvable
     [SerializeField] private string _tellPhrase;
     [SerializeField] private Text _tellText;
     [SerializeField] private float _tellDuration;
-    
-    [SerializeField] private GameObject _radioScreen;    
+        
+    [SerializeField] private GameObject _radioScreen;
 
+    [SerializeField] private AudioClip _batteryInSound;
+
+    private Radio _radio;
     private AudioSource _source;
     private Coroutine _coroutine;
 
+    private bool _battery = false;
     private bool _isActive = false;
 
 
     private void Awake()
     {
+        _radio = GetComponent<Radio>();
         _source = GetComponent<AudioSource>();
+        _source.enabled = false;
     }
 
     public void Interact()
     {
-        if (!_isActive && _coroutine == null)
-            _coroutine = StartCoroutine(TellTime());
-        else if (_isActive)
+        _viewManager.SetView(_playerCamera, _muzzleCamera);
+
+        gameObject.layer = LayerMask.NameToLayer("Default");
+
+        foreach (var obj in _interactableObjects)
         {
-            Debug.Log("asdasd");
-
-            _viewManager.SetView(_playerCamera, _muzzleCamera);
-
-            gameObject.layer = LayerMask.NameToLayer("Default");
-
-            foreach (var obj in _interactableObjects)
-            {
-                obj.layer = LayerMask.NameToLayer("Interaction");
-            }
+            obj.layer = LayerMask.NameToLayer("Interaction");
         }
-        else return;
     }
 
     public void EndInteract()
@@ -75,15 +73,31 @@ public class RadioMuzzle : MonoBehaviour, IInteractable, ISolvable
 
     public void BatteriesIsGetted()
     {
-        _isActive = false;
+        _battery = true;
     }
 
     public void RadioOn()
     {
-        gameObject.layer = LayerMask.NameToLayer("Default");
-        
-        _radioScreen.SetActive(true);
-        
+        _coroutine = null;
+
+        _coroutine = StartCoroutine(TurnRadioOn());        
+    }
+    public bool IsActive()
+    {
+        return _isActive;
+    }
+
+    public void OnTouch()
+    {
+        if (!_isActive)
+        {
+            if (!_battery && _coroutine == null)
+                _coroutine = StartCoroutine(TellTime());
+            else if (_battery)
+                RadioOn();
+        }
+        else
+            return;
     }
 
     private IEnumerator TellTime()
@@ -99,5 +113,19 @@ public class RadioMuzzle : MonoBehaviour, IInteractable, ISolvable
         StopCoroutine(_coroutine);
 
         _coroutine = null;
+    }
+
+    private IEnumerator TurnRadioOn()
+    {
+        _source.PlayOneShot(_batteryInSound);
+
+        yield return new WaitForSeconds(1f);
+
+        _radioScreen.SetActive(true);
+        _source.enabled = true;
+        _radio.UpdateDisplayAnother();
+        _isActive = true;
+
+        
     }
 }

@@ -120,4 +120,9 @@ public class LockerTerminal : MonoBehaviour, IInteractable, ISolvable
         if (filteredText != _passField.text)
             _passField.text = filteredText;
     }
+
+    public bool IsActive()
+    {
+        return true;
+    }
 }

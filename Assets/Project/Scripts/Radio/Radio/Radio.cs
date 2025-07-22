@@ -1,14 +1,19 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Radio : MonoBehaviour
 {
     [SerializeField] private AudioClip[] _stationsSounds;
+    [SerializeField] private string[] _stationsNames;
 
     [SerializeField] private Text _stationName;
     [SerializeField] private Text _stationFrequency;
     
     private AudioSource _radioSource;
+    private Coroutine _searchingCoroutine;
+    private bool _isSearching = false;
+    private int _currentStationIndex = 0;
 
     private int _firstHalfFreqStart = 80;
     private int _secondHalfFreqStart = 1;
@@ -16,7 +21,7 @@ public class Radio : MonoBehaviour
     private int _firstHalf;
     private int _secondHalf;
 
-    private bool _isCharged = false;
+    private float _freqFindTime = 2;
 
     private void Awake()
     {
@@ -28,21 +33,60 @@ public class Radio : MonoBehaviour
         _firstHalf = _firstHalfFreqStart;
         _secondHalf = _secondHalfFreqStart;
 
-        UpdateDisplay();        
+        UpdateDisplayAnother();        
     }
 
     public void SwitchStations(int buttonIndex)
-    {        
-        switch (buttonIndex)
+    {
+        if (_isSearching)
+            return;
+
+        if (buttonIndex == 0)
         {
-            case 1: 
-                if (_firstHalf < 120)                
-                    _firstHalf++;                
-                break;
-            case 0:
-                if (_firstHalf > 80)                
-                    _firstHalf--;               
-                break;
+            if (_currentStationIndex <= 0)
+                _currentStationIndex = _stationsSounds.Length - 1;
+
+            StartSearch(_currentStationIndex - 1);
+        }
+        else if (buttonIndex == 1)
+        {
+            if (_currentStationIndex >= _stationsNames.Length - 1)
+                _currentStationIndex = -1;
+
+            StartSearch(_currentStationIndex + 1);
+        }
+        else if (buttonIndex == 2 || buttonIndex == 3)
+            ManualAdjast(buttonIndex);           
+    }
+
+    public void UpdateDisplayAnother()
+    {
+        _stationFrequency.text = $"{_firstHalf}.{_secondHalf}";
+        Debug.Log(_stationFrequency.text + " 1");
+        CheckStation(_stationFrequency.text);
+    }
+
+    private void UpdateDisplay()
+    {
+        Debug.Log(_stationFrequency.text + " 2");
+        string frequency = SetFrequency(_currentStationIndex);
+        _stationFrequency.text = frequency;
+
+        CheckStation(_stationFrequency.text);
+    }
+
+    private void StartSearch(int targetIndex)
+    {
+        if (_searchingCoroutine != null)
+            StopCoroutine(_searchingCoroutine);
+
+        _searchingCoroutine = StartCoroutine(FindFrequency(targetIndex));
+    }
+
+    private void ManualAdjast(int buttonIndex)
+    {
+        switch (buttonIndex)
+        {           
             case 2:
                 _secondHalf += 2;
                 if (_secondHalf > 9)
@@ -58,7 +102,7 @@ public class Radio : MonoBehaviour
                     }
                 }
                 break;
-            case 3: 
+            case 3:
                 _secondHalf -= 2;
                 if (_secondHalf < 1)
                 {
@@ -71,25 +115,20 @@ public class Radio : MonoBehaviour
                     {
                         _secondHalf = 1;
                     }
-                }               
+                }
                 break;
 
             default: break;
         }
 
-        UpdateDisplay();        
-    }
-
-    private void UpdateDisplay()
-    {
-        string frequency = $"{_firstHalf}.{_secondHalf}";
-        _stationFrequency.text = frequency;
-
-        CheckStation(_stationFrequency.text);
+        UpdateDisplayAnother();
     }
 
     private void CheckStation(string frequency)
     {
+        if (_radioSource.enabled == false)
+            return;
+
         _radioSource.Stop();
 
         switch (frequency)
@@ -141,5 +180,73 @@ public class Radio : MonoBehaviour
         }
 
         _radioSource.Play();
+    }
+
+    private IEnumerator FindFrequency(int targetFreq)
+    {
+        _isSearching = true;
+
+        _stationName.text = "Поиск...";
+        _stationFrequency.text = "";
+
+        float currentFindTime = _freqFindTime;
+
+        _radioSource.clip = _stationsSounds[0];
+        _radioSource.Play();
+
+        yield return new WaitForSeconds(_freqFindTime);
+
+        _currentStationIndex = targetFreq;
+
+        UpdateDisplay();
+
+        _isSearching = false;
+    }
+
+    private string SetFrequency(int currentFrequency)
+    {
+        switch (currentFrequency)
+        {
+            case 0:                
+                Frequencies(87, 9);
+                break;
+            case 1:
+                Frequencies(89, 5);
+                break;
+            case 2:
+                Frequencies(91, 3);
+                break;
+            case 3:
+                Frequencies(93, 7);
+                break;
+            case 4:
+                Frequencies(95, 5);
+                break;
+            case 5:
+                Frequencies(97, 7);
+                break;
+            case 6:
+                Frequencies(99, 9);
+                break;
+            case 7:
+                Frequencies(101, 1);
+                break;
+            case 8:
+                Frequencies(103, 3);
+                break;
+            case 9:
+                Frequencies(106, 7);
+                break;
+            default: 
+                break;
+        }
+
+        return $"{_firstHalf}.{_secondHalf}";
+    }
+
+    private void Frequencies(int first, int second)
+    {
+        _firstHalf = first;
+        _secondHalf = second;
     }
 }

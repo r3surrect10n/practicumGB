@@ -24,5 +24,10 @@ public class PaintingsInteractable : MonoBehaviour, IInteractable
         _viewManager.SetView(_paintingCamera, _playerCamera);
         _paintingText.SetActive(false);
         gameObject.layer = LayerMask.NameToLayer("Interaction");
-    }    
+    }
+
+    public bool IsActive()
+    {
+        return true;
+    }
 }

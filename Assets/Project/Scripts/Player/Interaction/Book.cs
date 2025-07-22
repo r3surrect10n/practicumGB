@@ -50,4 +50,9 @@ public class Book : MonoBehaviour, IInteractable
 
         StopCoroutine(TellTime());
     }
+
+    public bool IsActive()
+    {
+        return true;
+    }
 }

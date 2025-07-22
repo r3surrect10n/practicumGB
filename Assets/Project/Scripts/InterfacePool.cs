@@ -1,7 +1,8 @@
 public interface IInteractable
 {
     void Interact();
-    void EndInteract();    
+    void EndInteract();
+    bool IsActive();
 }
 
 public interface ISolvable

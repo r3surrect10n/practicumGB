@@ -58,7 +58,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             ClearHighlight();
             touchable.OnTouch();
-            return;
+            //return;
         }        
 
         if (_lookHit.collider.TryGetComponent<IInteractable>(out var interactable))
@@ -127,6 +127,11 @@ public class PlayerInteraction : MonoBehaviour
 
     private void StartInteraction(IInteractable interactable)
     {
+        Debug.Log(interactable.IsActive());
+
+        if (!interactable.IsActive())
+            return;
+
         _mouseLook.enabled = false;
 
         ClearHighlight();
