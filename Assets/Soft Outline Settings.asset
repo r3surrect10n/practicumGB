@@ -12,21 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5eff1c8ed1641c38476a8e6907dca3e, type: 3}
   m_Name: Soft Outline Settings
   m_EditorClassIdentifier: 
-  injectionPoint: 600
+  injectionPoint: 550
   showInSceneView: 1
   outlines:
   - {fileID: 4661823679060350384}
   type: 0
   hardness: 1
   sharedColor: {r: 0, g: 1, b: 0, a: 1}
-  intensity: 1
+  intensity: 15
   gap: 0
   blendMode: 1
-  dilationMethod: 3
+  dilationMethod: 0
   kernelSize: 6
   blurSpread: 16.8
   blurPasses: 2
-  scaleWithResolution: 0
+  scaleWithResolution: 1
   referenceResolution: 3
   customResolution: 1920
 --- !u!114 &4661823679060350384

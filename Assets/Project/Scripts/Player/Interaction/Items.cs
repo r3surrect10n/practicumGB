@@ -16,18 +16,18 @@ public class Items : MonoBehaviour, ITouchable
 
     private Coroutine _tellCoroutine;
 
-    private bool _isTouching = false;
+    private bool _isTouching = false;    
 
     public void OnTouch()
     {
         if (_tellCoroutine == null)
             _tellCoroutine = StartCoroutine(TellTime());
-    }    
+    }
 
     private IEnumerator TellTime()
     {
         if (!_isTouching)
-            _tellText.text = _tellPhrase;        
+            _tellText.text = _tellPhrase;
         else
             _tellText.text = _tellPhraseAfterTouch;
 

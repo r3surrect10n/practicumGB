@@ -29,7 +29,7 @@ public class MovementTip : MonoBehaviour
 
         _sprintTip.SetActive(true);
 
-        yield return new WaitForSeconds(_tipDuration + 2);
+        yield return new WaitForSeconds(_tipDuration);
 
         _movementTip.SetActive(false);
         _sprintTip.SetActive(false);

@@ -14,6 +14,8 @@ public class Battery : MonoBehaviour, ITouchable
     [SerializeField] private string _tipPhrase;
     [SerializeField] private float _tipTime;
 
+    [SerializeField] private GameObject _batteryNotebook;
+
     public void OnTouch()
     {
         _radio.BatteriesIsGetted();
@@ -23,6 +25,8 @@ public class Battery : MonoBehaviour, ITouchable
 
     private IEnumerator TellTime()
     {
+        _batteryNotebook.SetActive(true);
+
         _tipText.text = _tipPhrase;
         _takingTip.SetActive(true);
         _audioSource.PlayOneShot(_audioClip);

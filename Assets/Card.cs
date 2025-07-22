@@ -13,6 +13,7 @@ public class Card : MonoBehaviour, ITouchable
     [SerializeField] private Text _tipText;
     [SerializeField] private string _tipPhrase;
     [SerializeField] private float _tipTime;
+    [SerializeField] private GameObject _cardNotebook;
 
     public void OnTouch()
     {
@@ -23,6 +24,8 @@ public class Card : MonoBehaviour, ITouchable
 
     private IEnumerator TellTime()
     {
+        _cardNotebook.SetActive(true);
+
         _tipText.text = _tipPhrase;
         _takingTip.SetActive(true);
         _audioSource.PlayOneShot(_audioClip);

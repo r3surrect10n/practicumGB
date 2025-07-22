@@ -23,7 +23,9 @@ public class RadioMuzzle : MonoBehaviour, IInteractable, ISolvable, ITouchable
         
     [SerializeField] private GameObject _radioScreen;
 
+    [SerializeField] private AudioSource _canvasAudioSource;
     [SerializeField] private AudioClip _batteryInSound;
+    [SerializeField] private GameObject _batteryNotebook;
 
     private Radio _radio;
     private AudioSource _source;
@@ -117,15 +119,15 @@ public class RadioMuzzle : MonoBehaviour, IInteractable, ISolvable, ITouchable
 
     private IEnumerator TurnRadioOn()
     {
-        _source.PlayOneShot(_batteryInSound);
+        _batteryNotebook.SetActive(false);
+
+        _canvasAudioSource.PlayOneShot(_batteryInSound);
 
         yield return new WaitForSeconds(1f);
 
         _radioScreen.SetActive(true);
         _source.enabled = true;
         _radio.UpdateDisplayAnother();
-        _isActive = true;
-
-        
+        _isActive = true;        
     }
 }

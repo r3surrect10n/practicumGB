@@ -33,18 +33,23 @@ public class Comics : MonoBehaviour
                     _comicsFrames[_currentFrame].SetActive(true);
                     break;
 
-                case 6:
-                    _comicsFrames[_currentFrame - 2].SetActive(false);
-                    _comicsFrames[_currentFrame - 1].SetActive(false);
+                case 5:
+                    _comicsFrames[3].SetActive(false);
                     _comicsFrames[_currentFrame].SetActive(true);
                     break;
 
-                case 8:
+                case 7:
+                    _comicsFrames[_currentFrame - 3].SetActive(false);
                     _comicsFrames[_currentFrame - 1].SetActive(false);
                     _comicsFrames[_currentFrame].SetActive(true);
                     break;
 
                 case 9:
+                    _comicsFrames[_currentFrame - 1].SetActive(false);
+                    _comicsFrames[_currentFrame].SetActive(true);
+                    break;
+
+                case 10:
                     _comicsFrames[_currentFrame - 1].SetActive(false);
                     _comicsFrames[_currentFrame].SetActive(true);
                     break;
