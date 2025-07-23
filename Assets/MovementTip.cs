@@ -31,6 +31,12 @@ public class MovementTip : MonoBehaviour, IClearable
             _tipCoroutine = StartCoroutine(TipTime());
     }
 
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<PlayerMovement>())
+            SaveSystem.Instance.MarkClearable(this);        
+    }
+
     private IEnumerator TipTime()
     {
         _isWalked = true;

@@ -48,7 +48,8 @@ public interface IClearable
     public void Clear();
 }
 
-public interface IActivable
+public interface IMuzzles
 {
     string ID { get; }
+    public void Solve();
 }

@@ -25,10 +25,16 @@ public class HereTip : MonoBehaviour, IClearable
         Destroy(gameObject);
     }    
 
-    public void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<PlayerMovement>() && !_isWalked)
             _tellCoroutine = StartCoroutine(TellTime());
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<PlayerMovement>())
+            SaveSystem.Instance.MarkClearable(this);
     }
 
     private IEnumerator TellTime()

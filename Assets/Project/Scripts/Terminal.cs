@@ -3,8 +3,10 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Terminal : MonoBehaviour, IInteractable, ISolvable
+public class Terminal : MonoBehaviour, IInteractable, ISolvable, IMuzzles
 {
+    [SerializeField] private string _id;
+
     [Header("Main camera view manager")]
     [SerializeField] private ViewManager _viewManager;
 
@@ -27,6 +29,8 @@ public class Terminal : MonoBehaviour, IInteractable, ISolvable
 
     private SolvableMuzzle _solvableMuzzle;
     private AudioSource _audioSource;
+
+    public string ID => _id;
 
     private void Awake()
     {
@@ -83,6 +87,7 @@ public class Terminal : MonoBehaviour, IInteractable, ISolvable
         {
             _audioSource.PlayOneShot(_confirm);
             _solvableMuzzle.OnPlayerInvoke();
+            SaveSystem.Instance.MarkMuzzleSolved(this);
             return;
         }
         else
@@ -125,5 +130,17 @@ public class Terminal : MonoBehaviour, IInteractable, ISolvable
     public bool IsActive()
     {
         return true;
+    }
+
+    public void Solve()
+    {
+        _passField.text = _password;
+
+        _terminalScreen.material = _greenMaterial;
+
+        _door.SetDoorStatusOpen();        
+        
+        gameObject.layer = LayerMask.NameToLayer("Default");
+        enabled = false;
     }
 }

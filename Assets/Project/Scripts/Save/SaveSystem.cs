@@ -10,6 +10,7 @@ public class SaveSystem : MonoBehaviour
     public static SaveSystem Instance { get; private set; }
 
     [SerializeField] private Transform _player;
+    [SerializeField] private SpriteFlipper _saveIcon;
     private SaveData _currentSave;
     private string SavePath => Path.Combine(Application.persistentDataPath, "autosave.json");
 
@@ -37,7 +38,7 @@ public class SaveSystem : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating(nameof(AutoSave), 120f, 120f);
+        InvokeRepeating(nameof(AutoSave), 60f, 60f);
     }
 
     private void AutoSave()
@@ -48,7 +49,9 @@ public class SaveSystem : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "Building")
-        {            
+        {
+            _saveIcon = Object.FindFirstObjectByType<SpriteFlipper>();
+
             UpdatePlayerReference();
             StartCoroutine(LoadGameCoroutine());
         }
@@ -63,6 +66,8 @@ public class SaveSystem : MonoBehaviour
     public void SaveGame()
     {
         var data = new SaveData();
+
+        _saveIcon.Save();
 
         data.playerPosition = new float[]
         {
@@ -80,6 +85,7 @@ public class SaveSystem : MonoBehaviour
 
         data.notes = _currentSave?.notes ?? new List<string>();
         data.clearedObjects = _currentSave?.clearedObjects ?? new List<string>();
+        data.solves = _currentSave?.solves ?? new List<string>();
         
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(SavePath, json);
@@ -132,16 +138,26 @@ public class SaveSystem : MonoBehaviour
                 obj.Clear();
         }
 
+        var allMuzzlees = Object.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<IMuzzles>();
+        foreach (var obj in allMuzzlees)
+        {
+            if (_currentSave.solves.Contains(obj.ID))
+                obj.Solve();
+        }
+
         Debug.Log("[SaveSystem] Game loaded successfully");
     }    
 
     public void MarkClearable(IClearable obj)
     {
-        if (_currentSave != null)
+        if (_currentSave == null)
             _currentSave = new SaveData();
 
         if (!_currentSave.clearedObjects.Contains(obj.ID))
+        {
             _currentSave.clearedObjects.Add(obj.ID);
+            Debug.Log($"{obj.ID} is saved in clearedObjects");
+        }
     }
 
     public void MarkNoteReaded(INotes obj)
@@ -149,7 +165,22 @@ public class SaveSystem : MonoBehaviour
         if (_currentSave == null)
             _currentSave = new SaveData();
 
-        if (!_currentSave.notes.Contains(obj.ID))        
+        if (!_currentSave.notes.Contains(obj.ID))
+        {
             _currentSave.notes.Add(obj.ID);
+            Debug.Log($"{obj.ID} is saved in notes");
+        }
+    }
+
+    public void MarkMuzzleSolved(IMuzzles obj)
+    {
+        if (_currentSave == null)
+            _currentSave = new SaveData();
+
+        if (!_currentSave.solves.Contains(obj.ID))
+        {
+            _currentSave.solves.Add(obj.ID);
+            Debug.Log($"{obj.ID} is saved in solves");
+        }
     }
 }

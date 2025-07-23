@@ -8,7 +8,7 @@ public class SaveData
 
     public List<string> clearedObjects = new List<string>();
 
-    public List<string> notes = new List<string>();
-
-    public List<string> activatingObjects = new List<string>();
+    public List<string> notes = new List<string>();   
+    
+    public List<string> solves = new List<string>();
 }
