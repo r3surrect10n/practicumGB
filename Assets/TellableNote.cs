@@ -2,8 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TellableNote : MonoBehaviour, IInteractable
+public class TellableNote : MonoBehaviour, IInteractable, INotes
 {
+    [SerializeField] private string _id;
+
     [SerializeField] private AudioSource _canvasAudioSource;
 
     [SerializeField] private AudioClip _noteTakeClip;
@@ -24,6 +26,8 @@ public class TellableNote : MonoBehaviour, IInteractable
     [SerializeField] private string _tellPhrase;
     [SerializeField] private float _tellTime;
 
+    public string ID => _id;
+
     public void Interact()
     {
         _note.SetActive(true);
@@ -39,6 +43,8 @@ public class TellableNote : MonoBehaviour, IInteractable
         _canvasAudioSource.PlayOneShot(_notePickClip);
 
         _noteButton.SetActive(true);
+
+        SaveSystem.Instance.MarkNoteReaded(this);
 
         StartCoroutine(TipTime());
         StartCoroutine(TellTime());
@@ -72,5 +78,11 @@ public class TellableNote : MonoBehaviour, IInteractable
     public bool IsActive()
     {
         return true;
+    }
+
+    public void ClearNote()
+    {
+        _noteButton.SetActive(true);
+        gameObject.SetActive(false);
     }
 }

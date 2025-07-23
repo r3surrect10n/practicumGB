@@ -2,8 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Note : MonoBehaviour, IInteractable
+public class Note : MonoBehaviour, IInteractable, INotes
 {
+    [SerializeField] private string _id;
+
     [SerializeField] private AudioSource _canvasAudioSource;
 
     [SerializeField] private AudioClip _noteTakeClip;
@@ -17,7 +19,9 @@ public class Note : MonoBehaviour, IInteractable
     [SerializeField] private GameObject _takingTip;
     [SerializeField] private Text _tipText;
     [SerializeField] private string _tipPhrase;
-    [SerializeField] private float _tipTime;    
+    [SerializeField] private float _tipTime;
+
+    public string ID => _id;
 
     public void Interact()
     {
@@ -43,6 +47,8 @@ public class Note : MonoBehaviour, IInteractable
         _tipText.text = _tipPhrase;
         _takingTip.SetActive(true);
 
+        SaveSystem.Instance.MarkNoteReaded(this);        
+
         GetComponent<Renderer>().enabled = false;
         GetComponent<Collider>().enabled = false;
 
@@ -56,5 +62,11 @@ public class Note : MonoBehaviour, IInteractable
     public bool IsActive()
     {
         return true;
+    }
+
+    public void ClearNote()
+    {
+        _noteButton.SetActive(true);
+        gameObject.SetActive(false);
     }
 }

@@ -35,3 +35,20 @@ public interface ITellable
 {
     void Tell();
 }
+
+public interface INotes
+{
+    string ID { get; }
+    public void ClearNote();
+}
+
+public interface IClearable
+{
+    string ID { get; }
+    public void Clear();
+}
+
+public interface IActivable
+{
+    string ID { get; }
+}

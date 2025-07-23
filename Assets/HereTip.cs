@@ -2,8 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HereTip : MonoBehaviour
+public class HereTip : MonoBehaviour, IClearable
 {
+    [SerializeField] private string _id;
+
     [SerializeField] private GameObject _tellWindow;
     [SerializeField] private Text _tellText;
 
@@ -14,17 +16,19 @@ public class HereTip : MonoBehaviour
 
     private bool _isWalked = false;
 
-    public void OnTouch()
+    public string ID => _id;
+
+    public void Clear()
     {
-        if (_tellCoroutine == null)
-            _tellCoroutine = StartCoroutine(TellTime());
-    }
+        _tellWindow.SetActive(false);
+
+        Destroy(gameObject);
+    }    
 
     public void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<PlayerMovement>() && !_isWalked)
             _tellCoroutine = StartCoroutine(TellTime());
-
     }
 
     private IEnumerator TellTime()
@@ -35,10 +39,8 @@ public class HereTip : MonoBehaviour
 
         _tellWindow.SetActive(true);
         
-        yield return new WaitForSeconds(_tellDuration);       
+        yield return new WaitForSeconds(_tellDuration);
 
-        _tellWindow.SetActive(false);
-
-        Destroy(gameObject);
+        Clear();
     }
 }

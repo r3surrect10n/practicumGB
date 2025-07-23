@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class NoteButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
-{
+{    
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip _audioClip;
 
