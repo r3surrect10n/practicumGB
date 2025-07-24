@@ -12,7 +12,7 @@ public class SpriteFlipper : MonoBehaviour
 
     private CanvasGroup _canvasRend;
 
-    private Sequence _flipSequence;
+    private Sequence _flipSequence;    
 
     private void OnEnable()
     {

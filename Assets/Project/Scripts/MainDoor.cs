@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public class MainDoor : MonoBehaviour
+public class MainDoor : MonoBehaviour, IMuzzles
 {
+    [SerializeField] private string _id;
+
     [SerializeField] private TabletInteraction[] _tablets;
 
     [SerializeField] private GameObject _medalPlace;
@@ -9,6 +11,8 @@ public class MainDoor : MonoBehaviour
     [SerializeField] private OnSceneExit _sceneExit;
 
     private AudioSource _audioSource;
+
+    public string ID => _id;
 
     private void Awake()
     {
@@ -30,6 +34,7 @@ public class MainDoor : MonoBehaviour
 
         if (allPasswords)
         {
+            SaveSystem.Instance.MarkMuzzleSolved(this);
             _medalPlace.layer = LayerMask.NameToLayer("Interaction");
         }
     }
@@ -42,5 +47,10 @@ public class MainDoor : MonoBehaviour
     public void LoadEndScene()
     {
         _sceneExit.OnSceneEnd("EndingScene");
+    }
+
+    public void Solve()
+    {
+        _medalPlace.layer = LayerMask.NameToLayer("Interaction");
     }
 }

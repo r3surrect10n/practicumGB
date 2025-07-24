@@ -3,8 +3,10 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RadioMuzzle : MonoBehaviour, IInteractable, ISolvable, ITouchable
+public class RadioMuzzle : MonoBehaviour, IInteractable, ISolvable, ITouchable, IMuzzles
 {
+    [SerializeField] private string _id;
+
     [Header("Main camera view manager")]
     [SerializeField] private ViewManager _viewManager;
 
@@ -34,6 +36,7 @@ public class RadioMuzzle : MonoBehaviour, IInteractable, ISolvable, ITouchable
     private bool _battery = false;
     private bool _isActive = false;
 
+    public string ID => _id;
 
     private void Awake()
     {
@@ -119,6 +122,8 @@ public class RadioMuzzle : MonoBehaviour, IInteractable, ISolvable, ITouchable
 
     private IEnumerator TurnRadioOn()
     {
+        SaveSystem.Instance.MarkMuzzleSolved(this);
+
         _batteryNotebook.SetActive(false);
 
         _canvasAudioSource.PlayOneShot(_batteryInSound);
@@ -128,6 +133,18 @@ public class RadioMuzzle : MonoBehaviour, IInteractable, ISolvable, ITouchable
         _radioScreen.SetActive(true);
         _source.enabled = true;
         _radio.UpdateDisplayAnother();
+
+        SaveSystem.Instance.SaveGame();
+
         _isActive = true;        
+    }
+
+    public void Solve()
+    {
+        _batteryNotebook.SetActive(false);
+        _radioScreen.SetActive(true);
+        _source.enabled = true;
+        _radio.UpdateDisplayAnother();
+        _isActive = true;
     }
 }

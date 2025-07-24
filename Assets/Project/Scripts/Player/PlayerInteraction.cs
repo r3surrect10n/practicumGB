@@ -57,8 +57,7 @@ public class PlayerInteraction : MonoBehaviour
         if (_lookHit.collider.TryGetComponent<ITouchable>(out var touchable))
         {
             ClearHighlight();
-            touchable.OnTouch();
-            //return;
+            touchable.OnTouch();            
         }        
 
         if (_lookHit.collider.TryGetComponent<IInteractable>(out var interactable))
@@ -127,8 +126,6 @@ public class PlayerInteraction : MonoBehaviour
 
     private void StartInteraction(IInteractable interactable)
     {
-        Debug.Log(interactable.IsActive());
-
         if (!interactable.IsActive())
             return;
 

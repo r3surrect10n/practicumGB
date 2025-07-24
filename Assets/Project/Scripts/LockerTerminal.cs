@@ -3,8 +3,10 @@ using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LockerTerminal : MonoBehaviour, IInteractable, ISolvable
+public class LockerTerminal : MonoBehaviour, IInteractable, ISolvable, IMuzzles
 {
+    [SerializeField] private string _id;
+
     [Header("Main camera view manager")]
     [SerializeField] private ViewManager _viewManager;
 
@@ -27,6 +29,8 @@ public class LockerTerminal : MonoBehaviour, IInteractable, ISolvable
 
     private SolvableMuzzle _solvableMuzzle;
     private AudioSource _audioSource;
+
+    public string ID => _id;
 
     private void Awake()
     {
@@ -94,7 +98,9 @@ public class LockerTerminal : MonoBehaviour, IInteractable, ISolvable
     }
 
     public void OnMuzzleSolve()
-    {        
+    {
+        SaveSystem.Instance.MarkMuzzleSolved(this);
+
         _terminalScreen.material = _greenMaterial;
         _locker.OpenLocker();
 
@@ -124,5 +130,16 @@ public class LockerTerminal : MonoBehaviour, IInteractable, ISolvable
     public bool IsActive()
     {
         return true;
+    }
+
+    public void Solve()
+    {
+        _passField.text = _password;
+
+        _terminalScreen.material = _greenMaterial;
+
+        gameObject.layer = LayerMask.NameToLayer("Default");
+
+        enabled = false;
     }
 }

@@ -38,7 +38,7 @@ public class SaveSystem : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating(nameof(AutoSave), 60f, 60f);
+        //InvokeRepeating(nameof(AutoSave), 60f, 60f);
     }
 
     private void AutoSave()
@@ -86,6 +86,7 @@ public class SaveSystem : MonoBehaviour
         data.notes = _currentSave?.notes ?? new List<string>();
         data.clearedObjects = _currentSave?.clearedObjects ?? new List<string>();
         data.solves = _currentSave?.solves ?? new List<string>();
+        data.reads = _currentSave?.reads ?? new List<string>();
         
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(SavePath, json);
@@ -145,6 +146,13 @@ public class SaveSystem : MonoBehaviour
                 obj.Solve();
         }
 
+        var allReads = Object.FindObjectsByType<MonoBehaviour>(FindObjectsSortMode.None).OfType<IItems>();
+        foreach (var obj in allReads)
+        {
+            if (_currentSave.reads.Contains(obj.ID))
+                obj.Read();
+        }
+
         Debug.Log("[SaveSystem] Game loaded successfully");
     }    
 
@@ -181,6 +189,18 @@ public class SaveSystem : MonoBehaviour
         {
             _currentSave.solves.Add(obj.ID);
             Debug.Log($"{obj.ID} is saved in solves");
+        }
+    }
+
+    public void MarkItemRead(IItems obj)
+    {
+        if (_currentSave == null)
+            _currentSave = new SaveData();
+
+        if (!_currentSave.reads.Contains(obj.ID))
+        {
+            _currentSave.reads.Add(obj.ID);
+            Debug.Log($"{obj.ID} is saved in reads");
         }
     }
 }

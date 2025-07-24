@@ -2,8 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Battery : MonoBehaviour, ITouchable
+public class Battery : MonoBehaviour, ITouchable, INotes
 {
+    [SerializeField] private string _id;
+
     [SerializeField] private RadioMuzzle _radio;
 
     [SerializeField] private AudioSource _audioSource;
@@ -16,8 +18,19 @@ public class Battery : MonoBehaviour, ITouchable
 
     [SerializeField] private GameObject _batteryNotebook;
 
+    public string ID => _id;
+
+    public void ClearNote()
+    {
+        _radio.BatteriesIsGetted();
+        _batteryNotebook.SetActive(true);
+        gameObject.SetActive(false);
+    }
+
     public void OnTouch()
     {
+        SaveSystem.Instance.MarkNoteReaded(this);
+
         _radio.BatteriesIsGetted();
 
         StartCoroutine(TellTime());

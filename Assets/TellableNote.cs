@@ -60,6 +60,8 @@ public class TellableNote : MonoBehaviour, IInteractable, INotes
 
         yield return new WaitForSeconds(_tipTime);
 
+        SaveSystem.Instance.SaveGame();
+
         _takingTip.SetActive(false);       
     }
 

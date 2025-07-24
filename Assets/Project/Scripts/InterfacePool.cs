@@ -53,3 +53,9 @@ public interface IMuzzles
     string ID { get; }
     public void Solve();
 }
+
+public interface IItems
+{
+    string ID { get; }
+    public void Read();
+}

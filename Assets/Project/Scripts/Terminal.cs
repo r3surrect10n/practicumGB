@@ -86,8 +86,8 @@ public class Terminal : MonoBehaviour, IInteractable, ISolvable, IMuzzles
         if (IsPassCorrect())
         {
             _audioSource.PlayOneShot(_confirm);
-            _solvableMuzzle.OnPlayerInvoke();
             SaveSystem.Instance.MarkMuzzleSolved(this);
+            _solvableMuzzle.OnPlayerInvoke();
             return;
         }
         else
@@ -103,6 +103,8 @@ public class Terminal : MonoBehaviour, IInteractable, ISolvable, IMuzzles
         
         _terminalScreen.material = _greenMaterial;
         _door.SetDoorStatusOpen();
+
+        SaveSystem.Instance.SaveGame();
 
         EndInteract();
         gameObject.layer = LayerMask.NameToLayer("Default");

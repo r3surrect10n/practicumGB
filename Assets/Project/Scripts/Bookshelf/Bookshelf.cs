@@ -1,8 +1,10 @@
 using System.Collections;
 using UnityEngine;
 
-public class Bookshelf : MonoBehaviour
+public class Bookshelf : MonoBehaviour, IMuzzles
 {
+    [SerializeField] private string _id;
+
     [SerializeField] private PlayerInteraction _player;
 
     [SerializeField] private BookInteract[] _books;
@@ -11,7 +13,8 @@ public class Bookshelf : MonoBehaviour
     private AudioSource _audioSource;
 
     private int _booksTouched = 0;
-    
+
+    public string ID => _id;
 
     private void Awake()
     {
@@ -36,6 +39,8 @@ public class Bookshelf : MonoBehaviour
     {
         if (_books[0].IsTouched && _books[5].IsTouched && _books[6].IsTouched)
         {
+            SaveSystem.Instance.MarkMuzzleSolved(this);
+
             _player.ClearPreviousHighlight();
 
             foreach (var book in _books)
@@ -44,7 +49,6 @@ public class Bookshelf : MonoBehaviour
             }
 
             StartCoroutine(MoveBookshelf());
-
         }
         else
         {
@@ -63,6 +67,21 @@ public class Bookshelf : MonoBehaviour
 
         _anim.SetBool("IsOpen", true);
 
+        SaveSystem.Instance.SaveGame();
+
         StopCoroutine(MoveBookshelf());
+    }
+
+    public void Solve()
+    {
+        _audioSource.mute = true;
+
+        _anim.SetBool("IsOpen", true);
+        _anim.speed = 1000f;
+
+        foreach (var book in _books)
+        {
+            book.gameObject.layer = LayerMask.NameToLayer("Default");
+        }
     }
 }

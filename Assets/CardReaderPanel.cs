@@ -2,8 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CardReaderPanel : MonoBehaviour, ITouchable
+public class CardReaderPanel : MonoBehaviour, ITouchable, IMuzzles
 {
+    [SerializeField] private string _id;
+
     [SerializeField] private GameObject _tellWindow;
     [SerializeField] private string _tellPhrase;
     [SerializeField] private Text _tellText;
@@ -18,6 +20,8 @@ public class CardReaderPanel : MonoBehaviour, ITouchable
 
     private bool _isClosed = true;
 
+    public string ID => _id;
+
     private void Awake()
     {
         _source = GetComponent<AudioSource>();
@@ -29,6 +33,7 @@ public class CardReaderPanel : MonoBehaviour, ITouchable
             _coroutine = StartCoroutine(TellTime());
         else if (!_isClosed)
         {
+            SaveSystem.Instance.MarkMuzzleSolved(this);
             OpenDoor();
         }
     }
@@ -45,6 +50,8 @@ public class CardReaderPanel : MonoBehaviour, ITouchable
         _source.PlayOneShot(_accessAudioClip);
         _accessScreen.SetActive(true);
         _automaticDoor.SetDoorStatusOpen();
+
+        SaveSystem.Instance.SaveGame();
     }
 
     private IEnumerator TellTime()
@@ -60,5 +67,12 @@ public class CardReaderPanel : MonoBehaviour, ITouchable
         StopCoroutine(_coroutine);
 
         _coroutine = null;
+    }
+
+    public void Solve()
+    {
+        gameObject.layer = LayerMask.NameToLayer("Default");
+        _accessScreen.SetActive(true);
+        _automaticDoor.SetDoorStatusOpen();
     }
 }

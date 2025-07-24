@@ -1,15 +1,18 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class Medal : MonoBehaviour, ITouchable
+public class Medal : MonoBehaviour, ITouchable, IMuzzles
 {
+    [SerializeField] private string _id;
+
     [SerializeField] private GameObject _medal;
     [SerializeField] private GameObject _endGameScreen;
 
     [SerializeField] private AudioSource _audioSource;
     [SerializeField] private AudioClip _medalionClip;
     [SerializeField] private Animator _animator;
+
+    public string ID => _id;
 
     public void OnTouch()
     {
@@ -18,20 +21,24 @@ public class Medal : MonoBehaviour, ITouchable
         StartCoroutine(SetMedal());
     }
 
+    public void Solve()
+    {
+        gameObject.layer = LayerMask.NameToLayer("Default");
+        _medal.SetActive(true);
+        _animator.SetBool("IsOpen", true);
+        _animator.Update(10f);
+    }
+
     private IEnumerator SetMedal()
     {
+        SaveSystem.Instance.MarkMuzzleSolved(this);
+
         _audioSource.PlayOneShot(_medalionClip);
         _medal.SetActive(true);
 
         yield return new WaitForSeconds(1f);
 
-        _animator.SetBool("IsOpen", true);
-
-        //_endGameScreen.SetActive(true);
-
-        //yield return new WaitForSeconds(5f);
-
-        //SceneManager.LoadScene("MainMenuScene");
+        _animator.SetBool("IsOpen", true);        
 
         StopCoroutine(SetMedal());
     }
@@ -39,7 +46,9 @@ public class Medal : MonoBehaviour, ITouchable
     private void SetMedalS()
     {
         _audioSource.PlayOneShot(_medalionClip);
-        _animator.SetBool("IsOpen", true);
         _medal.SetActive(true);
+        _animator.SetBool("IsOpen", true);
+
+        SaveSystem.Instance.MarkMuzzleSolved(this);
     }
 }

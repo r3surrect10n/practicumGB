@@ -1,6 +1,8 @@
 using System.Collections;
+using System.IO;
 using UnityEngine;
 using UnityEngine.LowLevel;
+using UnityEngine.SceneManagement;
 
 public class OnSceneLoad : MonoBehaviour
 {
@@ -17,6 +19,12 @@ public class OnSceneLoad : MonoBehaviour
     [SerializeField] private float _forTipTime = 2f;
     [SerializeField] private GameObject _movementTip;
 
+    [SerializeField] private GameObject _loadImage;
+    [SerializeField] private GameObject _loadText;
+    private Coroutine _loadCoroutine;
+
+    private string SavePath => Path.Combine(Application.persistentDataPath, "autosave.json");
+    
     private void Awake()
     {      
         _fadePanel.SetActive(true);
@@ -30,7 +38,7 @@ public class OnSceneLoad : MonoBehaviour
     }
 
     private void Start()
-    {        
+    {   
         SetPlayerComponents(false);
 
         
@@ -41,7 +49,16 @@ public class OnSceneLoad : MonoBehaviour
     }
 
     private IEnumerator SceneStartRoutine()
-    {        
+    {
+        if (File.Exists(SavePath) && SceneManager.GetActiveScene().name == "Building")
+        {
+            _loadImage.SetActive(true);
+            _loadText.SetActive(true);
+            yield return new WaitForSeconds(2f);
+            _loadImage.SetActive(false);
+            _loadText.SetActive(false);
+        }
+
         float timer = 0f;
         while (timer < _fadeDuration)
         {
@@ -68,5 +85,5 @@ public class OnSceneLoad : MonoBehaviour
         if (_playerMovement != null) _playerMovement.enabled = state;
         if (_playerLook != null) _playerLook.enabled = state;
         if (_playerInteraction != null) _playerInteraction.enabled = state;
-    }
+    }    
 }

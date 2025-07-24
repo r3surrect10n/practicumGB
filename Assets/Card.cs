@@ -2,8 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Card : MonoBehaviour, ITouchable
+public class Card : MonoBehaviour, ITouchable, INotes
 {
+    [SerializeField] private string _id;
+
     [SerializeField] private CardReaderPanel _cardPanel;
 
     [SerializeField] private AudioSource _audioSource;
@@ -15,6 +17,16 @@ public class Card : MonoBehaviour, ITouchable
     [SerializeField] private float _tipTime;
     [SerializeField] private GameObject _cardNotebook;
 
+    public string ID => _id;
+
+    public void ClearNote()
+    {
+        _cardPanel.CardGetted();
+
+        _cardNotebook.SetActive(true);
+        gameObject.SetActive(false);
+    }
+
     public void OnTouch()
     {
         _cardPanel.CardGetted();        
@@ -24,6 +36,8 @@ public class Card : MonoBehaviour, ITouchable
 
     private IEnumerator TellTime()
     {
+        SaveSystem.Instance.MarkNoteReaded(this);
+
         _cardNotebook.SetActive(true);
 
         _tipText.text = _tipPhrase;

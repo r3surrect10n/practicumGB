@@ -11,4 +11,6 @@ public class SaveData
     public List<string> notes = new List<string>();   
     
     public List<string> solves = new List<string>();
+
+    public List<string> reads = new List<string>();
 }

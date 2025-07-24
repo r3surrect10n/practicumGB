@@ -40,12 +40,17 @@ public class Muzzle : MonoBehaviour, IInteractable, ISolvable
     public void OnMuzzleSolve()
     {
         EndInteract();
-        gameObject.layer = LayerMask.NameToLayer("Default");
-        enabled = false;
+        SolvedCondition();
     }
 
     public bool IsActive()
     {
         return true;
+    }
+
+    public void SolvedCondition()
+    {
+        gameObject.layer = LayerMask.NameToLayer("Default");
+        enabled = false;
     }
 }

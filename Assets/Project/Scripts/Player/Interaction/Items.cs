@@ -2,8 +2,10 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Items : MonoBehaviour, ITouchable
+public class Items : MonoBehaviour, ITouchable, IItems
 {
+    [SerializeField] private string _id;
+
     [SerializeField] private GameObject _tellWindow;
 
     [SerializeField] private string _tellPhrase;
@@ -16,12 +18,19 @@ public class Items : MonoBehaviour, ITouchable
 
     private Coroutine _tellCoroutine;
 
-    private bool _isTouching = false;    
+    private bool _isTouching = false;
+
+    public string ID => _id;
 
     public void OnTouch()
     {
         if (_tellCoroutine == null)
             _tellCoroutine = StartCoroutine(TellTime());
+    }
+
+    public void Read()
+    {
+        _isTouching = true;
     }
 
     private IEnumerator TellTime()
@@ -41,6 +50,8 @@ public class Items : MonoBehaviour, ITouchable
         _tellWindow.SetActive(false);
 
         _isTouching = true;
+
+        SaveSystem.Instance.MarkItemRead(this);
 
         StopCoroutine(_tellCoroutine);
 

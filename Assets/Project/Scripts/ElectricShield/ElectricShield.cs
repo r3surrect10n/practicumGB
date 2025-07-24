@@ -1,8 +1,10 @@
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class ElectricShield : MonoBehaviour, IInteractable, IResetable, ISolvable
+public class ElectricShield : MonoBehaviour, IInteractable, IResetable, ISolvable, IMuzzles
 {
+    [SerializeField] private string _id;
+
     [Header("Main camera view manager")]
     [SerializeField] private ViewManager _viewManager;
 
@@ -15,11 +17,15 @@ public class ElectricShield : MonoBehaviour, IInteractable, IResetable, ISolvabl
     [SerializeField] private ToggleSwitcher[] _toggleSwitchers;
 
     [Header("Interactable objects")]
+    [SerializeField] private AudioSource _pcAudioSource;
     [SerializeField] private GameObject[] _roomObjects;
+    [SerializeField] private GameObject[] _pcMonitors;
 
     [Header("Lights")]
     [SerializeField] private GameObject _volume;
+    [SerializeField] private Material _monitorMaterial;
     [SerializeField] private Material _lampMaterial;
+    [SerializeField] private Material _paintingLightsMaterial;
     [SerializeField] private GameObject[] _lights;
     [SerializeField] private GameObject[] _paintingLights;
 
@@ -30,6 +36,7 @@ public class ElectricShield : MonoBehaviour, IInteractable, IResetable, ISolvabl
     private Animator _anim;
     private SolvableMuzzle _solvableMuzzle;
 
+    public string ID => _id;
 
     private void Awake()
     {
@@ -38,6 +45,8 @@ public class ElectricShield : MonoBehaviour, IInteractable, IResetable, ISolvabl
         _solvableMuzzle = GetComponent<SolvableMuzzle>();
 
         _lampMaterial.DisableKeyword("_EMISSION");
+        _paintingLightsMaterial.DisableKeyword("_EMISSION");
+        _monitorMaterial.DisableKeyword("_EMISSION");
     }
 
     public void Interact()
@@ -100,12 +109,16 @@ public class ElectricShield : MonoBehaviour, IInteractable, IResetable, ISolvabl
 
     public void OnMuzzleSolve()
     {
+        SaveSystem.Instance.MarkMuzzleSolved(this);
+
         EndInteract();
         gameObject.layer = LayerMask.NameToLayer("Default");
         enabled = false;
 
         foreach (var rObject in _roomObjects)
             rObject.layer = LayerMask.NameToLayer("Interaction");
+
+        SaveSystem.Instance.SaveGame();
     }
 
     private void CheckElectricity()
@@ -127,11 +140,18 @@ public class ElectricShield : MonoBehaviour, IInteractable, IResetable, ISolvabl
                 light.SetActive(allToggles);            
             
             _lampMaterial.EnableKeyword("_EMISSION");
+            _paintingLightsMaterial.EnableKeyword("_EMISSION");
+            _monitorMaterial.EnableKeyword("_EMISSION");
 
             foreach (var light in _paintingLights)
                 light.SetActive(allToggles);
 
-            _volume.SetActive(!allToggles);
+            _pcAudioSource.Play();
+
+            foreach (var monitor in _pcMonitors)
+                monitor.SetActive(allToggles);
+
+            //_volume.SetActive(!allToggles);
 
             _solvableMuzzle.OnPlayerInvoke();
         }
@@ -141,4 +161,27 @@ public class ElectricShield : MonoBehaviour, IInteractable, IResetable, ISolvabl
     {
         return true;
     }
+
+    public void Solve()
+    {
+        foreach (var light in _lights)
+            light.SetActive(true);
+
+        _lampMaterial.EnableKeyword("_EMISSION");
+        _paintingLightsMaterial.EnableKeyword("_EMISSION");
+        _monitorMaterial.EnableKeyword("_EMISSION");
+
+        foreach (var light in _paintingLights)
+            light.SetActive(true);
+
+        foreach (var monitor in _pcMonitors)
+            monitor.SetActive(true);
+
+        gameObject.layer = LayerMask.NameToLayer("Default");
+        enabled = false;
+
+        foreach (var rObject in _roomObjects)
+            rObject.layer = LayerMask.NameToLayer("Interaction");
+        
+    }    
 }

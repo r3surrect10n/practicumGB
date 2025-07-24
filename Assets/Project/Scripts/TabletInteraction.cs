@@ -2,10 +2,11 @@ using System.Text.RegularExpressions;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.Rendering.DebugUI;
 
-public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
+public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable, IMuzzles
 {
+    [SerializeField] private string _id;
+
     [Header("Main camera view manager")]
     [SerializeField] private ViewManager _viewManager;
 
@@ -31,6 +32,8 @@ public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
 
     private AudioSource _audioSource;
     private SolvableMuzzle _solvableMuzzle;
+
+    public string ID => _id;
 
     private void Awake()
     {
@@ -100,9 +103,13 @@ public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
 
     public void OnMuzzleSolve()
     {
+        SaveSystem.Instance.MarkMuzzleSolved(this);
+
         _wing.material = _wingEnabledMaterial;
         _mainDoor.CheckPasswords();
-        
+
+        SaveSystem.Instance.SaveGame();
+
         EndInteract();
         gameObject.layer = LayerMask.NameToLayer("Default");
         enabled = false;
@@ -129,5 +136,13 @@ public class TabletInteraction : MonoBehaviour, IInteractable, ISolvable
     public bool IsActive()
     {
         return true;
+    }
+
+    public void Solve()
+    {
+        _passField.text = _password;
+        _wing.material = _wingEnabledMaterial;
+        gameObject.layer = LayerMask.NameToLayer("Default");
+        enabled = false;
     }
 }

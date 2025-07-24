@@ -19,7 +19,7 @@ MonoBehaviour:
   type: 0
   hardness: 1
   sharedColor: {r: 0, g: 1, b: 0, a: 1}
-  intensity: 15
+  intensity: 7
   gap: 0
   blendMode: 1
   dilationMethod: 0
@@ -61,4 +61,4 @@ MonoBehaviour:
   alphaCutoutUVTransform: {x: 0, y: 0, z: 0, w: 0}
   gpuInstancing: 0
   vertexAnimation: 0
-  color: {r: 8, g: 2.2686243, b: 0, a: 1}
+  color: {r: 4, g: 1.1343122, b: 0, a: 1}
