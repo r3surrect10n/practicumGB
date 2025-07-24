@@ -19,6 +19,7 @@ public class OnSceneLoad : MonoBehaviour
     [SerializeField] private float _forTipTime = 2f;
     [SerializeField] private GameObject _movementTip;
 
+    [SerializeField] private AudioListener _audioListener;
     [SerializeField] private GameObject _loadImage;
     [SerializeField] private GameObject _loadText;
     private Coroutine _loadCoroutine;
@@ -52,11 +53,13 @@ public class OnSceneLoad : MonoBehaviour
     {
         if (File.Exists(SavePath) && SceneManager.GetActiveScene().name == "Building")
         {
+            _audioListener.enabled = false;
             _loadImage.SetActive(true);
             _loadText.SetActive(true);
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(3f);
             _loadImage.SetActive(false);
             _loadText.SetActive(false);
+            _audioListener.enabled = true;
         }
 
         float timer = 0f;

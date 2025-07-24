@@ -41,6 +41,8 @@ public class MovementTip : MonoBehaviour, IClearable
     {
         _isWalked = true;
 
+        yield return new WaitForSeconds(1f);
+
         _movementTip.SetActive(true);        
 
         yield return new WaitForSeconds(_tipDuration);        

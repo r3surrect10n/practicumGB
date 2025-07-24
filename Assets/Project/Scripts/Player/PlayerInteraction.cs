@@ -16,6 +16,8 @@ public class PlayerInteraction : MonoBehaviour
 
     [Header("Interaction tip")]
     [SerializeField] private GameObject _interactionTip;
+    [SerializeField] private GameObject _interactionQuitTip;
+    [SerializeField] private GameObject _notebookTip;
 
     [Header("Notebook")]
     [SerializeField] private GameObject _notebook;
@@ -113,6 +115,8 @@ public class PlayerInteraction : MonoBehaviour
         {            
             ClearHighlight();
 
+            _interactionQuitTip.SetActive(false);
+
             _currentSolvable.OnMuzzleSolve();            
 
             PuzzleExit();
@@ -136,6 +140,9 @@ public class PlayerInteraction : MonoBehaviour
         _currentInteractable = interactable;        
         _isInteract = !_isInteract;
 
+        _interactionQuitTip.SetActive(true);
+        _notebookTip.SetActive(false);
+
         if (_lookHit.collider.TryGetComponent<SolvableMuzzle>(out var solvableMuzzle))
         {            
             _currentSolvableMuzzle = solvableMuzzle;
@@ -155,6 +162,9 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (_currentInteractable != null)
         {
+            _interactionQuitTip.SetActive(false);
+            _notebookTip.SetActive(true);
+
             _currentInteractable.EndInteract();
 
             if (_currentResetable != null)
@@ -183,6 +193,9 @@ public class PlayerInteraction : MonoBehaviour
     private void NotebookInteraction()
     {
         _isVisible = !_isVisible;
+
+        _notebookTip.SetActive(!_isVisible);
+        _interactionQuitTip.SetActive(_isVisible);
 
         _mouseLook.enabled = !_isVisible;             
 

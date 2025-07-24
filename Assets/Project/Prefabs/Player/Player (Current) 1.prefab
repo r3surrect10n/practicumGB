@@ -279,7 +279,6 @@ GameObject:
   - component: {fileID: 2674164629210020145}
   - component: {fileID: 6695903458291569575}
   - component: {fileID: 5246386674433680251}
-  - component: {fileID: 8801971961787833429}
   - component: {fileID: 8573064125933223033}
   - component: {fileID: 5447621013624002080}
   m_Layer: 0
@@ -581,7 +580,7 @@ MonoBehaviour:
     m_ActionName: 'Player/SwitchLook[/Keyboard/tab]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8801971961787833429}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FlashlightUsing, Assembly-CSharp
         m_MethodName: OnFlashlight
         m_Mode: 0
@@ -649,21 +648,6 @@ MonoBehaviour:
   _mouseSensivityX: 0.2
   _mouseSensivityY: 0.2
   _maxCameraPitch: 60
---- !u!114 &8801971961787833429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1884538052522030860}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 107aa097cc6cbc342b87aa1e5881bcf0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _flashlight: {fileID: 355416189005093891}
-  _light: {fileID: 8647845033470165918}
-  _camera: {fileID: 924020912690720040}
 --- !u!114 &8573064125933223033
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -679,6 +663,9 @@ MonoBehaviour:
   _viewManager: {fileID: 0}
   _movementSpeed: 4
   _rotationSmoothness: 10
+  _audioSource: {fileID: 0}
+  _footstepSounds: []
+  _stepInterval: 0
 --- !u!114 &5447621013624002080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -693,12 +680,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerCamera: {fileID: 0}
   _viewManager: {fileID: 0}
-  _interactionLayer:
+  _raycastBlockingLayers:
     serializedVersion: 2
-    m_Bits: 256
-  _highlightLayer:
-    serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 0
+  _interactionTip: {fileID: 0}
+  _interactionQuitTip: {fileID: 0}
+  _notebookTip: {fileID: 0}
+  _notebook: {fileID: 0}
 --- !u!1 &2103900695052072848
 GameObject:
   m_ObjectHideFlags: 0
