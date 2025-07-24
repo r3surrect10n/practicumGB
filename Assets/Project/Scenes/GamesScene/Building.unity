@@ -11243,6 +11243,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baeb5fd447b54974b87a56c267125669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewManager: {fileID: 1316864756}
   _canvasAudioSource: {fileID: 1881616595}
   _bookTakeClip: {fileID: 8300000, guid: cd1791983a0a2774ebcc42c1c54bd770, type: 3}
   _bookPickClip: {fileID: 8300000, guid: 8ca2686a8544d58458b6d6abc19b7485, type: 3}
@@ -22036,7 +22037,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a22473fdf8cc5ad42946bdb17633113b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 24dd02fc58ed84940960bdeb79f3fd76, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -29378,6 +29379,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baeb5fd447b54974b87a56c267125669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewManager: {fileID: 1316864756}
   _canvasAudioSource: {fileID: 1881616595}
   _bookTakeClip: {fileID: 8300000, guid: cd1791983a0a2774ebcc42c1c54bd770, type: 3}
   _bookPickClip: {fileID: 8300000, guid: 8ca2686a8544d58458b6d6abc19b7485, type: 3}
@@ -34841,6 +34843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baeb5fd447b54974b87a56c267125669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewManager: {fileID: 1316864756}
   _canvasAudioSource: {fileID: 1881616595}
   _bookTakeClip: {fileID: 8300000, guid: cd1791983a0a2774ebcc42c1c54bd770, type: 3}
   _bookPickClip: {fileID: 8300000, guid: 8ca2686a8544d58458b6d6abc19b7485, type: 3}
@@ -48007,6 +48010,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baeb5fd447b54974b87a56c267125669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewManager: {fileID: 1316864756}
   _canvasAudioSource: {fileID: 1881616595}
   _bookTakeClip: {fileID: 8300000, guid: cd1791983a0a2774ebcc42c1c54bd770, type: 3}
   _bookPickClip: {fileID: 8300000, guid: 8ca2686a8544d58458b6d6abc19b7485, type: 3}
@@ -84763,6 +84767,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baeb5fd447b54974b87a56c267125669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewManager: {fileID: 1316864756}
   _canvasAudioSource: {fileID: 1881616595}
   _bookTakeClip: {fileID: 8300000, guid: cd1791983a0a2774ebcc42c1c54bd770, type: 3}
   _bookPickClip: {fileID: 8300000, guid: 8ca2686a8544d58458b6d6abc19b7485, type: 3}
@@ -85747,6 +85752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baeb5fd447b54974b87a56c267125669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewManager: {fileID: 1316864756}
   _canvasAudioSource: {fileID: 1881616595}
   _bookTakeClip: {fileID: 8300000, guid: cd1791983a0a2774ebcc42c1c54bd770, type: 3}
   _bookPickClip: {fileID: 8300000, guid: 8ca2686a8544d58458b6d6abc19b7485, type: 3}
@@ -86089,6 +86095,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baeb5fd447b54974b87a56c267125669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewManager: {fileID: 1316864756}
   _canvasAudioSource: {fileID: 1881616595}
   _bookTakeClip: {fileID: 8300000, guid: cd1791983a0a2774ebcc42c1c54bd770, type: 3}
   _bookPickClip: {fileID: 8300000, guid: 8ca2686a8544d58458b6d6abc19b7485, type: 3}
@@ -91737,7 +91744,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a22473fdf8cc5ad42946bdb17633113b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1595211d28f35eb4f9e8096d3eac6910, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -95804,6 +95811,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baeb5fd447b54974b87a56c267125669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewManager: {fileID: 1316864756}
   _canvasAudioSource: {fileID: 1881616595}
   _bookTakeClip: {fileID: 8300000, guid: cd1791983a0a2774ebcc42c1c54bd770, type: 3}
   _bookPickClip: {fileID: 8300000, guid: 8ca2686a8544d58458b6d6abc19b7485, type: 3}
@@ -95969,6 +95977,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baeb5fd447b54974b87a56c267125669, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewManager: {fileID: 1316864756}
   _canvasAudioSource: {fileID: 1881616595}
   _bookTakeClip: {fileID: 8300000, guid: cd1791983a0a2774ebcc42c1c54bd770, type: 3}
   _bookPickClip: {fileID: 8300000, guid: 8ca2686a8544d58458b6d6abc19b7485, type: 3}
