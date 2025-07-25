@@ -10,13 +10,17 @@ public class OnSceneLoadComics : MonoBehaviour
     [SerializeField] private GameObject _mouse;
     [SerializeField] private GameObject _comicsClicker;
 
+    [SerializeField] private AudioListener _listener;
+
     private void Awake()
     {      
         _fadePanel.SetActive(true);        
     }
 
     private void Start()
-    { 
+    {
+        Application.targetFrameRate = 60;
+
         _canvasGr.alpha = 1f;
         _fadePanel.SetActive(true);
         
@@ -24,7 +28,11 @@ public class OnSceneLoadComics : MonoBehaviour
     }
 
     private IEnumerator SceneStartRoutine()
-    {        
+    {
+        _listener.enabled = false;
+        yield return new WaitForSeconds(5f);
+        _listener.enabled = true;
+
         float timer = 0f;
         while (timer < _fadeDuration)
         {
@@ -35,6 +43,8 @@ public class OnSceneLoadComics : MonoBehaviour
         _canvasGr.alpha = 0f; 
 
         _fadePanel.SetActive(false);
+
+        yield return new WaitForSeconds(1f);
 
         _mouse.SetActive(true);
         _comicsClicker.SetActive(true);
